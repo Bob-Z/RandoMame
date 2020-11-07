@@ -28,4 +28,4 @@ print(arcade_count, " arcade machines")
 print(non_arcade_count, " non arcade machines")
 print(no_input_machine, " machine without input")
 
-Arcade.start(root)
+Arcade.start(machine_count, root)
