@@ -46,3 +46,7 @@ def run_mame(machine_name):
         stderr=subprocess.STDOUT)
 
     out.communicate()
+
+    if out.returncode != 0:
+        print(out.stdout)
+        print(out.stderr)

@@ -30,9 +30,10 @@ def parse_command_line():
 
 
 def usage():
-    print("RandoMame MAME_binary")
+    print("RandoMame [-d=<duration>] MAME_binary")
     print("")
-    print(" - MAME_binary : path to MAME's binary")
+    print("  MAME_binary : path to MAME's binary")
+    print("  -d, --duration : individual run duration in seconds")
     print("")
 
     sys.exit(1)
