@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 
 import Arcade
+import Config
 import XmlGetter
+
+Config.parse_command_line()
 
 root = XmlGetter.get()
 

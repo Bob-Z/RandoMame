@@ -1,11 +1,13 @@
 import subprocess
 import xml.etree.ElementTree as ElementTree
+
+import Config
 from XmlFilter import XmlFilter
 
 
 def load_string():
     print("Reading MAME's XML data")
-    out = subprocess.Popen(['/media/4To/emu/mame/mame/mame64', '-listxml'],
+    out = subprocess.Popen([Config.mame_binary, '-listxml'],
                            stdout=subprocess.PIPE,
                            stderr=subprocess.STDOUT)
 

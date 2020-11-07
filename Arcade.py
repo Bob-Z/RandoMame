@@ -2,6 +2,8 @@ import random
 import subprocess
 import time
 
+import Config
+
 
 def start(machine_count, root):
     print("Start arcade mode")
@@ -38,7 +40,7 @@ def start(machine_count, root):
 
 
 def run_mame(machine_name):
-    out = subprocess.Popen(['/media/4To/emu/mame/mame/mame64', machine_name],
+    out = subprocess.Popen([Config.mame_binary, machine_name],
                            stdout=subprocess.PIPE,
                            stderr=subprocess.STDOUT)
 
