@@ -40,7 +40,7 @@ def start(machine_count, root):
 
 
 def run_mame(machine_name):
-    out = subprocess.Popen([Config.mame_binary, machine_name],
+    out = subprocess.Popen([Config.mame_binary, "-nowindow", "-ui_active", "-skip_gameinfo", machine_name],
                            stdout=subprocess.PIPE,
                            stderr=subprocess.STDOUT)
 
