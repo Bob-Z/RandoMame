@@ -31,8 +31,8 @@ def start(machine_count, root):
         if machine_input is not None:
             if "coins" in machine_input.attrib:
                 print("Run", full_name)
-                run_mame(machine.attrib["name"])
                 time.sleep(1.5)
+                run_mame(machine.attrib["name"])
             else:
                 print("Skip non arcade machine ", full_name)
         else:
@@ -40,8 +40,9 @@ def start(machine_count, root):
 
 
 def run_mame(machine_name):
-    out = subprocess.Popen([Config.mame_binary, "-nowindow", "-ui_active", "-skip_gameinfo", machine_name],
-                           stdout=subprocess.PIPE,
-                           stderr=subprocess.STDOUT)
+    out = subprocess.Popen(
+        [Config.mame_binary, "-nowindow", "-ui_active", "-skip_gameinfo", "-str", str(Config.duration), machine_name],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT)
 
     out.communicate()

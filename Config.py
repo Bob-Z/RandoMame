@@ -2,33 +2,32 @@ import getopt
 import sys
 
 mame_binary = ""
+duration = 300
 
 
 def parse_command_line():
     try:
-        # opts, args = getopt.getopt(sys.argv, "hg:d", ["help", "grammar="])
-        opts, args = getopt.getopt(sys.argv, "h", ["help"])
+        opts, args = getopt.getopt(sys.argv[1:], "hd:", ["help", "duration="])
     except getopt.GetoptError:
         usage()
 
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             usage()
-        # elif opt == '-d':
-        #    global _debug
-        #    _debug = 1
-        # elif opt in ("-g", "--grammar"):
-        #    grammar = arg
-
-    if len(args) < 2:
-        usage()
+        elif opt in ("-d", "--duration"):
+            global duration
+            duration = arg
+        else:
+            usage()
 
     global mame_binary
-    mame_binary = args[1]
+    mame_binary = args[0]
 
     print("Configuration:")
     print("MAME binary:", mame_binary)
+    print("Individual machine's run duration:", duration, "seconds")
     print("")
+
 
 def usage():
     print("RandoMame MAME_binary")
