@@ -21,13 +21,15 @@ def get(machine_count, root):
 
         full_name = "\"" + machine.attrib["name"] + "\"" + " - " + description.text + " - (" + year.text + ")"
 
-        machine_input = machine.find('input')
+        machine_input = machine.find("input")
         if machine_input is not None:
             if "coins" in machine_input.attrib:
                 print("Run", full_name)
             else:
                 print("Skip non arcade machine ", full_name)
+                continue
         else:
             print("Skip no input machine ", full_name)
+            continue
 
         return machine.attrib["name"]
