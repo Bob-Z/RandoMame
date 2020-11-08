@@ -1,13 +1,7 @@
 import random
-import subprocess
-import time
-
-import Config
 
 
-def start(machine_count, root):
-    print("Start arcade mode")
-
+def get(machine_count, root):
     while True:
         rand = random.randrange(machine_count)
         machine = root[rand]
@@ -31,22 +25,9 @@ def start(machine_count, root):
         if machine_input is not None:
             if "coins" in machine_input.attrib:
                 print("Run", full_name)
-                time.sleep(1.5)
-                run_mame(machine.attrib["name"])
             else:
                 print("Skip non arcade machine ", full_name)
         else:
             print("Skip no input machine ", full_name)
 
-
-def run_mame(machine_name):
-    out = subprocess.Popen(
-        [Config.mame_binary, "-nowindow", "-ui_active", "-skip_gameinfo", "-str", str(Config.duration), machine_name],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT)
-
-    out.communicate()
-
-    if out.returncode != 0:
-        print(out.stdout)
-        print(out.stderr)
+        return machine.attrib["name"]

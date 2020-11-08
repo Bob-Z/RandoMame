@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import Arcade
+import WindowManager
 import Config
 import XmlGetter
 
@@ -31,4 +31,4 @@ print(arcade_count, " arcade machines")
 print(non_arcade_count, " non arcade machines")
 print(no_input_machine, " machine without input")
 
-Arcade.start(machine_count, root)
+WindowManager.start(machine_count, root, 8)
