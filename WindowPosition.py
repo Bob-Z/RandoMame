@@ -18,7 +18,7 @@ class WindowPosition:
                 new_pos_x = pos_x
                 new_pos_y = pos_y + new_height
 
-            quantity1 = quantity / 2
+            quantity1 = int(quantity / 2)
             quantity2 = quantity - quantity1
 
             self.get(quantity1, pos_x, pos_y, new_width, new_height)
