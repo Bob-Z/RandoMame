@@ -7,6 +7,9 @@ class Desktop:
     def __init__(self):
         self.desktop = DesktopXfce()
 
+    def get_desktop_size(self):
+        return self.desktop.get_desktop_size()
+
     def set_position(self, machine_name, pos_x, pos_y, width, height):
         self.desktop.set_position(machine_name, pos_x, pos_y, width, height)
 
