@@ -9,7 +9,7 @@ from WindowPosition import WindowPosition
 
 def start(machine_count, root, window_qty=1):
     window_position = WindowPosition()
-    position = window_position.get(window_qty, 0, 0, 1920, 1080)
+    position = window_position.get(window_qty, 50, 24, 1870, 1056)
 
     out = []
     machine_name = []
@@ -23,9 +23,9 @@ def start(machine_count, root, window_qty=1):
                     machine_name[index] = Arcade.get(machine_count, root)
                     out[index] = run_mame(machine_name[index])
                 else:
+                    desktop.send_keyboard(machine_name[index])
                     desktop.set_position(machine_name[index], position[index]['pos_x'], position[index]['pos_y'],
                                          position[index]['width'], position[index]['height'])
-
             else:
                 machine_name.append(Arcade.get(machine_count, root))
                 out.append(run_mame(machine_name[index]))

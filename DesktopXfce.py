@@ -53,3 +53,8 @@ class DesktopXfce:
         txt = sout.decode("utf-8").rstrip()
         split1 = txt.split(": ")
         self.decoration_size = split1[1].split(", ")
+
+    def send_keyboard(self, machine_name):
+        search_str = "\"MAME.*" + machine_name + "\""
+        command = "xdotool search --name " + search_str + " key super"
+        os.system(command)
