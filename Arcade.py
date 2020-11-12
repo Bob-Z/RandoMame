@@ -1,4 +1,5 @@
 import random
+import Config
 
 
 def get(machine_count, root):
@@ -28,12 +29,13 @@ def get(machine_count, root):
 
         full_name = "\"" + machine.attrib["name"] + "\"" + " - " + description.text + " - (" + year.text + ")"
 
-        machine_driver = machine.find("driver")
-        if machine_driver is not None:
-            if "status" in machine_driver.attrib:
-                if machine_driver.attrib["status"] == "preliminary":
-                    print("Skip preliminary driver machine ", full_name)
-                    continue
+        if Config.allow_preliminary is False:
+            machine_driver = machine.find("driver")
+            if machine_driver is not None:
+                if "status" in machine_driver.attrib:
+                    if machine_driver.attrib["status"] == "preliminary":
+                        print("Skip preliminary driver machine ", full_name)
+                        continue
 
         machine_input = machine.find("input")
         if machine_input is not None:

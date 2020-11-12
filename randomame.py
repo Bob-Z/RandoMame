@@ -31,4 +31,4 @@ print(arcade_count, " arcade machines")
 print(non_arcade_count, " non arcade machines")
 print(no_input_machine, " machine without input")
 
-WindowManager.start(machine_count, root, 8)
+WindowManager.start(machine_count, root, Config.windows_quantity)
