@@ -1,8 +1,9 @@
 import getopt
-import sys
 import multiprocessing
+import sys
 
 mame_binary = ""
+arcade_mode = True
 windows_quantity = multiprocessing.cpu_count()
 duration = 300
 desktop = None
@@ -11,19 +12,23 @@ allow_preliminary = False
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hd:D:pw:", ["help", "duration=", "desktop=", "allow_preliminary", "window="])
+        opts, args = getopt.getopt(sys.argv[1:], "ahd:D:pw:",
+                                   ["arcade", "help", "duration=", "desktop=", "allow_preliminary", "window="])
     except getopt.GetoptError:
         usage()
 
     for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            usage()
+        if opt in ("-a", "--arcade"):
+            global arcade_mode
+            arcade_mode = True
         elif opt in ("-d", "--duration"):
             global duration
             duration = arg
         elif opt in ("-D", "--desktop"):
             global desktop
             desktop = arg
+        elif opt in ("-h", "--help"):
+            usage()
         elif opt in ("-p", "--allow_preliminary"):
             global allow_preliminary
             allow_preliminary = True
@@ -37,22 +42,33 @@ def parse_command_line():
     mame_binary = args[0]
 
     print("Configuration:")
+    if arcade_mode is True:
+        print("Arcade mode")
     print("MAME binary:", mame_binary)
     print("Simultaneous windows :", windows_quantity)
     print("Individual machine's run duration:", duration, "seconds")
     print("Desktop geometry", desktop)
-    print("Preliminary driver allowed :", allow_preliminary)
+    if(allow_preliminary == True):
+        print("Preliminary drivers allowed")
+    else:
+        print("Preliminary drivers not allowed")
     print("")
 
 
 def usage():
-    print("RandoMame [-d=<duration>] MAME_binary")
+    print("RandoMame [options] MAME_binary")
     print("")
     print("  MAME_binary : path to MAME's binary")
-    print("  -w, --window= : simultaneous windows quantity")
+    print("")
+    print("options:")
+    print("=========")
+    print("")
+    print("  -a, --arcade : arcade mode: run only coins operated machine (default)")
     print("  -d, --duration= : individual run duration in seconds")
     print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
+    print("  -h, --help : print this message")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
+    print("  -w, --window= : simultaneous windows quantity")
     print("")
 
     sys.exit(1)

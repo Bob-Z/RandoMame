@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ElementTree
 
 
-class XmlFilter:
+class XmlDriverFilter:
     skip = False
     defaultBuilder = ElementTree.TreeBuilder()
 
@@ -46,5 +46,4 @@ class XmlFilter:
             return self.defaultBuilder.data(data)
 
     def close(self):  # Called when all data has been parsed.
-        print("close")
         return self.defaultBuilder.close()
