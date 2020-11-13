@@ -32,7 +32,7 @@ class DesktopXfce:
 
         move_str = str(int(pos_x)) + " " + str(int(pos_y))
 
-        command = "xdotool search --all --pid " + str(pid) + " --class mame windowmove " + move_str + " windowsize " + size_str
+        command = "xdotool search --all --pid " + str(pid) + " --class mame windowmove " + move_str + " windowsize " + size_str + " > /dev/null 2>&1"
         os.system(command)
 
     def find_decoration_size(self, pid):
@@ -68,5 +68,5 @@ class DesktopXfce:
         self.decoration_size = split1[1].split(", ")
 
     def send_keyboard(self, pid):
-        command = "xdotool search --all --pid " + str(pid) + " --class mame key super"
+        command = "xdotool search --all --pid " + str(pid) + " --class mame key super > /dev/null 2>&1"
         os.system(command)
