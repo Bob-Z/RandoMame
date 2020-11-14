@@ -3,7 +3,7 @@ import multiprocessing
 import sys
 
 mame_binary = ""
-arcade_mode = True
+mode = "arcade"
 windows_quantity = multiprocessing.cpu_count()
 duration = 300
 desktop = None
@@ -12,15 +12,18 @@ allow_preliminary = False
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "ahd:D:pw:",
-                                   ["arcade", "help", "duration=", "desktop=", "allow_preliminary", "window="])
+        opts, args = getopt.getopt(sys.argv[1:], "ashd:D:pw:",
+                                   ["arcade", "softlist", "help", "duration=", "desktop=", "allow_preliminary",
+                                    "window="])
     except getopt.GetoptError:
         usage()
 
+    global mode
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
-            global arcade_mode
-            arcade_mode = True
+            mode = "arcade"
+        elif opt in ("-s", "--softlist"):
+            mode = "softlist"
         elif opt in ("-d", "--duration"):
             global duration
             duration = arg
@@ -42,13 +45,12 @@ def parse_command_line():
     mame_binary = args[0]
 
     print("Configuration:")
-    if arcade_mode is True:
-        print("Arcade mode")
+    print("Mode: " + mode)
     print("MAME binary:", mame_binary)
     print("Simultaneous windows :", windows_quantity)
     print("Individual machine's run duration:", duration, "seconds")
     print("Desktop geometry", desktop)
-    if(allow_preliminary == True):
+    if allow_preliminary is True:
         print("Preliminary drivers allowed")
     else:
         print("Preliminary drivers not allowed")
@@ -64,6 +66,7 @@ def usage():
     print("=========")
     print("")
     print("  -a, --arcade : arcade mode: run only coins operated machine (default)")
+    print("  -s, --softlist : softlist mode: run only drivers using softwares (default)")
     print("  -d, --duration= : individual run duration in seconds")
     print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
     print("  -h, --help : print this message")

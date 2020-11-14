@@ -1,12 +1,13 @@
 import subprocess
 import xml.etree.ElementTree as ElementTree
+from multiprocessing import Process
 
 import Config
-from XmlDriverFilter import XmlDriverFilter
+from XmlMachineFilter import XmlMachineFilter
 
 
-def load_driver_list():
-    print("Reading MAME's drivers list")
+def load_machine_list():
+    print("Reading MAME's machines list")
     out = subprocess.Popen([Config.mame_binary, '-listxml'],
                            stdout=subprocess.PIPE,
                            stderr=subprocess.STDOUT)
@@ -23,18 +24,35 @@ def load_soft_list():
     return out.communicate()
 
 
-def get():
-    stdout, stderr = load_driver_list()
+class XmlGetter:
+    my_machine_list = None
+    my_soft_list = None
 
-    print("Parsing MAME's drivers list")
-    target = XmlDriverFilter()
-    parser = ElementTree.XMLParser(target=target)
-    driver_list = ElementTree.fromstring(stdout, parser=parser)
+    def parse_machine_list(self, stdout):
+        print("Parsing MAME's machines list start")
+        target = XmlMachineFilter()
+        parser = ElementTree.XMLParser(target=target)
+        self.my_machine_list = ElementTree.fromstring(stdout, parser=parser)
+        print("Parsing MAME's machines list finished")
 
-    soft_list = None
-    if Config.arcade_mode is False:
-        stdout, stderr = load_soft_list()
-        print("Parsing MAME's softwares list")
-        soft_list = ElementTree.fromstring(stdout)
+    def parse_soft_list(self, stdout):
+        print("Parsing MAME's softwares lists start")
+        self.my_soft_list = ElementTree.fromstring(stdout)
+        print("Parsing MAME's softwares lists finished")
 
-    return driver_list, soft_list
+    def get(self):
+        stdout, stderr = load_machine_list()
+        #parse_machine_process = Process(target=self.parse_machine_list, args=(stdout,))
+        #parse_machine_process.start()
+        self.parse_machine_list(stdout)
+
+        if Config.mode == 'softlist':
+            stdout, stderr = load_soft_list()
+            #parse_soft_process = Process(target=self.parse_soft_list, args=(stdout,))
+            #parse_soft_process.start()
+            self.parse_soft_list(stdout)
+
+        #parse_machine_process.join()
+        #parse_soft_process.join()
+
+        return self.my_machine_list, self.my_soft_list

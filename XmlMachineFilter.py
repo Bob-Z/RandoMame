@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ElementTree
 
 
-class XmlDriverFilter:
+class XmlMachineFilter:
     skip = False
     defaultBuilder = ElementTree.TreeBuilder()
 
