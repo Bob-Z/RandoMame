@@ -60,18 +60,17 @@ def find_machine(machine_list, list_name):
                 found_machine.pop(rand)
                 continue
 
-        description = machine.find("description")
-        year = machine.find("year")
-        full_name = "\"" + machine.attrib["name"] + "\"" + " - " + description.text + " - (" + year.text + ")"
-
         if Config.allow_preliminary is False:
             machine_driver = machine.find("driver")
             if machine_driver is not None:
                 if "status" in machine_driver.attrib:
                     if machine_driver.attrib["status"] == "preliminary":
-                        print("Skip preliminary driver machine ", full_name)
+                        print("Skip preliminary driver machine ", machine.attrib["name"])
                         found_machine.pop(rand)
                         continue
+        description = machine.find("description")
+        year = machine.find("year")
+        full_name = "\"" + machine.attrib["name"] + "\"" + " - " + description.text + " - (" + year.text + ")"
 
         break
 

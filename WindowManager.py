@@ -12,6 +12,7 @@ def start(machine_count, machine_list, soft_list_count, soft_list, window_qty=1)
     window_position = WindowPosition()
 
     out = []
+    command = []
     desktop = Desktop()
 
     if Config.desktop is not None:
@@ -27,15 +28,16 @@ def start(machine_count, machine_list, soft_list_count, soft_list, window_qty=1)
             if len(out) > index:
                 return_code = out[index].poll()
                 if return_code is not None:
-                    command = get_command(machine_count, machine_list, soft_list_count, soft_list)
-                    out[index] = run_mame(command)
-                else:
-                    desktop.send_keyboard(out[index].pid)
-                    desktop.set_position(out[index].pid, position[index]['pos_x'], position[index]['pos_y'],
-                                         position[index]['width'], position[index]['height'])
+                    out[index] = run_mame(command[index])
+                    command[index] = get_command(machine_count, machine_list, soft_list_count, soft_list)
+
+                desktop.send_keyboard(out[index].pid)
+                desktop.set_position(out[index].pid, position[index]['pos_x'], position[index]['pos_y'],
+                                     position[index]['width'], position[index]['height'])
             else:
-                command = get_command(machine_count, machine_list, soft_list_count, soft_list)
-                out.append(run_mame(command))
+                first_command = get_command(machine_count, machine_list, soft_list_count, soft_list)
+                out.append(run_mame(first_command))
+                command.append(get_command(machine_count, machine_list, soft_list_count, soft_list))
 
             time.sleep(0.2)
 
@@ -52,13 +54,13 @@ def run_mame(command):
     binary_command = Config.mame_binary + " -nomouse -artwork_crop -nohttp -window -ui_active -skip_gameinfo -str " + str(
         Config.duration) + " -resolution 1x1 " + command
     args = [Config.mame_binary, '-nomouse', '-artwork_crop', '-nohttp', '-window',
-                            '-ui_active', '-skip_gameinfo',  '-str', str(
-                            Config.duration), '-resolution',  '1x1']
+            '-ui_active', '-skip_gameinfo', '-str', str(
+            Config.duration), '-resolution', '1x1']
     for c in command.split(' '):
         args.append(c)
 
     out = subprocess.Popen(args,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE)
+                           stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE)
 
     return out

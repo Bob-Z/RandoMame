@@ -2,12 +2,11 @@
 
 import Config
 import WindowManager
-from XmlGetter import XmlGetter
+import XmlGetter
 
 Config.parse_command_line()
 
-xml_getter = XmlGetter()
-machine_list, soft_list = xml_getter.get()
+machine_list, soft_list = XmlGetter.get()
 
 print("MAME version: ", machine_list.attrib["build"])
 
