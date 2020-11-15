@@ -1,9 +1,10 @@
 import subprocess
 import time
 
-import Arcade
 import Config
-import SoftList
+import ModeAll
+import ModeArcade
+import ModeSoftList
 from Desktop import Desktop
 from WindowPosition import WindowPosition
 
@@ -44,9 +45,12 @@ def start(machine_count, machine_list, soft_list_count, soft_list, window_qty=1)
 
 def get_command(machine_count, machine_list, soft_list_count, soft_list):
     if Config.mode == "arcade":
-        command = Arcade.get(machine_count, machine_list)
+        return ModeArcade.get(machine_count, machine_list)
     elif Config.mode == "softlist":
-        command = SoftList.get(soft_list_count, machine_list, soft_list)
+        return ModeSoftList.get(soft_list_count, machine_list, soft_list)
+    elif Config.mode == "all":
+        return ModeAll.get(machine_count, machine_list, soft_list_count, soft_list)
+
     return command
 
 

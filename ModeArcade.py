@@ -3,10 +3,10 @@ import random
 import Config
 
 
-def get(machine_count, root):
+def get(machine_count, machine_list):
     while True:
         rand = random.randrange(machine_count)
-        machine = root[rand]
+        machine = machine_list[rand]
 
         if "isdevice" in machine.attrib:
             if machine.attrib["isdevice"] == "yes":

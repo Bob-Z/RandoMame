@@ -1,6 +1,5 @@
 import subprocess
 import xml.etree.ElementTree as ElementTree
-from multiprocessing import Process, Queue
 
 import Config
 from XmlMachineFilter import XmlMachineFilter
@@ -40,7 +39,7 @@ def get():
     stdout, stderr = load_machine_list()
     machine_list = parse_machine_list(stdout)
 
-    if Config.mode == 'softlist':
+    if Config.mode == 'softlist' or Config.mode == 'all':
         stdout, stderr = load_soft_list()
         soft_list = parse_soft_list(stdout)
 

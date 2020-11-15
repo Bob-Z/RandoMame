@@ -12,8 +12,8 @@ allow_preliminary = False
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "ashd:D:pw:",
-                                   ["arcade", "softlist", "help", "duration=", "desktop=", "allow_preliminary",
+        opts, args = getopt.getopt(sys.argv[1:], "aAshd:D:pw:",
+                                   ["arcade", "all", "softlist", "help", "duration=", "desktop=", "allow_preliminary",
                                     "window="])
     except getopt.GetoptError:
         usage()
@@ -22,6 +22,8 @@ def parse_command_line():
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
             mode = "arcade"
+        elif opt in ("-A", "--all"):
+            mode = "all"
         elif opt in ("-s", "--softlist"):
             mode = "softlist"
         elif opt in ("-d", "--duration"):
@@ -67,6 +69,7 @@ def usage():
     print("")
     print("  -a, --arcade : arcade mode: run only coins operated machine (default)")
     print("  -s, --softlist : softlist mode: run only drivers using softwares (default)")
+    print("  -A, --all : both arcade mode and softlist mode")
     print("  -d, --duration= : individual run duration in seconds")
     print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
     print("  -h, --help : print this message")

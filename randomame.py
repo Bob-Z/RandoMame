@@ -33,7 +33,7 @@ print(non_arcade_count, " non arcade machines")
 print(no_input_machine, " machine without input")
 
 soft_list_count = 0
-if Config.mode == "softlist":
+if Config.mode == "softlist" or Config.mode == "all":
     for s in soft_list.findall('softwarelist'):
         soft_list_count += 1
 
