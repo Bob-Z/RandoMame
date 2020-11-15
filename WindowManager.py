@@ -4,6 +4,7 @@ import time
 import Config
 import ModeAll
 import ModeArcade
+import ModeSelectedSoftList
 import ModeSoftList
 from Desktop import Desktop
 from WindowPosition import WindowPosition
@@ -50,8 +51,8 @@ def get_command(machine_count, machine_list, soft_list_count, soft_list):
         return ModeSoftList.get(soft_list_count, machine_list, soft_list)
     elif Config.mode == "all":
         return ModeAll.get(machine_count, machine_list, soft_list_count, soft_list)
-
-    return command
+    elif Config.mode == "selected softlist":
+        return ModeSelectedSoftList.get(Config.selected_softlist, machine_list, soft_list)
 
 
 def run_mame(command):
