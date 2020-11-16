@@ -56,13 +56,11 @@ def get_command(machine_count, machine_list, soft_list_count, soft_list):
 
 
 def run_mame(command):
-    binary_command = Config.mame_binary + " -nomouse -artwork_crop -nohttp -window -ui_active -skip_gameinfo -str " + str(
-        Config.duration) + " -resolution 1x1 " + command
-    args = [Config.mame_binary, '-nomouse', '-artwork_crop', '-nohttp', '-window',
-            '-ui_active', '-skip_gameinfo', '-str', str(
-            Config.duration), '-resolution', '1x1']
+    args = [Config.mame_binary]
     for c in command.split(' '):
         args.append(c)
+    args += ['-nomouse', '-artwork_crop', '-nohttp', '-window',
+             '-ui_active', '-skip_gameinfo', '-str', str(Config.duration), '-resolution', '1x1']
 
     out = subprocess.Popen(args,
                            stdout=subprocess.PIPE,

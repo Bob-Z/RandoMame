@@ -108,12 +108,10 @@ def find_software(list_name, selected_list):
     rand = random.randrange(software_count)
     selected_software = selected_list[rand]
     software_description = selected_software.find('description')
-    print("Running software:", software_description.text)
-
     software_name = selected_software.attrib['name']
-    part = selected_software.find('part')  # Only first part used, is it doable to use something else ?
-    part_name = part.attrib['name']
 
-    software_command = "-" + part_name + " " + software_name
+    print("Running software \"", software_name, "\": ", software_description.text)
+
+    software_command = software_name
 
     return software_command
