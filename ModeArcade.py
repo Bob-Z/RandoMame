@@ -3,9 +3,9 @@ import random
 import Config
 
 
-def get(machine_count, machine_list):
+def get(machine_list):
     while True:
-        rand = random.randrange(machine_count)
+        rand = random.randrange(len(machine_list))
         machine = machine_list[rand]
 
         if "isdevice" in machine.attrib:

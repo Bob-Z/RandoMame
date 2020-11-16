@@ -10,7 +10,7 @@ from Desktop import Desktop
 from WindowPosition import WindowPosition
 
 
-def start(machine_count, machine_list, soft_list_count, soft_list, window_qty=1):
+def start(machine_list, soft_list, window_qty=1):
     window_position = WindowPosition()
 
     out = []
@@ -31,31 +31,34 @@ def start(machine_count, machine_list, soft_list_count, soft_list, window_qty=1)
                 return_code = out[index].poll()
                 if return_code is not None:
                     out[index] = run_mame(command[index])
-                    command[index] = get_command(machine_count, machine_list, soft_list_count, soft_list)
+                    command[index] = get_command(machine_list, soft_list)
 
                 desktop.send_keyboard(out[index].pid)
                 desktop.set_position(out[index].pid, position[index]['pos_x'], position[index]['pos_y'],
                                      position[index]['width'], position[index]['height'])
             else:
-                first_command = get_command(machine_count, machine_list, soft_list_count, soft_list)
+                first_command = get_command(machine_list, soft_list)
                 out.append(run_mame(first_command))
-                command.append(get_command(machine_count, machine_list, soft_list_count, soft_list))
+                command.append(get_command(machine_list, soft_list))
 
             time.sleep(0.2)
 
 
-def get_command(machine_count, machine_list, soft_list_count, soft_list):
+def get_command(machine_list, soft_list):
     if Config.mode == "arcade":
-        return ModeArcade.get(machine_count, machine_list)
+        return ModeArcade.get(machine_list)
     elif Config.mode == "softlist":
-        return ModeSoftList.get(soft_list_count, machine_list, soft_list)
+        return ModeSoftList.get(machine_list, soft_list)
     elif Config.mode == "all":
-        return ModeAll.get(machine_count, machine_list, soft_list_count, soft_list)
+        return ModeAll.get(machine_list, soft_list)
     elif Config.mode == "selected softlist":
         return ModeSelectedSoftList.get(Config.selected_softlist, machine_list, soft_list)
 
 
 def run_mame(command):
+    if command is None:
+        return
+
     args = [Config.mame_binary]
     for c in command.split(' '):
         args.append(c)

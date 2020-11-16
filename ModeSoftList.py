@@ -4,9 +4,9 @@ import ModeSelectedSoftList
 import Config
 
 
-def get(soft_list_count, machine_list, soft_list):
+def get(machine_list, soft_list):
     while True:
-        rand = random.randrange(soft_list_count)
+        rand = random.randrange(len(soft_list))
         selected_list = soft_list[rand]
 
         list_name = selected_list.attrib['name']

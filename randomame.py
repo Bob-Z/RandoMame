@@ -16,27 +16,21 @@ non_arcade_count = 0
 no_input_machine = 0
 
 for machine in machine_list.findall('machine'):
-    machine_count += 1
-
-machine_input = machine.find('input')
-if machine_input is not None:
-    if "coins" in machine_input.attrib:
-        arcade_count += 1
+    machine_input = machine.find('input')
+    if machine_input is not None:
+        if "coins" in machine_input.attrib:
+            arcade_count += 1
+        else:
+            non_arcade_count += 1
     else:
-        non_arcade_count += 1
-else:
-    no_input_machine += 1
+        no_input_machine += 1
 
-print(machine_count, " unique machines")
+print(len(machine_list), " unique machines")
 print(arcade_count, " arcade machines")
 print(non_arcade_count, " non arcade machines")
 print(no_input_machine, " machine without input")
 
-soft_list_count = 0
 if Config.need_softlist:
-    for s in soft_list.findall('softwarelist'):
-        soft_list_count += 1
+    print(len(soft_list), " softwares lists")
 
-    print(soft_list_count, " softwares lists")
-
-WindowManager.start(machine_count, machine_list, soft_list_count, soft_list, Config.windows_quantity)
+WindowManager.start(machine_list, soft_list, Config.windows_quantity)
