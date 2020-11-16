@@ -38,7 +38,7 @@ def get(selected_softlist, machine_list, soft_list):
 
 
 def find_machine(machine_list, list_name):
-    print("Searching a machine for software list", list_name)
+    print("Searching machines for software list", list_name)
 
     found_machine = []
     for machine in machine_list:
@@ -47,7 +47,7 @@ def find_machine(machine_list, list_name):
             if machine_soft_list.attrib['name'] == list_name:
                 found_machine.append(machine)
 
-    print("Found", len(found_machine), " machines for softlist", list_name)
+    print("Found", len(found_machine), "machines for softlist", list_name)
 
     while len(found_machine) > 0:
         rand = random.randrange(len(found_machine))
@@ -93,7 +93,7 @@ def find_machine(machine_list, list_name):
         print("No machine available for software  list", list_name)
         return None
 
-    print("Using machine", full_name)
+    print("Select machine", full_name)
 
     return machine.attrib["name"]
 
@@ -103,14 +103,14 @@ def find_software(list_name, selected_list):
     for s in selected_list.findall('software'):
         software_count += 1
 
-    print(software_count, "softwares in list", list_name)
+    print("Found", software_count, "softwares in list", list_name)
 
     rand = random.randrange(software_count)
     selected_software = selected_list[rand]
     software_description = selected_software.find('description')
     software_name = selected_software.attrib['name']
 
-    print("Running software \"", software_name, "\": ", software_description.text)
+    print("Select software \"" + software_name + "\": ", software_description.text)
 
     software_command = software_name
 

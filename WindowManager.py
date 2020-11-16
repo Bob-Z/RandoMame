@@ -62,6 +62,11 @@ def run_mame(command):
     args += ['-nomouse', '-artwork_crop', '-nohttp', '-window',
              '-ui_active', '-skip_gameinfo', '-str', str(Config.duration), '-resolution', '1x1']
 
+    full_command = ""
+    for a in args:
+        full_command += a + " "
+    print("Running full command: " + full_command)
+
     out = subprocess.Popen(args,
                            stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE)
