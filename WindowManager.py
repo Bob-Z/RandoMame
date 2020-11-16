@@ -41,7 +41,7 @@ def start(machine_list, soft_list, window_qty=1):
                 out.append(run_mame(first_command))
                 command.append(get_command(machine_list, soft_list))
 
-            time.sleep(0.2)
+        time.sleep(0.2)
 
 
 def get_command(machine_list, soft_list):
