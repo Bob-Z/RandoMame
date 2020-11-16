@@ -11,9 +11,9 @@ def get(machine_list, soft_list):
 
         list_name = selected_list.attrib['name']
 
-        command = ModeSelectedSoftList.get([list_name], machine_list, soft_list)
+        command, title = ModeSelectedSoftList.get([list_name], machine_list, soft_list)
 
         if command is None:
             continue
 
-        return command
+        return command, title

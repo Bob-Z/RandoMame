@@ -26,16 +26,17 @@ def get(user_softlist, machine_list, soft_list):
             user_softlist.pop(rand)
             continue
 
-        machine_name = find_machine(machine_list, list_name)
+        machine_name, full_machine_name = find_machine(machine_list, list_name)
         if machine_name is None:
             user_softlist.pop(rand)
             continue
 
-        software_command = find_software(list_name, selected_list)
+        software_command, full_software_name = find_software(list_name, selected_list)
 
         command = machine_name + " " + software_command
+        title = full_machine_name + " // " + full_software_name
 
-        return command
+        return command, title
 
 
 def find_machine(machine_list, list_name):
@@ -55,7 +56,7 @@ def find_machine(machine_list, list_name):
 
         machine = found_machine_list[rand]
 
-        machine = MachineFilter.get(machine)
+        machine, title = MachineFilter.get(machine)
 
         if machine is None:
             found_machine_list.pop(rand)
@@ -67,13 +68,9 @@ def find_machine(machine_list, list_name):
         print("No machine available for software  list", list_name)
         return None
 
-    description = machine.find("description")
-    year = machine.find("year")
-    full_name = "\"" + machine.attrib["name"] + "\"" + " - " + description.text + " - (" + year.text + ")"
+    print("Select machine", machine.attrib['name'], "-", title)
 
-    print("Select machine", full_name)
-
-    return machine.attrib["name"]
+    return machine.attrib["name"], title
 
 
 def find_software(list_name, selected_softlist):
@@ -83,9 +80,9 @@ def find_software(list_name, selected_softlist):
     selected_software = selected_softlist[rand]
     software_description = selected_software.find('description')
     software_name = selected_software.attrib['name']
+    year = selected_software.find("year").text
 
     print("Select software \"" + software_name + "\": ", software_description.text)
 
-    software_command = software_name
-
-    return software_command
+    title = software_description.text + " (" + year + ")"
+    return software_name, title

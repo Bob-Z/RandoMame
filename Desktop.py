@@ -15,3 +15,6 @@ class Desktop:
 
     def send_keyboard(self, pid):
         self.desktop.send_keyboard(pid)
+
+    def set_title(self, pid, title):
+        self.desktop.set_title(pid, title)

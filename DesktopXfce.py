@@ -71,3 +71,8 @@ class DesktopXfce:
     def send_keyboard(self, pid):
         command = "xdotool search --all --pid " + str(pid) + " --name \"MAME.*\" key super > /dev/null 2>&1"
         os.system(command)
+
+    def set_title(self, pid, title):
+        command = "xdotool search --all --pid " + str(
+            pid) + " --name \"MAME.*\" set_window --name \"" + title + "\" > /dev/null 2>&1"
+        os.system(command)

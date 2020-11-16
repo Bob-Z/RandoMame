@@ -14,7 +14,7 @@ def start(machine_list, soft_list, window_qty=1):
     window_position = WindowPosition()
 
     out = []
-    command = []
+    title = []
     desktop = Desktop()
 
     if Config.desktop is not None:
@@ -30,16 +30,17 @@ def start(machine_list, soft_list, window_qty=1):
             if len(out) > index:
                 return_code = out[index].poll()
                 if return_code is not None:
-                    out[index] = run_mame(command[index])
-                    command[index] = get_command(machine_list, soft_list)
+                    command, title[index] = get_command(machine_list, soft_list)
+                    out[index] = run_mame(command)
 
                 desktop.send_keyboard(out[index].pid)
                 desktop.set_position(out[index].pid, position[index]['pos_x'], position[index]['pos_y'],
                                      position[index]['width'], position[index]['height'])
+                desktop.set_title(out[index].pid, title[index])
             else:
-                first_command = get_command(machine_list, soft_list)
+                first_command, first_title = get_command(machine_list, soft_list)
+                title.append(first_title)
                 out.append(run_mame(first_command))
-                command.append(get_command(machine_list, soft_list))
 
         time.sleep(0.2)
 
