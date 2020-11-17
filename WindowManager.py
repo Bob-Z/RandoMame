@@ -16,8 +16,7 @@ def start(machine_list, soft_list, window_qty=1):
     out = []
     title = []
     desktop = Desktop()
-    position_done = []
-    title_done = []
+    command = []
 
     if Config.desktop is not None:
         split1 = Config.desktop.split('x')
@@ -27,32 +26,46 @@ def start(machine_list, soft_list, window_qty=1):
 
     position = window_position.get(window_qty, desktop_info[0], desktop_info[1], desktop_info[2], desktop_info[3])
 
+    count = 20
+
     while True:
         for index in range(window_qty):
             if len(out) > index:
                 return_code = out[index].poll()
                 if return_code is not None:
-                    command, title[index] = get_command(machine_list, soft_list)
-                    out[index] = run_mame(command)
-                    title_done[index] = False
-                    position_done[index] = False
+                    out[index] = run_mame(command[index])
 
-                desktop.send_keyboard(out[index].pid)
-                if position_done[index] is False:
-                    position_done[index] = desktop.set_position(out[index].pid, position[index]['pos_x'],
-                                                                position[index]['pos_y'],
-                                                                position[index]['width'], position[index]['height'])
-                if title_done[index] is False:
-                    title_done[index] = desktop.set_title(out[index].pid, title[index])
+                    while desktop.set_title(out[index].pid, title[index]) is False:
+                        pass
+
+                    while desktop.set_position(out[index].pid, position[index]['pos_x'],
+                                               position[index]['pos_y'],
+                                               position[index]['width'], position[index]['height']) is False:
+                        pass
+
+                    command[index], title[index] = get_command(machine_list, soft_list)
+
+                if count == 0:
+                    desktop.send_keyboard(out[index].pid)
+                    count = 20
+                else:
+                    count = count - 1
+
             else:
                 first_command, first_title = get_command(machine_list, soft_list)
-                title.append(first_title)
                 out.append(run_mame(first_command))
-                title_done.append(False)
-                position_done.append(False)
-                break;
+                while desktop.set_title(out[index].pid, first_title) is False:
+                    pass
 
-        time.sleep(0.2)
+                while desktop.set_position(out[index].pid, position[index]['pos_x'],
+                                           position[index]['pos_y'],
+                                           position[index]['width'], position[index]['height']) is False:
+                    pass
+                next_command, next_title = get_command(machine_list, soft_list)
+                command.append(next_command)
+                title.append(next_title)
+
+        time.sleep(0.1)
 
 
 def get_command(machine_list, soft_list):
