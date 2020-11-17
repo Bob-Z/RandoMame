@@ -33,11 +33,16 @@ class DesktopXfce:
         move_str = str(int(pos_x)) + " " + str(int(pos_y))
 
         command = "xdotool search --all --pid " + str(
-            pid) + " --name \"MAME.*\" windowmove " + move_str + " windowsize " + size_str + " > /dev/null 2>&1"
-        os.system(command)
+            pid) + " --class mame windowmove " + move_str + " windowsize " + size_str + " > /dev/null 2>&1"
+        return_value = os.system(command)
+
+        if return_value == 0 and self.decoration_size is not None:
+            return True
+        else:
+            return False
 
     def find_decoration_size(self, pid):
-        search_str = 'xdotool search --all --pid ' + str(pid) + ' --name \"MAME.*\"'
+        search_str = 'xdotool search --all --pid ' + str(pid)
         out = subprocess.Popen(
             search_str,
             shell=True,
@@ -69,10 +74,20 @@ class DesktopXfce:
         self.decoration_size = split1[1].split(", ")
 
     def send_keyboard(self, pid):
-        command = "xdotool search --all --pid " + str(pid) + " --name \"MAME.*\" key super > /dev/null 2>&1"
-        os.system(command)
+        command = "xdotool search --all --pid " + str(pid) + " --class mame key super > /dev/null 2>&1"
+        return_value = os.system(command)
+
+        if return_value == 0:
+            return True
+        else:
+            return False
 
     def set_title(self, pid, title):
         command = "xdotool search --all --pid " + str(
-            pid) + " --name \"MAME.*\" set_window --name \"" + title + "\" > /dev/null 2>&1"
-        os.system(command)
+            pid) + " --class mame set_window --name \"" + title + "\" > /dev/null 2>&1"
+        return_value = os.system(command)
+
+        if return_value == 0:
+            return True
+        else:
+            return False
