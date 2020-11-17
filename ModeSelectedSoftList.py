@@ -34,7 +34,7 @@ def get(user_softlist, machine_list, soft_list):
         software_command, full_software_name = find_software(list_name, selected_list)
 
         command = machine_name + " " + software_command
-        title = full_machine_name + " // " + full_software_name
+        title = full_software_name + " // " + full_machine_name
 
         return command, title
 
