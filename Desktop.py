@@ -11,10 +11,10 @@ class Desktop:
         return self.desktop.get_desktop_size()
 
     def set_position(self, pid, pos_x, pos_y, width, height):
-        self.desktop.set_position(pid, pos_x, pos_y, width, height)
+        return self.desktop.set_position(pid, pos_x, pos_y, width, height)
 
     def send_keyboard(self, pid):
-        self.desktop.send_keyboard(pid)
+        return self.desktop.send_keyboard(pid)
 
     def set_title(self, pid, title):
-        self.desktop.set_title(pid, title)
+        return self.desktop.set_title(pid, title)

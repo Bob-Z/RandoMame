@@ -16,6 +16,8 @@ def start(machine_list, soft_list, window_qty=1):
     out = []
     title = []
     desktop = Desktop()
+    position_done = []
+    title_done = []
 
     if Config.desktop is not None:
         split1 = Config.desktop.split('x')
@@ -32,15 +34,23 @@ def start(machine_list, soft_list, window_qty=1):
                 if return_code is not None:
                     command, title[index] = get_command(machine_list, soft_list)
                     out[index] = run_mame(command)
+                    title_done[index] = False
+                    position_done[index] = False
 
                 desktop.send_keyboard(out[index].pid)
-                desktop.set_position(out[index].pid, position[index]['pos_x'], position[index]['pos_y'],
-                                     position[index]['width'], position[index]['height'])
-                desktop.set_title(out[index].pid, title[index])
+                if position_done[index] is False:
+                    position_done[index] = desktop.set_position(out[index].pid, position[index]['pos_x'],
+                                                                position[index]['pos_y'],
+                                                                position[index]['width'], position[index]['height'])
+                if title_done[index] is False:
+                    title_done[index] = desktop.set_title(out[index].pid, title[index])
             else:
                 first_command, first_title = get_command(machine_list, soft_list)
                 title.append(first_title)
                 out.append(run_mame(first_command))
+                title_done.append(False)
+                position_done.append(False)
+                break;
 
         time.sleep(0.2)
 

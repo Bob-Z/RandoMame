@@ -35,6 +35,7 @@ class DesktopXfce:
         command = "xdotool search --all --pid " + str(
             pid) + " --class mame windowmove " + move_str + " windowsize " + size_str + " > /dev/null 2>&1"
         return_value = os.system(command)
+        return_value = os.system(command)
 
         if return_value == 0 and self.decoration_size is not None:
             return True
