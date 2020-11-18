@@ -3,7 +3,9 @@ import xml.etree.ElementTree as ElementTree
 import datetime
 
 import Config
-#from XmlMachineFilter import XmlMachineFilter
+
+
+# from XmlMachineFilter import XmlMachineFilter
 
 
 def load_machine_list():
@@ -26,9 +28,9 @@ def load_soft_list():
 
 def parse_machine_list(stdout):
     print("Parsing MAME's machines list")
-    #target = XmlMachineFilter()
-    #parser = ElementTree.XMLParser(target=target)
-    #return ElementTree.fromstring(stdout, parser=parser)
+    # target = XmlMachineFilter()
+    # parser = ElementTree.XMLParser(target=target)
+    # return ElementTree.fromstring(stdout, parser=parser)
     return ElementTree.fromstring(stdout)
 
 
@@ -37,24 +39,30 @@ def parse_soft_list(stdout):
     return ElementTree.fromstring(stdout)
 
 
+def get_soft_list():
+    a = datetime.datetime.now()
+    stdout, stderr = load_soft_list()
+    b = datetime.datetime.now()
+    print(b - a)
+    a = datetime.datetime.now()
+    soft_list = parse_soft_list(stdout)
+    b = datetime.datetime.now()
+    print(b - a)
+
+    return soft_list
+
+
 def get():
     a = datetime.datetime.now()
     stdout, stderr = load_machine_list()
     b = datetime.datetime.now()
-    print(b-a)
+    print(b - a)
     a = datetime.datetime.now()
     machine_list = parse_machine_list(stdout)
     b = datetime.datetime.now()
     print(b - a)
 
     if Config.need_softlist:
-        a = datetime.datetime.now()
-        stdout, stderr = load_soft_list()
-        b = datetime.datetime.now()
-        print(b - a)
-        a = datetime.datetime.now()
-        soft_list = parse_soft_list(stdout)
-        b = datetime.datetime.now()
-        print(b - a)
+        soft_list = get_soft_list()
 
     return machine_list, soft_list

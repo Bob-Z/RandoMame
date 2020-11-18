@@ -1,10 +1,15 @@
 #!/usr/bin/python3
 
 import Config
+import DisplaySoftList
 import WindowManager
 import XmlGetter
 
 Config.parse_command_line()
+
+if Config.available_softlist is True:
+    DisplaySoftList.display_soft_list()
+    exit(0)
 
 machine_list, soft_list = XmlGetter.get()
 

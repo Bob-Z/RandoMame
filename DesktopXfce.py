@@ -34,7 +34,7 @@ class DesktopXfce:
 
         command = "xdotool search --all --pid " + str(
             pid) + " --class mame windowmove " + move_str + " windowsize " + size_str + " > /dev/null 2>&1"
-        
+
         os.system(command)
         # Sometimes the first call does not honor requested position (slightly too right when trying coordinates 0,0)
         return_value = os.system(command)

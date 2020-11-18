@@ -10,12 +10,13 @@ desktop = None
 allow_preliminary = False
 selected_softlist = []
 need_softlist = False
+available_softlist = False;
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hpsS:w:",
-                                   ["arcade", "all", "softlist", "selected_softlist=", "help", "duration=", "desktop=",
+        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlpsS:w:",
+                                   ["arcade", "all", "softlist", "selected_softlist=", "help", "available_softlist", "duration=", "desktop=",
                                     "allow_preliminary",
                                     "window="])
     except getopt.GetoptError:
@@ -52,6 +53,9 @@ def parse_command_line():
         elif opt in ("-w", "--window"):
             global windows_quantity
             windows_quantity = int(arg)
+        elif opt in ("-l", "--available_softlist"):
+            global available_softlist
+            available_softlist = True
         else:
             usage()
 
