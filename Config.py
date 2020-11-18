@@ -10,13 +10,14 @@ desktop = None
 allow_preliminary = False
 selected_softlist = []
 need_softlist = False
-available_softlist = False;
+available_softlist = False
 
 
 def parse_command_line():
     try:
         opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlpsS:w:",
-                                   ["arcade", "all", "softlist", "selected_softlist=", "help", "available_softlist", "duration=", "desktop=",
+                                   ["arcade", "all", "softlist", "selected_softlist=", "help",
+                                    "available_softlist", "duration=", "desktop=",
                                     "allow_preliminary",
                                     "window="])
     except getopt.GetoptError:
@@ -57,6 +58,7 @@ def parse_command_line():
             global available_softlist
             available_softlist = True
         else:
+            print("Unknown option" + opt)
             usage()
 
     global mame_binary
@@ -95,6 +97,7 @@ def usage():
     print("  -d, --duration= : individual run duration in seconds")
     print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
     print("  -h, --help : print this message")
+    print("  -l, --available_softlist : display available softlists")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
     print("  -w, --window= : simultaneous windows quantity")
     print("")
