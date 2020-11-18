@@ -62,6 +62,7 @@ def get():
     b = datetime.datetime.now()
     print(b - a)
 
+    soft_list = None
     if Config.need_softlist:
         soft_list = get_soft_list()
 
