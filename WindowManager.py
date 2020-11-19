@@ -6,6 +6,7 @@ import ModeAll
 import ModeArcade
 import ModeSelectedSoftList
 import ModeSoftList
+import ModeDescription
 from Desktop import Desktop
 from WindowPosition import WindowPosition
 
@@ -77,6 +78,8 @@ def get_command(machine_list, soft_list):
         return ModeAll.get(machine_list, soft_list)
     elif Config.mode == "selected softlist":
         return ModeSelectedSoftList.get(Config.selected_softlist, machine_list, soft_list)
+    elif Config.mode == "description":
+        return ModeDescription.get(machine_list, soft_list, Config.description)
 
 
 def run_mame(command):

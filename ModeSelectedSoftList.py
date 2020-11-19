@@ -66,7 +66,7 @@ def find_machine(machine_list, list_name):
 
     if len(found_machine_list) == 0:
         print("No machine available for software  list", list_name)
-        return None
+        return None, None
 
     print("Select machine", machine.attrib['name'], "-", title)
 
