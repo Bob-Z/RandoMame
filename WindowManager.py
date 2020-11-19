@@ -6,7 +6,6 @@ import ModeAll
 import ModeArcade
 import ModeSelectedSoftList
 import ModeSoftList
-import ModeDescription
 from Desktop import Desktop
 from WindowPosition import WindowPosition
 
@@ -32,17 +31,18 @@ def start(machine_list, soft_list, window_qty=1):
     while True:
         for index in range(window_qty):
             if len(out) > index:
-                return_code = out[index].poll()
-                if return_code is not None:
+                while out[index].poll() is not None:
                     out[index] = run_mame(command[index])
 
                     while desktop.set_title(out[index].pid, title[index]) is False:
-                        pass
+                        if out[index].poll() is not None:
+                            break
 
                     while desktop.set_position(out[index].pid, position[index]['pos_x'],
                                                position[index]['pos_y'],
                                                position[index]['width'], position[index]['height']) is False:
-                        pass
+                        if out[index].poll() is not None:
+                            break
 
                     command[index], title[index] = get_command(machine_list, soft_list)
 
@@ -78,8 +78,6 @@ def get_command(machine_list, soft_list):
         return ModeAll.get(machine_list, soft_list)
     elif Config.mode == "selected softlist":
         return ModeSelectedSoftList.get(Config.selected_softlist, machine_list, soft_list)
-    elif Config.mode == "description":
-        return ModeDescription.get(machine_list, soft_list, Config.description)
 
 
 def run_mame(command):

@@ -1,42 +1,30 @@
 import random
+import re
 
-import Config
 import MachineFilter
+import Config
+
+generated_soft_list = []
+found_software = []
 
 
-def get(user_softlist, machine_list, soft_list):
-    while True:
-        if len(user_softlist) == 0:
-            if Config.mode == "selected_softlist":
-                print("No valid softlist found")
-                exit(1)
-            else:
-                return None
+def get(soft_list_name_list, machine_list, soft_list_list):
+    global found_software
+    for soft_list_name in soft_list_name_list:
+        generate_list(soft_list_name, soft_list_list)
 
-        rand = random.randrange(len(user_softlist))
-        list_name = user_softlist[rand]
+    rand = random.randrange(len(found_software))
+    soft = found_software[rand]
 
-        selected_list = None
-        for s in soft_list.findall('softwarelist'):
-            if s.attrib['name'] == list_name:
-                selected_list = s
+    machine_name, full_machine_name = find_machine(machine_list, soft['softlist_name'])
 
-        if selected_list is None:
-            print("Can't find softlist", list_name)
-            user_softlist.pop(rand)
-            continue
+    if machine_name is None:
+        return None, None
 
-        machine_name, full_machine_name = find_machine(machine_list, list_name)
-        if machine_name is None:
-            user_softlist.pop(rand)
-            continue
+    command = machine_name + " " + soft['soft_name']
+    title = soft['description'] + " // " + full_machine_name
 
-        software_command, full_software_name = find_software(list_name, selected_list)
-
-        command = machine_name + " " + software_command
-        title = full_software_name + " // " + full_machine_name
-
-        return command, title
+    return command, title
 
 
 def find_machine(machine_list, list_name):
@@ -73,16 +61,36 @@ def find_machine(machine_list, list_name):
     return machine.attrib["name"], title
 
 
-def find_software(list_name, selected_softlist):
-    print("Found", len(selected_softlist), "softwares in list", list_name)
+def generate_list(soft_list_name, soft_list_list):
+    global generated_soft_list
+    if soft_list_name in generated_soft_list:
+        return
 
-    rand = random.randrange(len(selected_softlist))
-    selected_software = selected_softlist[rand]
-    software_description = selected_software.find('description')
-    software_name = selected_software.attrib['name']
-    year = selected_software.find("year").text
+    generated_soft_list.append(soft_list_name)
 
-    print("Select software \"" + software_name + "\": ", software_description.text)
+    selected_soft_list = None
+    for soft_list in soft_list_list.findall('softwarelist'):
+        if soft_list.attrib['name'] == soft_list_name:
+            selected_soft_list = soft_list
+            break
 
-    title = software_description.text + " (" + year + ")"
-    return software_name, title
+    if selected_soft_list is None:
+        print("No software list named",softlist_name)
+        return
+
+    for soft in selected_soft_list:
+        soft_description = soft.find('description')
+
+        if Config.description is not None:
+            if re.match(Config.description, soft_description.text, re.IGNORECASE) is None:
+                continue
+
+        soft_name = soft.attrib['name']
+
+        year = soft.find('year').text
+        description = soft_description.text + " (" + year + ")"
+
+        global found_software
+        found_software.append({'softlist_name': soft_list_name, 'soft_name': soft_name, 'description': description})
+
+    print("Found", len(found_software), "corresponding softwares in software list", soft_list_name)

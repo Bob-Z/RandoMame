@@ -1,19 +1,13 @@
-import random
 import ModeSelectedSoftList
 
-import Config
 
+def get(machine_list, soft_list_list):
+    all_soft_list_name = []
 
-def get(machine_list, soft_list):
+    for soft_list in soft_list_list.findall("softwarelist"):
+        all_soft_list_name.append(soft_list.attrib['name'])
+
     while True:
-        rand = random.randrange(len(soft_list))
-        selected_list = soft_list[rand]
-
-        list_name = selected_list.attrib['name']
-
-        command, title = ModeSelectedSoftList.get([list_name], machine_list, soft_list)
-
-        if command is None:
-            continue
-
-        return command, title
+        command, title = ModeSelectedSoftList.get(all_soft_list_name, machine_list, soft_list_list)
+        if command is not None:
+            return command, title

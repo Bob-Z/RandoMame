@@ -35,7 +35,6 @@ def parse_command_line():
             mode = "all"
             need_softlist = True
         elif opt in ("-d", "--description"):
-            mode = "description"
             global description
             description = arg
             need_softlist = True
@@ -99,7 +98,7 @@ def usage():
     print("  -a, --arcade : arcade mode: run only coins operated machine (default)")
     print("  -s, --softlist : softlist mode: run only drivers using softwares (default)")
     print("  -A, --all : both arcade mode and softlist mode")
-    print("  -d, --description : use machines and softwares that match description (which is a regex)")
+    print("  -d, --description : use only machines and softwares that match description (which is a regex)")
     print("  -S, --selected_softlist= : comma separated list of selected softlists which will be run")
     print("  -d, --duration= : individual run duration in seconds")
     print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
