@@ -86,6 +86,7 @@ class DesktopXfce:
             return False
 
     def set_title(self, pid, title):
+        title = title.replace("\"", "\\\"")
         command = "xdotool search --all --pid " + str(
             pid) + " --class mame set_window --name \"" + title + "\" > /dev/null 2>&1"
         return_value = os.system(command)

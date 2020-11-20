@@ -1,44 +1,18 @@
 import random
-import re
 
-import MachineFilter
-import Config
+import CommandGeneratorMachine
 
-found_machine_list = []
+command_list = []
 
 
 def get(machine_list):
-    global found_machine_list
-    if len(found_machine_list) == 0:
-        generate_list(machine_list)
+    global command_list
+    if len(command_list) == 0:
+        command_list = CommandGeneratorMachine.generate_command_list(machine_list)
+        print(len(command_list), "arcade machines found")
 
-    rand = random.randrange(len(found_machine_list))
-    command, description = found_machine_list[rand]
-    found_machine_list.pop(rand)
+    rand = random.randrange(len(command_list))
+    command, description = command_list[rand]
+    command_list.pop(rand)
 
     return command, description
-
-
-def generate_list(machine_list):
-    for machine in machine_list:
-
-        machine, description = MachineFilter.get(machine)
-        if machine is None:
-            continue
-
-        if Config.description is not None:
-            if re.match(Config.description, description, re.IGNORECASE) is None:
-                continue
-
-        machine_input = machine.find("input")
-        if machine_input is not None:
-            if "coins" not in machine_input.attrib:
-                # print("Skip non arcade machine ", machine.attrib['name'], "-", title)
-                continue
-        else:
-            # print("Skip no input machine ", machine.attrib['name'], "-", title)
-            continue
-
-        found_machine_list.append([machine.attrib["name"], description])
-
-    print("Arcade machines found :", len(found_machine_list))

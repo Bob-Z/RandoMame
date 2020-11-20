@@ -77,7 +77,7 @@ def get_command(machine_list, soft_list):
     elif Config.mode == "all":
         return ModeAll.get(machine_list, soft_list)
     elif Config.mode == "selected softlist":
-        return ModeSelectedSoftList.get(Config.selected_softlist, machine_list, soft_list)
+        return ModeSelectedSoftList.get(machine_list, soft_list, Config.selected_softlist)
 
 
 def run_mame(command):

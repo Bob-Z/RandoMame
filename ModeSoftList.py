@@ -1,13 +1,20 @@
-import ModeSelectedSoftList
+import random
+
+import CommandGeneratorSoftList
+
+command_list = []
 
 
 def get(machine_list, soft_list_list):
-    all_soft_list_name = []
+    global command_list
+    if len(command_list) == 0:
+        for soft_list in soft_list_list.findall("softwarelist"):
+            command_list = command_list + CommandGeneratorSoftList.generate_command_list(machine_list, soft_list_list,
+                                                                                         soft_list.attrib['name'])
+        print(len(command_list), "softwares found")
 
-    for soft_list in soft_list_list.findall("softwarelist"):
-        all_soft_list_name.append(soft_list.attrib['name'])
+    rand = random.randrange(len(command_list))
+    command, description = command_list[rand]
+    command_list.pop(rand)
 
-    while True:
-        command, title = ModeSelectedSoftList.get(all_soft_list_name, machine_list, soft_list_list)
-        if command is not None:
-            return command, title
+    return command, description

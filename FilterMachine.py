@@ -43,7 +43,20 @@ def get(machine):
             return None, None
 
     description = machine.find("description")
+    if Config.description is not None:
+        if re.match(Config.description, description, re.IGNORECASE) is None:
+            return None, None
+
+    if Config.mode == 'arcade':
+        machine_input = machine.find("input")
+        if machine_input is not None:
+            if "coins" not in machine_input.attrib:
+                # print("Skip non arcade machine ", machine.attrib['name'], "-", title)
+                return None, None
+        else:
+            # print("Skip no input machine ", machine.attrib['name'], "-", title)
+            return None, None
 
     full_name = description.text + " (" + year + ")"
 
-    return machine, full_name
+    return machine.attrib['name'], full_name
