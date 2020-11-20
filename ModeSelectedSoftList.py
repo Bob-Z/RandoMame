@@ -75,7 +75,7 @@ def generate_list(soft_list_name, soft_list_list):
             break
 
     if selected_soft_list is None:
-        print("No software list named",softlist_name)
+        print("No software list named", softlist_name)
         return
 
     for soft in selected_soft_list:
@@ -85,9 +85,23 @@ def generate_list(soft_list_name, soft_list_list):
             if re.match(Config.description, soft_description.text, re.IGNORECASE) is None:
                 continue
 
+        year = soft.find('year').text
+        if Config.year_min is not None:
+            try:
+                if int(year) < Config.year_min:
+                    continue
+            except ValueError:
+                continue
+
+        if Config.year_max is not None:
+            try:
+                if int(year) > Config.year_max:
+                    continue
+            except ValueError:
+                continue
+
         soft_name = soft.attrib['name']
 
-        year = soft.find('year').text
         description = soft_description.text + " (" + year + ")"
 
         global found_software

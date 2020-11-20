@@ -12,21 +12,31 @@ selected_softlist = []
 need_softlist = False
 available_softlist = False
 description = None
+year_min = None
+year_max = None
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlpsS:t:w:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlpsS:t:w:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
-                                    "window="])
+                                    "window=", "year_min=", "year_max="])
     except getopt.GetoptError:
         usage()
 
     global mode
     global selected_softlist
     global need_softlist
+    global available_softlist
+    global available_softlist
+    global description
+    global duration
+    global allow_preliminary
+    global windows_quantity
+    global year_min
+    global year_max
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -35,7 +45,6 @@ def parse_command_line():
             mode = "all"
             need_softlist = True
         elif opt in ("-d", "--description"):
-            global description
             description = arg
             need_softlist = True
         elif opt in ("-s", "--softlist"):
@@ -46,7 +55,6 @@ def parse_command_line():
             selected_softlist = arg.split(',')
             need_softlist = True
         elif opt in ("-t", "--timeout"):
-            global duration
             duration = arg
         elif opt in ("-D", "--desktop"):
             global desktop
@@ -54,14 +62,15 @@ def parse_command_line():
         elif opt in ("-h", "--help"):
             usage()
         elif opt in ("-p", "--allow_preliminary"):
-            global allow_preliminary
             allow_preliminary = True
         elif opt in ("-w", "--window"):
-            global windows_quantity
             windows_quantity = int(arg)
         elif opt in ("-l", "--available_softlist"):
-            global available_softlist
             available_softlist = True
+        elif opt in ("-y", "--year_min"):
+            year_min = int(arg)
+        elif opt in ("-Y", "--year_max"):
+            year_max = int(arg)
         else:
             print("Unknown option" + opt)
             usage()
@@ -84,6 +93,12 @@ def parse_command_line():
         print("Preliminary drivers allowed")
     else:
         print("Preliminary drivers not allowed")
+
+    if year_min is not None:
+        print("No machines/softwares earlier than", year_min)
+    if year_max is not None:
+        print("No machines/softwares later than", year_max)
+
     print("")
 
 
@@ -106,6 +121,8 @@ def usage():
     print("  -l, --available_softlist : display available softlists")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
     print("  -w, --window= : simultaneous windows quantity")
+    print("  -y, --year_min= : Machines/softwares can't be earlier than this")
+    print("  -Y, --year_max= : Machines/softwares can't be older than this")
     print("")
 
     sys.exit(1)
