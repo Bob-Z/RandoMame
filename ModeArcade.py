@@ -8,6 +8,7 @@ found_machine_list = []
 
 
 def get(machine_list):
+    global found_machine_list
     if len(found_machine_list) == 0:
         generate_list(machine_list)
 
