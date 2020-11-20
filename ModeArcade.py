@@ -12,7 +12,10 @@ def get(machine_list):
         generate_list(machine_list)
 
     rand = random.randrange(len(found_machine_list))
-    return found_machine_list[rand]
+    command, description = found_machine_list[rand]
+    found_machine_list.pop(rand)
+
+    return command, description
 
 
 def generate_list(machine_list):
