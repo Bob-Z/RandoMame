@@ -6,6 +6,7 @@ import ModeAll
 import ModeArcade
 import ModeSelectedSoftList
 import ModeSoftList
+import ModeMusic
 from Desktop import Desktop
 from WindowPosition import WindowPosition
 
@@ -56,11 +57,14 @@ def start(machine_list, soft_list, window_qty=1):
                 first_command, first_title = get_command(machine_list, soft_list)
                 out.append(run_mame(first_command))
                 while desktop.set_title(out[index].pid, first_title) is False:
-                    pass
+                    if out[index].poll() is not None:
+                        break
 
                 while desktop.set_position(out[index].pid, position[index]['pos_x'],
                                            position[index]['pos_y'],
                                            position[index]['width'], position[index]['height']) is False:
+                    if out[index].poll() is not None:
+                        break
                     pass
                 next_command, next_title = get_command(machine_list, soft_list)
                 command.append(next_command)
@@ -78,6 +82,8 @@ def get_command(machine_list, soft_list):
         return ModeAll.get(machine_list, soft_list)
     elif Config.mode == "selected softlist":
         return ModeSelectedSoftList.get(machine_list, soft_list, Config.selected_softlist)
+    elif Config.mode == "music":
+        return ModeMusic.get(soft_list)
 
 
 def run_mame(command):
@@ -87,8 +93,11 @@ def run_mame(command):
     args = [Config.mame_binary]
     for c in command.split(' '):
         args.append(c)
-    args += ['-nomouse', '-artwork_crop', '-nohttp', '-window',
+    args += ['-nomouse', '-nohttp', '-window',
              '-ui_active', '-skip_gameinfo', '-str', str(Config.duration), '-resolution', '1x1']
+
+    if Config.mode != 'music':
+        args += '-artwork_crop'
 
     full_command = ""
     for a in args:

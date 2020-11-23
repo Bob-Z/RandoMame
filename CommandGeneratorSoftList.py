@@ -49,7 +49,8 @@ def generate_soft_list(soft_list_name, soft_list_list):
 
         found_software.append({'softlist_name': soft_list_name, 'soft_name': soft_name, 'description': description})
 
-    print("Found", len(found_software), "softwares in software list", soft_list_name)
+    if len(found_software) > 0:
+        print("Found", len(found_software), "softwares in software list", soft_list_name)
 
     return found_software
 
@@ -74,7 +75,7 @@ def find_machine(machine_list, list_name):
 
         machine = found_machine_list[rand]
 
-        machine_name, title = FilterMachine.get(machine)
+        machine_name, title = FilterMachine.get(machine, check_machine_description=False)
 
         if machine_name is None:
             found_machine_list.pop(rand)

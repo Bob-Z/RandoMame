@@ -13,11 +13,11 @@ if Config.available_softlist is True:
 
 machine_list, soft_list = XmlGetter.get()
 
-print("MAME version: ", machine_list.attrib["build"])
+if machine_list is not None:
+    print("MAME version: ", machine_list.attrib["build"])
+    print(len(machine_list), " unique machines")
 
-print(len(machine_list), " unique machines")
-
-if Config.need_softlist:
+if soft_list is not None:
     print(len(soft_list), " softwares lists")
 
 WindowManager.start(machine_list, soft_list, Config.windows_quantity)

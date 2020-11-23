@@ -53,14 +53,16 @@ def get_soft_list():
 
 
 def get():
-    a = datetime.datetime.now()
-    stdout, stderr = load_machine_list()
-    b = datetime.datetime.now()
-    print(b - a)
-    a = datetime.datetime.now()
-    machine_list = parse_machine_list(stdout)
-    b = datetime.datetime.now()
-    print(b - a)
+    machine_list = None
+    if Config.mode != 'music':
+        a = datetime.datetime.now()
+        stdout, stderr = load_machine_list()
+        b = datetime.datetime.now()
+        print(b - a)
+        a = datetime.datetime.now()
+        machine_list = parse_machine_list(stdout)
+        b = datetime.datetime.now()
+        print(b - a)
 
     soft_list = None
     if Config.need_softlist:

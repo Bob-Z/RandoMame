@@ -1,7 +1,9 @@
+import re
+
 import Config
 
 
-def get(machine):
+def get(machine, check_machine_description=True):
     if "isdevice" in machine.attrib:
         if machine.attrib["isdevice"] == "yes":
             # print("Skip device ", machine.attrib["name"])
@@ -42,8 +44,8 @@ def get(machine):
         except ValueError:
             return None, None
 
-    description = machine.find("description")
-    if Config.description is not None:
+    description = machine.find("description").text
+    if Config.description is not None and check_machine_description is True:
         if re.match(Config.description, description, re.IGNORECASE) is None:
             return None, None
 
@@ -57,6 +59,6 @@ def get(machine):
             # print("Skip no input machine ", machine.attrib['name'], "-", title)
             return None, None
 
-    full_name = description.text + " (" + year + ")"
+    full_name = description + " (" + year + ")"
 
     return machine.attrib['name'], full_name

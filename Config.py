@@ -18,11 +18,11 @@ year_max = None
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlpsS:t:w:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlmpsS:t:w:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
-                                    "window=", "year_min=", "year_max="])
+                                    "window=", "year_min=", "year_max=", "music"])
     except getopt.GetoptError:
         usage()
 
@@ -53,6 +53,10 @@ def parse_command_line():
         elif opt in ("-S", "--selected_softlist"):
             mode = "selected softlist"
             selected_softlist = arg.split(',')
+            need_softlist = True
+        elif opt in ("-m", "--music"):
+            mode = "music"
+            windows_quantity = 1
             need_softlist = True
         elif opt in ("-t", "--timeout"):
             duration = arg
@@ -110,19 +114,25 @@ def usage():
     print("options:")
     print("=========")
     print("")
+    print(" - MODE")
     print("  -a, --arcade : arcade mode: run only coins operated machine (default)")
     print("  -s, --softlist : softlist mode: run only drivers using softwares (default)")
     print("  -A, --all : both arcade mode and softlist mode")
-    print("  -d, --description : use only machines and softwares that match description (which is a regex)")
     print("  -S, --selected_softlist= : comma separated list of selected softlists which will be run")
-    print("  -d, --duration= : individual run duration in seconds")
-    print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
-    print("  -h, --help : print this message")
-    print("  -l, --available_softlist : display available softlists")
+    print("")
+    print(" - FILTER")
+    print("  -d, --description : use only machines and softwares that match description (which is a regex)")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
-    print("  -w, --window= : simultaneous windows quantity")
     print("  -y, --year_min= : Machines/softwares can't be earlier than this")
     print("  -Y, --year_max= : Machines/softwares can't be older than this")
     print("")
+    print(" - APPEARANCE")
+    print("  -w, --window= : simultaneous windows quantity")
+    print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
+    print("  -t, --timeout= : individual run duration in seconds")
+    print("")
+    print(" - OTHER")
+    print("  -l, --available_softlist : display available softlists")
+    print("  -h, --help : print this message")
 
     sys.exit(1)
