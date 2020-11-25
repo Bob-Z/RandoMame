@@ -1,5 +1,7 @@
-import Config
 import re
+
+import Config
+
 
 def get(soft):
     soft_description = soft.find('description')
@@ -21,6 +23,10 @@ def get(soft):
             if int(year) > Config.year_max:
                 return None, None
         except ValueError:
+            return None, None
+
+    if soft.attrib['supported'] is not None:
+        if soft.attrib['supported'] != "yes":
             return None, None
 
     description = soft_description.text + " (" + year + ")"

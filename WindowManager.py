@@ -97,7 +97,7 @@ def run_mame(command):
              '-ui_active', '-skip_gameinfo', '-str', str(Config.duration), '-resolution', '1x1']
 
     if Config.mode != 'music':
-        args += '-artwork_crop'
+        args.append('-artwork_crop')
 
     full_command = ""
     for a in args:
