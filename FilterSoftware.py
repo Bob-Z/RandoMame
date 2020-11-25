@@ -6,6 +6,16 @@ import Config
 def get(soft):
     soft_description = soft.find('description')
 
+    if len(Config.selected_soft) > 0:
+        found = False
+        for driver_name in Config.selected_soft:
+            if soft.attrib['name'] == driver_name:
+                found = True
+                break
+
+        if found is False:
+            return None, None
+
     if Config.description is not None:
         if re.match(Config.description, soft_description.text, re.IGNORECASE) is None:
             return None, None

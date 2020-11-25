@@ -9,6 +9,7 @@ duration = 300
 desktop = None
 allow_preliminary = False
 selected_softlist = []
+selected_soft = []
 need_softlist = False
 available_softlist = False
 description = None
@@ -18,16 +19,17 @@ year_max = None
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlmpsS:t:w:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlmpsS:T:t:w:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
-                                    "window=", "year_min=", "year_max=", "music"])
+                                    "window=", "year_min=", "year_max=", "music", "selected_soft="])
     except getopt.GetoptError:
         usage()
 
     global mode
     global selected_softlist
+    global selected_soft
     global need_softlist
     global available_softlist
     global available_softlist
@@ -37,6 +39,7 @@ def parse_command_line():
     global windows_quantity
     global year_min
     global year_max
+    global desktop
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -54,6 +57,8 @@ def parse_command_line():
             mode = "selected softlist"
             selected_softlist = arg.split(',')
             need_softlist = True
+        elif opt in ("-T", "--selected_soft"):
+            selected_soft = arg.split(',')
         elif opt in ("-m", "--music"):
             mode = "music"
             windows_quantity = 1
@@ -61,7 +66,6 @@ def parse_command_line():
         elif opt in ("-t", "--timeout"):
             duration = arg
         elif opt in ("-D", "--desktop"):
-            global desktop
             desktop = arg
         elif opt in ("-h", "--help"):
             usage()
@@ -123,6 +127,7 @@ def usage():
     print(" - FILTER")
     print("  -d, --description : use only machines and softwares that match description (which is a regex)")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
+    print("  -T, --selected_soft= : Coma separated list of allowed driver names (use with selected_softlist mode)")
     print("  -y, --year_min= : Machines/softwares can't be earlier than this")
     print("  -Y, --year_max= : Machines/softwares can't be older than this")
     print("")
