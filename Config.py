@@ -15,15 +15,17 @@ available_softlist = False
 description = None
 year_min = None
 year_max = None
+linear = False
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlmpsS:T:t:w:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlLmpsS:T:t:w:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
-                                    "window=", "year_min=", "year_max=", "music", "selected_soft="])
+                                    "window=", "year_min=", "year_max=", "music", "selected_soft=",
+                                    "linear"])
     except getopt.GetoptError:
         usage()
 
@@ -40,6 +42,7 @@ def parse_command_line():
     global year_min
     global year_max
     global desktop
+    global linear
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -48,7 +51,7 @@ def parse_command_line():
             mode = "all"
             need_softlist = True
         elif opt in ("-d", "--description"):
-            description = arg
+            description = arg.split(':::')
             need_softlist = True
         elif opt in ("-s", "--softlist"):
             mode = "softlist"
@@ -79,6 +82,8 @@ def parse_command_line():
             year_min = int(arg)
         elif opt in ("-Y", "--year_max"):
             year_max = int(arg)
+        elif opt in ("-L", "--linear"):
+            linear = True
         else:
             print("Unknown option" + opt)
             usage()
@@ -125,7 +130,7 @@ def usage():
     print("  -S, --selected_softlist= : comma separated list of selected softlists which will be run")
     print("")
     print(" - FILTER")
-    print("  -d, --description : use only machines and softwares that match description (which is a regex)")
+    print("  -d, --description : coma separated regex expression filtering machines and softwares description")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
     print("  -T, --selected_soft= : Coma separated list of allowed driver names (use with selected_softlist mode)")
     print("  -y, --year_min= : Machines/softwares can't be earlier than this")
@@ -135,6 +140,7 @@ def usage():
     print("  -w, --window= : simultaneous windows quantity")
     print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
     print("  -t, --timeout= : individual run duration in seconds")
+    print("  -L, --linear= : choose selected machines/softwares in MAME's list order (default is random)")
     print("")
     print(" - OTHER")
     print("  -l, --available_softlist : display available softlists")

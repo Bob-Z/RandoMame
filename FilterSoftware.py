@@ -17,7 +17,13 @@ def get(soft):
             return None, None
 
     if Config.description is not None:
-        if re.match(Config.description, soft_description.text, re.IGNORECASE) is None:
+        for desc in Config.description:
+            found = False
+            if re.match(desc, soft_description.text, re.IGNORECASE) is not None:
+                found = True
+                break
+
+        if found is False:
             return None, None
 
     year = soft.find('year').text

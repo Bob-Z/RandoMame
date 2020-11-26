@@ -46,7 +46,13 @@ def get(machine, check_machine_description=True):
 
     description = machine.find("description").text
     if Config.description is not None and check_machine_description is True:
-        if re.match(Config.description, description, re.IGNORECASE) is None:
+        for desc in Config.description:
+            found = False
+            if re.match(desc, description, re.IGNORECASE) is not None:
+                found = True
+                break
+
+        if found is False:
             return None, None
 
     if Config.mode == 'arcade':
