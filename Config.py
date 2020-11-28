@@ -69,7 +69,11 @@ def parse_command_line():
         elif opt in ("-t", "--timeout"):
             duration = arg
         elif opt in ("-D", "--desktop"):
-            desktop = arg
+            desktop = arg.split('x')
+            desktop[0] = int(desktop[0])
+            desktop[1] = int(desktop[1])
+            desktop[2] = int(desktop[2])
+            desktop[3] = int(desktop[3])
         elif opt in ("-h", "--help"):
             usage()
         elif opt in ("-p", "--allow_preliminary"):

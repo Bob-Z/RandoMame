@@ -20,8 +20,7 @@ def start(machine_list, soft_list, window_qty=1):
     command = []
 
     if Config.desktop is not None:
-        split1 = Config.desktop.split('x')
-        desktop_info = [int(split1[0]), int(split1[1]), int(split1[2]), int(split1[3])]
+        desktop_info = [Config.desktop[0], Config.desktop[1], Config.desktop[2], Config.desktop[3]]
     else:
         desktop_info = desktop.get_desktop_size()
 
