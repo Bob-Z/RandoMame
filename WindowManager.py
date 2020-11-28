@@ -1,12 +1,14 @@
+import os
 import subprocess
 import time
 
 import Config
 import ModeAll
 import ModeArcade
+import ModeMusic
 import ModeSelectedSoftList
 import ModeSoftList
-import ModeMusic
+import Sound
 from Desktop import Desktop
 from WindowPosition import WindowPosition
 
@@ -31,6 +33,12 @@ def start(machine_list, soft_list, window_qty=1):
     while True:
         for index in range(window_qty):
             if len(out) > index:
+                if Config.mode == 'music':
+                    sdet = Sound.is_silence_detected()
+                    if sdet is True:
+                        out[index].kill()
+                        Sound.reset()
+
                 while out[index].poll() is not None:
                     out[index] = run_mame(command[index])
 
@@ -64,10 +72,13 @@ def start(machine_list, soft_list, window_qty=1):
                                            position[index]['width'], position[index]['height']) is False:
                     if out[index].poll() is not None:
                         break
-                    pass
+
                 next_command, next_title = get_command(machine_list, soft_list)
                 command.append(next_command)
                 title.append(next_title)
+
+                if Config.mode == 'music':
+                    Sound.reset()
 
         time.sleep(0.1)
 
@@ -103,8 +114,13 @@ def run_mame(command):
         full_command += a + " "
     print("Running full command: " + full_command)
 
+    # Linux PulseAudio specific
+    my_env = os.environ.copy()
+    my_env["XDG_RUNTIME_DIR"] = "/run/user/" + str(os.getuid())
+
     out = subprocess.Popen(args,
                            stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE)
+                           stderr=subprocess.PIPE,
+                           env=my_env)
 
     return out

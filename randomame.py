@@ -5,8 +5,13 @@ import Display
 import DisplaySoftList
 import WindowManager
 import XmlGetter
+import Sound
 
 Config.parse_command_line()
+
+if Config.mode == "music":
+    Sound.init()
+    pass
 
 if Config.available_softlist is True:
     DisplaySoftList.display_soft_list()
