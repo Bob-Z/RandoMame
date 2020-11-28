@@ -114,7 +114,6 @@ def run_mame(command):
         args.append(c)
     args += ['-nomouse', '-nohttp', '-window',
              '-ui_active', '-skip_gameinfo', '-resolution', '1x1']
-    # '-str', str(Config.duration),
 
     if Config.mode != 'music':
         args.append('-artwork_crop')
