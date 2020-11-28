@@ -1,3 +1,4 @@
+import datetime
 import os
 import subprocess
 import time
@@ -20,6 +21,7 @@ def start(machine_list, soft_list, window_qty=1):
     title = []
     desktop = Desktop()
     command = []
+    date = []
 
     if Config.desktop is not None:
         desktop_info = [Config.desktop[0], Config.desktop[1], Config.desktop[2], Config.desktop[3]]
@@ -39,6 +41,10 @@ def start(machine_list, soft_list, window_qty=1):
                         out[index].kill()
                         Sound.reset()
 
+                if date[index] < datetime.datetime.now():
+                    out[index].kill()
+                    Sound.reset()
+
                 while out[index].poll() is not None:
                     out[index] = run_mame(command[index])
 
@@ -54,9 +60,11 @@ def start(machine_list, soft_list, window_qty=1):
 
                     command[index], title[index] = get_command(machine_list, soft_list)
 
+                    date[index] = datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout)
+
                 if count == 0:
                     desktop.send_keyboard(out[index].pid)
-                    count = 20
+                    count = 10
                 else:
                     count = count - 1
 
@@ -76,6 +84,7 @@ def start(machine_list, soft_list, window_qty=1):
                 next_command, next_title = get_command(machine_list, soft_list)
                 command.append(next_command)
                 title.append(next_title)
+                date.append(datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout))
 
                 if Config.mode == 'music':
                     Sound.reset()
@@ -104,7 +113,8 @@ def run_mame(command):
     for c in command.split(' '):
         args.append(c)
     args += ['-nomouse', '-nohttp', '-window',
-             '-ui_active', '-skip_gameinfo', '-str', str(Config.duration), '-resolution', '1x1']
+             '-ui_active', '-skip_gameinfo', '-resolution', '1x1']
+    # '-str', str(Config.duration),
 
     if Config.mode != 'music':
         args.append('-artwork_crop')
@@ -122,5 +132,7 @@ def run_mame(command):
                            stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE,
                            env=my_env)
+
+    Sound.reset()
 
     return out

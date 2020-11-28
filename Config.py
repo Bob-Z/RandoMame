@@ -5,7 +5,7 @@ import sys
 mame_binary = ""
 mode = "arcade"
 windows_quantity = multiprocessing.cpu_count()
-duration = 300
+timeout = 300
 desktop = None
 allow_preliminary = False
 selected_softlist = []
@@ -36,7 +36,7 @@ def parse_command_line():
     global available_softlist
     global available_softlist
     global description
-    global duration
+    global timeout
     global allow_preliminary
     global windows_quantity
     global year_min
@@ -67,7 +67,7 @@ def parse_command_line():
             windows_quantity = 1
             need_softlist = True
         elif opt in ("-t", "--timeout"):
-            duration = arg
+            timeout = int(arg)
         elif opt in ("-D", "--desktop"):
             desktop = arg.split('x')
             desktop[0] = int(desktop[0])
@@ -104,7 +104,7 @@ def parse_command_line():
     print(mode_str)
     print("MAME binary:", mame_binary)
     print("Simultaneous windows :", windows_quantity)
-    print("Individual machine's run duration:", duration, "seconds")
+    print("Individual machine's run timeout:", str(timeout), "seconds")
     print("Desktop geometry", desktop)
     if allow_preliminary is True:
         print("Preliminary drivers allowed")
@@ -143,7 +143,7 @@ def usage():
     print(" - APPEARANCE")
     print("  -w, --window= : simultaneous windows quantity")
     print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
-    print("  -t, --timeout= : individual run duration in seconds")
+    print("  -t, --timeout= : individual run timeout in seconds")
     print("  -L, --linear= : choose selected machines/softwares in MAME's list order (default is random)")
     print("")
     print(" - OTHER")
