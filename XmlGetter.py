@@ -1,8 +1,11 @@
-import subprocess
-import xml.etree.ElementTree as ElementTree
 import datetime
+import subprocess
+import threading
+import xml.etree.ElementTree as ElementTree
 
 import Config
+
+soft_list = None
 
 
 # from XmlMachineFilter import XmlMachineFilter
@@ -45,14 +48,20 @@ def get_soft_list():
     b = datetime.datetime.now()
     print(b - a)
     a = datetime.datetime.now()
+    global soft_list
     soft_list = parse_soft_list(stdout)
     b = datetime.datetime.now()
     print(b - a)
 
-    return soft_list
-
 
 def get():
+    total_start = datetime.datetime.now()
+    get_soft_list_thread = None
+
+    if Config.need_softlist:
+        get_soft_list_thread = threading.Thread(target=get_soft_list)
+        get_soft_list_thread.start()
+
     machine_list = None
     if Config.mode != 'music':
         a = datetime.datetime.now()
@@ -64,8 +73,10 @@ def get():
         b = datetime.datetime.now()
         print(b - a)
 
-    soft_list = None
-    if Config.need_softlist:
-        soft_list = get_soft_list()
+    if get_soft_list_thread is not None:
+        get_soft_list_thread.join()
+
+    total_end = datetime.datetime.now()
+    print("Total XML data loading:", total_end - total_start)
 
     return machine_list, soft_list

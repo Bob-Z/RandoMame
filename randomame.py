@@ -17,7 +17,7 @@ text = font.render('RandoMame', True, (255, 255, 255), (0, 0, 0))
 textRect = text.get_rect()
 textRect.center = (Config.desktop[2] // 2, Config.desktop[3] // 2)
 main_window.blit(text, textRect)
-pygame.display.update()
+#pygame.display.update()
 
 if Config.available_softlist is True:
     DisplaySoftList.display_soft_list()
