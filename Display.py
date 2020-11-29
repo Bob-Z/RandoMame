@@ -2,7 +2,9 @@ import pygame
 import Config
 
 def init():
-    pygame.init()
+    pygame.display.init
+    pygame.font.init()
+
     main_window = pygame.display.set_mode((Config.desktop[2], Config.desktop[3]), flags=pygame.NOFRAME)
     pygame.display.set_caption('RandoMame')
     font = pygame.font.Font('/usr/share/fonts/truetype/freefont/FreeSans.ttf', 32)
