@@ -2,6 +2,7 @@ import random
 
 import FilterMachine
 import FilterSoftware
+import AutoBoot
 
 machine_by_soft_list = {}
 
@@ -18,6 +19,11 @@ def generate_command_list(machine_list, soft_list_list, soft_list_name):
             continue
 
         command = machine_name + " " + soft['soft_name']
+
+        autoboot_script, autoboot_delay = AutoBoot.get_autoboot_command(soft_list_name, machine_name)
+        if autoboot_delay is not None:
+            command = command + " -autoboot_script autoboot_script/" + autoboot_script + " -autoboot_delay " + str(autoboot_delay)
+
         title = soft['description'] + " // " + full_machine_name
 
         command_list.append([command, title])
