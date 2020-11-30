@@ -1,15 +1,19 @@
 import pygame
+
 import Config
+import Desktop
+
 
 def init():
     pygame.display.init
     pygame.font.init()
 
-    main_window = pygame.display.set_mode((Config.desktop[2], Config.desktop[3]), flags=pygame.NOFRAME)
+    desktop_size = Desktop.get_desktop_size()
+    main_window = pygame.display.set_mode((desktop_size[2], desktop_size[3]), flags=pygame.NOFRAME)
     pygame.display.set_caption('RandoMame')
     font = pygame.font.Font('/usr/share/fonts/truetype/freefont/FreeSans.ttf', 32)
     text = font.render('RandoMame', True, (255, 255, 255), (0, 0, 0))
     textRect = text.get_rect()
-    textRect.center = (Config.desktop[2] // 2, Config.desktop[3] // 2)
+    textRect.center = (desktop_size[2] // 2, desktop_size[3] // 2)
     main_window.blit(text, textRect)
     pygame.display.update()

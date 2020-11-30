@@ -2,22 +2,23 @@ import os
 import subprocess
 
 
-class DesktopXfce:
+def get_desktop_size():
+    command = "xdpyinfo | awk '/dimensions:/ { print $2; exit }'"
+    out = subprocess.Popen(
+        command,
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE)
+    sout, serr = out.communicate()
+
+    txt = sout.decode("utf-8").rstrip()
+    split1 = txt.split("x")
+
+    return [0, 0, int(split1[0]), int(split1[1])]  # TODO pos_x and pos_y are hard coded to 0
+
+
+class Xfce:
     decoration_size = None
-
-    def get_desktop_size(self):
-        command = "xdpyinfo | awk '/dimensions:/ { print $2; exit }'"
-        out = subprocess.Popen(
-            command,
-            shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE)
-        sout, serr = out.communicate()
-
-        txt = sout.decode("utf-8").rstrip()
-        split1 = txt.split("x")
-
-        return [0, 0, int(split1[0]), int(split1[1])]  # TODO pos_x and pos_y are hard coded to 0
 
     def set_position(self, pid, pos_x, pos_y, width, height):
         if self.decoration_size is None:

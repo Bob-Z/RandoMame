@@ -1,14 +1,16 @@
-from DesktopXfce import DesktopXfce
+import DesktopXfce
+from DesktopXfce import Xfce
 
 
-class Desktop:
+def get_desktop_size():
+    return DesktopXfce.get_desktop_size()
+
+
+class DesktopClass:
     desktop = None
 
     def __init__(self):
-        self.desktop = DesktopXfce()
-
-    def get_desktop_size(self):
-        return self.desktop.get_desktop_size()
+        self.desktop = Xfce()
 
     def set_position(self, pid, pos_x, pos_y, width, height):
         return self.desktop.set_position(pid, pos_x, pos_y, width, height)

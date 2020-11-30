@@ -10,23 +10,23 @@ import ModeMusic
 import ModeSelectedSoftList
 import ModeSoftList
 import Sound
-from Desktop import Desktop
+import Desktop
+from Desktop import DesktopClass
 from WindowPosition import WindowPosition
-
 
 def start(machine_list, soft_list, window_qty=1):
     window_position = WindowPosition()
 
     out = []
     title = []
-    desktop = Desktop()
+    desktop = DesktopClass()
     command = []
     date = []
 
     if Config.desktop is not None:
         desktop_info = [Config.desktop[0], Config.desktop[1], Config.desktop[2], Config.desktop[3]]
     else:
-        desktop_info = desktop.get_desktop_size()
+        desktop_info = Desktop.get_desktop_size()
 
     position = window_position.get(window_qty, desktop_info[0], desktop_info[1], desktop_info[2], desktop_info[3])
 
