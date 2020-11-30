@@ -41,9 +41,10 @@ def get(soft):
         except ValueError:
             return None, None
 
-    if soft.attrib['supported'] is not None:
-        if soft.attrib['supported'] != "yes":
-            return None, None
+    if Config.allow_not_supported is False:
+        if soft.attrib['supported'] is not None:
+            if soft.attrib['supported'] != "yes":
+                return None, None
 
     description = soft_description.text + " (" + year + ")"
 

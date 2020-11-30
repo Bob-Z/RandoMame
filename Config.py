@@ -8,6 +8,7 @@ windows_quantity = multiprocessing.cpu_count()
 timeout = 300
 desktop = None
 allow_preliminary = False
+allow_not_supported = False
 selected_softlist = []
 selected_soft = []
 need_softlist = False
@@ -20,11 +21,11 @@ linear = False
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlLmpsS:T:t:w:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlLmnpsS:T:t:w:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
-                                    "window=", "year_min=", "year_max=", "music", "selected_soft=",
+                                    "window=", "year_min=", "year_max=", "music", "selected_soft=", "allow_not_supported",
                                     "linear"])
     except getopt.GetoptError:
         usage()
@@ -38,6 +39,7 @@ def parse_command_line():
     global description
     global timeout
     global allow_preliminary
+    global allow_not_supported
     global windows_quantity
     global year_min
     global year_max
@@ -78,6 +80,8 @@ def parse_command_line():
             usage()
         elif opt in ("-p", "--allow_preliminary"):
             allow_preliminary = True
+        elif opt in ("-n", "--allow_not_supported"):
+            allow_not_supported = True
         elif opt in ("-w", "--window"):
             windows_quantity = int(arg)
         elif opt in ("-l", "--available_softlist"):
@@ -109,7 +113,12 @@ def parse_command_line():
     if allow_preliminary is True:
         print("Preliminary drivers allowed")
     else:
-        print("Preliminary drivers not allowed")
+        print("Preliminary drivers disallowed")
+
+    if allow_not_supported is True:
+        print("Not supported softwares allowed")
+    else:
+        print("Not supported softwares disallowed")
 
     if year_min is not None:
         print("No machines/softwares earlier than", year_min)
@@ -129,13 +138,15 @@ def usage():
     print("")
     print(" - MODE")
     print("  -a, --arcade : arcade mode: run only coins operated machine (default)")
-    print("  -s, --softlist : softlist mode: run only drivers using softwares (default)")
     print("  -A, --all : both arcade mode and softlist mode")
+    print("  -s, --softlist : softlist mode: run only drivers using softwares (default)")
     print("  -S, --selected_softlist= : comma separated list of selected softlists which will be run")
+    print("  -m, --music : video game music mode")
     print("")
     print(" - FILTER")
     print("  -d, --description : coma separated regex expression filtering machines and softwares description")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
+    print("  -n, --allow_not_supported : Allow not supported softwares")
     print("  -T, --selected_soft= : Coma separated list of allowed driver names (use with selected_softlist mode)")
     print("  -y, --year_min= : Machines/softwares can't be earlier than this")
     print("  -Y, --year_max= : Machines/softwares can't be older than this")
