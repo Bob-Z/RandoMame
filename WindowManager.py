@@ -4,15 +4,16 @@ import subprocess
 import time
 
 import Config
+import Desktop
 import ModeAll
 import ModeArcade
 import ModeMusic
 import ModeSelectedSoftList
 import ModeSoftList
 import Sound
-import Desktop
 from Desktop import DesktopClass
 from WindowPosition import WindowPosition
+
 
 def start(machine_list, soft_list, window_qty=1):
     window_position = WindowPosition()
@@ -84,12 +85,15 @@ def start(machine_list, soft_list, window_qty=1):
                 next_command, next_title = get_command(machine_list, soft_list)
                 command.append(next_command)
                 title.append(next_title)
-                date.append(datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout))
+                delay_start = Config.timeout / Config.windows_quantity
+                date.append(
+                    datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout) + datetime.timedelta(
+                        seconds=(index * delay_start)))
 
                 if Config.mode == 'music':
                     Sound.reset()
 
-        time.sleep(0.1)
+                time.sleep(0.1)
 
 
 def get_command(machine_list, soft_list):
