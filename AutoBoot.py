@@ -16,14 +16,25 @@ lib = {
                 "megacd2j": ('megacd.lua', 3),
                 "megacdj": ('megacd.lua', 3),
                 "wmega": ('megacd.lua', 3),
-                "wmegam2": ('megacd.lua', 3)},
+                "wmegam2": ('megacd.lua', 3)
+                },
 
     "segacd": {"32x_scd": ('megacd.lua', 3),
                "cdx": ('megacd.lua', 3),
                "laseract": ('megacd.lua', 3),
                "segacd": ('megacd.lua', 3),
                "segacd2": ('megacd.lua', 3),
-               "xeye": ('megacd.lua', 3)}
+               "xeye": ('megacd.lua', 3)
+               },
+
+    "cpc_cass": {"cpc464": ('cpc_cass.lua', 2),
+                 "cpc664": ('cpc_cass.lua', 2),
+                 "cpc6128": ('cpc_cass.lua', 2),
+                 "cpc6128s": ('cpc_cass.lua', 2),
+                 "cpc6128sp": ('cpc_cass.lua', 2),
+                 "cpc464p": ('cpc_cass.lua', 2),
+                 "cpc6128p": ('cpc_cass.lua', 2),
+                 }
 }
 
 
