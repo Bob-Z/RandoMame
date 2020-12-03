@@ -17,16 +17,18 @@ description = None
 year_min = None
 year_max = None
 linear = False
+auto_quit = False
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlLmnpsS:T:t:w:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlLmnpqsS:T:t:w:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
-                                    "window=", "year_min=", "year_max=", "music", "selected_soft=", "allow_not_supported",
-                                    "linear"])
+                                    "window=", "year_min=", "year_max=", "music", "selected_soft=",
+                                    "allow_not_supported",
+                                    "linear", "quit"])
     except getopt.GetoptError:
         usage()
 
@@ -45,6 +47,7 @@ def parse_command_line():
     global year_max
     global desktop
     global linear
+    global auto_quit
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -92,6 +95,8 @@ def parse_command_line():
             year_max = int(arg)
         elif opt in ("-L", "--linear"):
             linear = True
+        elif opt in ("-q", "--quit"):
+            auto_quit = True
         else:
             print("Unknown option" + opt)
             usage()
@@ -156,6 +161,7 @@ def usage():
     print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
     print("  -t, --timeout= : individual run timeout in seconds")
     print("  -L, --linear= : choose selected machines/softwares in MAME's list order (default is random)")
+    print("  -q, --quit : Quit when all selected machines/softwares have been shown (default never quit)")
     print("")
     print(" - OTHER")
     print("  -l, --available_softlist : display available softlists")
