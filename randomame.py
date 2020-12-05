@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import Config
-import Display
 import DisplaySoftList
 import WindowManager
 import XmlGetter
@@ -24,7 +23,5 @@ if machine_list is not None:
 
 if soft_list is not None:
     print(len(soft_list), " softwares lists")
-
-Display.init()
 
 WindowManager.start(machine_list, soft_list, Config.windows_quantity)

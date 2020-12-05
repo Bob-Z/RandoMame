@@ -1,6 +1,5 @@
 import pygame
 
-import Config
 import Desktop
 
 
@@ -17,3 +16,10 @@ def init():
     textRect.center = (desktop_size[2] // 2, desktop_size[3] // 2)
     main_window.blit(text, textRect)
     pygame.display.update()
+
+
+def wait_for_keyboard():
+    while True:
+        event = pygame.event.wait()
+        if event.type == pygame.KEYDOWN:
+            exit(0)
