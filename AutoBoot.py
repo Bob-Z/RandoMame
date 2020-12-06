@@ -36,7 +36,15 @@ lib = {
                  "cpc6128p": ('cpc_cass.lua', 2),
                  "cpc6128f": ('cpc_cass.lua', 2),
                  "kccomp": ('cpc_cass.lua', 2),
-                 }
+                 },
+
+    "ngp": {"ngp": ('ngp.lua', 0),
+            "ngpc": ('ngp.lua', 0),
+            },
+
+    "ngpc": {"ngp": ('ngp.lua', 0),
+             "ngpc": ('ngp.lua', 0),
+             }
 }
 
 
