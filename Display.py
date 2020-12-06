@@ -22,4 +22,4 @@ def wait_for_keyboard():
     while True:
         event = pygame.event.wait()
         if event.type == pygame.KEYDOWN:
-            exit(0)
+            break

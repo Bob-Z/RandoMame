@@ -10,11 +10,14 @@ silence_detection_sec = 5
 silence_loop_detected = int(silence_detection_sec / (sample_duration_sec + timeout_duration_sec))
 tmp_file = '/tmp/randomame.sound'
 
+running = True
+monitor_silence_thread = None
+
 
 def monitor_silence():
     global silence_loop
     silence_loop = 0
-    while True:
+    while running is True:
         # This is hacky, let me know if you find something cleaner.
         command = 'XDG_RUNTIME_DIR=/run/user/' + str(os.getuid()) + ' timeout ' + str(
             sample_duration_sec) + 's parec > ' + tmp_file + ' 2>&1'
@@ -42,6 +45,7 @@ def monitor_silence():
 
 
 def init():
+    global monitor_silence_thread
     monitor_silence_thread = threading.Thread(target=monitor_silence)
     monitor_silence_thread.start()
 
@@ -56,3 +60,12 @@ def reset():
     silence_detected = False
     global silence_loop
     silence_loop = 0
+
+
+def kill():
+    global running
+    running = False
+
+    global monitor_silence_thread
+    if monitor_silence_thread is not None:
+        monitor_silence_thread.join()

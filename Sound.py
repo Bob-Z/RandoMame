@@ -11,3 +11,7 @@ def is_silence_detected():
 
 def reset():
     SoundPulseAudio.reset()
+
+
+def kill():
+    SoundPulseAudio.kill()

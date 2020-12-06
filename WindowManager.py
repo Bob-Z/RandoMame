@@ -1,12 +1,17 @@
 import threading
+import sys
 
 import Command
 import Config
 import Desktop
 import Display
 import Window
+import Sound
 from Desktop import DesktopClass
 from WindowPosition import WindowPosition
+
+
+running = True
 
 
 def start(machine_list, soft_list, window_qty=1):
@@ -24,7 +29,27 @@ def start(machine_list, soft_list, window_qty=1):
 
     desktop = DesktopClass()
 
+    thread = []
     for index in range(window_qty):
-        threading.Thread(target=Window.manage_window, args=(desktop, index, position[index],)).start()
+        thread.append(threading.Thread(target=Window.manage_window, args=(desktop, index, position[index],)))
+        thread[index].start()
 
     Display.wait_for_keyboard()
+
+    Sound.kill()
+    shutdown()
+
+    for t in thread:
+        t.join()
+
+    sys.exit(0)
+
+
+def is_running():
+    global running
+    return running
+
+
+def shutdown():
+    global running
+    running = False

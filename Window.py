@@ -4,6 +4,7 @@ import Config
 import datetime
 import Sound
 import Mame
+import WindowManager
 
 
 def manage_window(desktop, index, position):
@@ -64,3 +65,7 @@ def manage_window(desktop, index, position):
             count = count - 1
 
         time.sleep(0.1)
+
+        if WindowManager.is_running() is False:
+            out.kill()
+            break
