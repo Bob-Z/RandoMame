@@ -34,6 +34,8 @@ lib = {
                  "cpc6128sp": ('cpc_cass.lua', 2),
                  "cpc464p": ('cpc_cass.lua', 2),
                  "cpc6128p": ('cpc_cass.lua', 2),
+                 "cpc6128f": ('cpc_cass.lua', 2),
+                 "kccomp": ('cpc_cass.lua', 2),
                  }
 }
 
