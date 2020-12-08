@@ -92,12 +92,19 @@ lib = {
         "tk90x": ('spectrum_cass.lua', 2, None),
         "tk95": ('spectrum_cass.lua', 2, None),
         "uk2086": ('spectrum_cass.lua', 2, None),
-    }
+    },
     # bk08
     # specide
     # cip01
     # ts1500
-    # sp3e8bit
+
+    "mo5_cass": {
+        "mo5": ('mo5_cass.lua', 3, None),
+        "mo6": ('mo5_cass_mo6.lua', 0, None),
+        "mo5e": ('mo5_cass.lua', 3, None),
+        "mo5nr": ('mo5_cass_mo6.lua', 0, None),
+    }
+
 }
 
 
