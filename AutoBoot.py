@@ -103,8 +103,12 @@ lib = {
         "mo6": ('mo5_cass_mo6.lua', 0, None),
         "mo5e": ('mo5_cass.lua', 3, None),
         "mo5nr": ('mo5_cass_mo6.lua', 0, None),
-    }
+    },
 
+    "mo6_cass": {
+        "mo6": ('mo5_cass_mo6.lua', 0, None),
+        "mo5nr": ('mo5_cass_mo6.lua', 0, None),
+    }
 }
 
 
