@@ -1,100 +1,103 @@
 lib = {
     "pcecd": {
-        "pce": ('pcecd.lua', 1),
-        "tg16": ('pcecd.lua', 1),
-        "sgx": ('pcecd.lua', 1)
+        "pce": ('pcecd.lua', 1, None),
+        "tg16": ('pcecd.lua', 1, None),
+        "sgx": ('pcecd.lua', 1, None)
     },
 
     "megacd": {
-        "megacd": ('megacd.lua', 3),
-        "32x_mcd": ('megacd.lua', 3),
-        "megacd2": ('megacd.lua', 3),
-        "megacda": ('megacd.lua', 3)
+        "megacd": ('megacd.lua', 3, None),
+        "32x_mcd": ('megacd.lua', 3, None),
+        "megacd2": ('megacd.lua', 3, None),
+        "megacda": ('megacd.lua', 3, None)
     },
 
     "megacdj": {
-        "aiwamcd": ('megacd.lua', 3),
-        "32x_mcdj": ('megacd.lua', 3),
-        "laseractj": ('megacd.lua', 3),
-        "megacd2j": ('megacd.lua', 3),
-        "megacdj": ('megacd.lua', 3),
-        "wmega": ('megacd.lua', 3),
-        "wmegam2": ('megacd.lua', 3)
+        "aiwamcd": ('megacd.lua', 3, None),
+        "32x_mcdj": ('megacd.lua', 3, None),
+        "laseractj": ('megacd.lua', 3, None),
+        "megacd2j": ('megacd.lua', 3, None),
+        "megacdj": ('megacd.lua', 3, None),
+        "wmega": ('megacd.lua', 3, None),
+        "wmegam2": ('megacd.lua', 3, None)
     },
 
     "segacd": {
-        "32x_scd": ('megacd.lua', 3),
-        "cdx": ('megacd.lua', 3),
+        "32x_scd": ('megacd.lua', 3, None),
+        "cdx": ('megacd.lua', 3, None),
         "laseract": ('megacd.lua', 3),
-        "segacd": ('megacd.lua', 3),
-        "segacd2": ('megacd.lua', 3),
-        "xeye": ('megacd.lua', 3)
+        "segacd": ('megacd.lua', 3, None),
+        "segacd2": ('megacd.lua', 3, None),
+        "xeye": ('megacd.lua', 3, None)
     },
 
     "cpc_cass": {
-        "cpc464": ('cpc_cass.lua', 2),
-        "cpc664": ('cpc_cass.lua', 2),
-        "cpc6128": ('cpc_cass.lua', 2),
-        "cpc6128s": ('cpc_cass.lua', 2),
-        "cpc6128sp": ('cpc_cass.lua', 2),
-        "cpc464p": ('cpc_cass.lua', 2),
-        "cpc6128p": ('cpc_cass.lua', 2),
-        "cpc6128f": ('cpc_cass.lua', 2),
-        "kccomp": ('cpc_cass.lua', 2),
+        "cpc464": ('cpc_cass.lua', 2, None),
+        "cpc664": ('cpc_cass.lua', 2, None),
+        "cpc6128": ('cpc_cass.lua', 2, None),
+        "cpc6128s": ('cpc_cass.lua', 2, None),
+        "cpc6128sp": ('cpc_cass.lua', 2, None),
+        "cpc464p": ('cpc_cass.lua', 2, "-cart sysukpd"),
+        "cpc6128p": ('cpc_cass.lua', 2, "-cart sysukpd"),
+        "cpc6128f": ('cpc_cass.lua', 2, None),
+        "kccomp": ('cpc_cass.lua', 2, None),
     },
 
     "ngp": {
-        "ngp": ('ngp.lua', 0),
-        "ngpc": ('ngp.lua', 0),
+        "ngp": ('ngp.lua', 0, None),
+        "ngpc": ('ngp.lua', 0, None),
     },
 
     "ngpc": {
-        "ngp": ('ngp.lua', 0),
-        "ngpc": ('ngp.lua', 0),
+        "ngp": ('ngp.lua', 0, None),
+        "ngpc": ('ngp.lua', 0, None),
     },
 
     "spectrum_cass": {
-        "blitzs": ('spectrum_cass.lua', 2),
-        "byte": ('spectrum_cass.lua', 2),
-        "cip03": ('spectrum_cass.lua', 2),
-        "compani1": ('spectrum_cass.lua', 2),
-        "dgama87": ('spectrum_cass.lua', 2),
-        "dgama88": ('spectrum_cass.lua', 2),
-        "didaktk": ('spectrum_cass.lua', 2),
-        "didakt90": ('spectrum_cass.lua', 2),
-        "didakm91": ('spectrum_cass.lua', 2),
-        "didakm92": ('spectrum_cass.lua', 2),
-        "didakm93": ('spectrum_cass.lua', 2),
-        "hc85": ('spectrum_cass.lua', 2),
-        "hc90": ('spectrum_cass.lua', 2),
-        "hc91": ('spectrum_cass.lua', 2),
-        "hc128": ('spectrum_cass.lua', 2),
-        "jet": ('spectrum_cass.lua', 2),
-        "mistrum": ('spectrum_cass.lua', 2),
-        "orizon": ('spectrum_cass.lua', 2),
-        "scorpio": ('spectrum_cass_scorpio.lua', 0),
-        "sintez2": ('spectrum_cass.lua', 2),
-        "spectrum": ('spectrum_cass.lua', 2),
-        "specpls2": ('spectrum_cass.lua', 2),
-        "specpls3": ('spectrum_cass.lua', 2),
-        "specpl3e": ('spectrum_cass.lua', 3),
-        "spec128": ('spectrum_cass.lua', 2),
-        "spec80k": ('spectrum_cass_spec80k.lua', 0),
-        "spektrbk": ('spectrum_cass.lua', 2),
-        "sp3eata": ('spectrum_cass.lua', 2),
-        "sp3ezcf": ('spectrum_cass.lua', 2),
-        "sp3e8bit": ('spectrum_cass.lua', 2),
-        "pentagon": ('spectrum_cass.lua', 2),
-        "pent1024": ('spectrum_cass_pent1024.lua', 0),
-        "tc2048": ('spectrum_cass.lua', 2),
-        "ts2068": ('spectrum_cass.lua', 2),
-        "tk90x": ('spectrum_cass.lua', 2),
-        "tk95": ('spectrum_cass.lua', 2),
-        "uk2086": ('spectrum_cass.lua', 2),
+        "blitzs": ('spectrum_cass.lua', 2, None),
+        "byte": ('spectrum_cass.lua', 2, None),
+        "cip03": ('spectrum_cass.lua', 2, None),
+        "compani1": ('spectrum_cass.lua', 2, None),
+        "dgama87": ('spectrum_cass.lua', 2, None),
+        "dgama88": ('spectrum_cass.lua', 2, None),
+        "didaktk": ('spectrum_cass.lua', 2, None),
+        "didakt90": ('spectrum_cass.lua', 2, None),
+        "didakm91": ('spectrum_cass.lua', 2, None),
+        "didakm92": ('spectrum_cass.lua', 2, None),
+        "didakm93": ('spectrum_cass.lua', 2, None),
+        "hc85": ('spectrum_cass.lua', 2, None),
+        "hc90": ('spectrum_cass.lua', 2, None),
+        "hc91": ('spectrum_cass.lua', 2, None),
+        "hc128": ('spectrum_cass.lua', 2, None),
+        "jet": ('spectrum_cass.lua', 2, None),
+        "mistrum": ('spectrum_cass.lua', 2, None),
+        "orizon": ('spectrum_cass.lua', 2, None),
+        "scorpio": ('spectrum_cass_scorpio.lua', 0, None),
+        "sintez2": ('spectrum_cass.lua', 2, None),
+        "spectrum": ('spectrum_cass.lua', 2, None),
+        "specpls2": ('spectrum_cass.lua', 2, None),
+        "specpl2a": ('spectrum_cass.lua', 2, None),
+        "specpls3": ('spectrum_cass.lua', 2, None),
+        "specpl3e": ('spectrum_cass.lua', 3, None),
+        "spec128": ('spectrum_cass.lua', 2, None),
+        "spec80k": ('spectrum_cass_spec80k.lua', 0, None),
+        "spektrbk": ('spectrum_cass.lua', 2, None),
+        "sp3eata": ('spectrum_cass.lua', 2, None),
+        "sp3ezcf": ('spectrum_cass.lua', 2, None),
+        "sp3e8bit": ('spectrum_cass.lua', 2, None),
+        "pentagon": ('spectrum_cass.lua', 2, None),
+        "pent1024": ('spectrum_cass_pent1024.lua', 0, None),
+        "tc2048": ('spectrum_cass.lua', 2, None),
+        "ts2068": ('spectrum_cass.lua', 2, None),
+        "tk90x": ('spectrum_cass.lua', 2, None),
+        "tk95": ('spectrum_cass.lua', 2, None),
+        "uk2086": ('spectrum_cass.lua', 2, None),
     }
     # bk08
     # specide
     # cip01
+    # ts1500
+    # sp3e8bit
 }
 
 
@@ -102,4 +105,4 @@ def get_autoboot_command(soft_list_name, machine_name):
     try:
         return lib[soft_list_name][machine_name]
     except KeyError:
-        return None, None
+        return None, None, None

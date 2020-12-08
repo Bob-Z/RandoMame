@@ -20,9 +20,12 @@ def generate_command_list(machine_list, soft_list_list, soft_list_name):
 
         command = machine_name + " " + soft['soft_name']
 
-        autoboot_script, autoboot_delay = AutoBoot.get_autoboot_command(soft_list_name, machine_name)
+        autoboot_script, autoboot_delay, extra_command = AutoBoot.get_autoboot_command(soft_list_name, machine_name)
         if autoboot_delay is not None:
             command = command + " -autoboot_script autoboot_script/" + autoboot_script + " -autoboot_delay " + str(autoboot_delay)
+
+        if extra_command is not None:
+            command = command + " " + extra_command
 
         title = soft['description'] + " // " + full_machine_name
 
