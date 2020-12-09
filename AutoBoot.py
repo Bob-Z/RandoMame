@@ -41,6 +41,7 @@ lib = {
         "cpc6128p": ('cpc_cass.lua', 2, "-cart sysukpd"),
         "cpc6128f": ('cpc_cass.lua', 2, None),
         "kccomp": ('cpc_cass.lua', 2, None),
+        "al520ex": ('cpc_cass_al520ex.lua', 0, None),
     },
 
     "ngp": {
@@ -108,6 +109,32 @@ lib = {
     "mo6_cass": {
         "mo6": ('mo5_cass_mo6.lua', 0, None),
         "mo5nr": ('mo5_cass_mo6.lua', 0, None),
+    },
+
+    "msx1_cass": {
+        "fmx": ('msx1_cass.lua', 4, None),
+        "canonv8": ('msx1_cass.lua', 4, None),
+        "y503iir2": ('msx1_cass.lua', 4, None),
+        "mlg30": ('msx1_cass.lua', 4, None),
+        "cf3000": ('msx1_cass.lua', 4, None),
+        "cpc51": ('msx1_cass.lua', 4, None),
+        "fsa1fx": ('msx1_cass.lua', 4, None),
+        "hb101p": ('msx1_cass.lua', 4, None),
+        "vg8235": ('msx1_cass.lua', 4, None),
+        "svi738sw": ('msx1_cass.lua', 4, None),
+        "y503iir2": ('msx1_cass.lua', 4, None),
+        "hx20i": ('msx1_cass.lua', 4, None),
+        "dpc200e": ('msx1_cass.lua', 4, None),
+        "hbf700f": ('msx1_cass.lua', 4, None),
+        "yis604": ('msx1_cass.lua', 4, None),
+        "vg802000": ('msx1_cass.lua', 4, None),
+        "hb501p": ('msx1_cass.lua', 4, None),
+        "fs4000": ('msx1_cass.lua', 4, None),
+        "hbf700p": ('msx1_cass.lua', 4, None),
+        "hx33": ('msx1_cass.lua', 4, None),
+        "hbf9s": ('msx1_cass.lua', 4, None),
+        "canonv20g": ('msx1_cass.lua', 4, None),
+        "yc64": ('msx1_cass.lua', 4, None),
     }
 }
 
