@@ -8,9 +8,9 @@ local frame_num = 0
 local function process_frame()
 	frame_num = frame_num + 1
 
-	if frame_num < 25 then
+	if frame_num == 25 then
 		button["P1 Run"]:set_value(1)
-	else
+	elseif frame_num == 30 then
 		button["P1 Run"]:set_value(0)
 	end
 end
