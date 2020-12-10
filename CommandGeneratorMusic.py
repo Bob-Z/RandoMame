@@ -1,5 +1,6 @@
 import FilterSoftware
 
+
 def generate_music_list(soft_list_list):
     found_music = []
 
@@ -17,7 +18,7 @@ def generate_music_list(soft_list_list):
         for part in soft.findall('part'):
             feature = part.find('feature')
             found_music.append(
-                ["vgmplay -quik " + soft_name + ":" + part.attrib['name'], feature.attrib['value'] + " // " + description])
+                ["vgmplay -quik " + soft_name + ":" + part.attrib['name'], feature.attrib['value'], description])
 
     if len(found_music) > 0:
         print("Found", len(found_music), "musics")

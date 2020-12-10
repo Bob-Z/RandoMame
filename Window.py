@@ -1,15 +1,27 @@
+import datetime
 import time
+
 import Command
 import Config
-import datetime
-import Sound
+import Display
 import Mame
+import Sound
 import WindowManager
 
 
 def manage_window(desktop, index, position):
-    first_command, first_title = Command.get()
+    first_command, first_machine_name, first_soft_name = Command.get()
+
+    Display.print_window(first_machine_name, first_soft_name, 32, position)
+    time.sleep(2)
+
     out = Mame.run(first_command)
+
+    if first_soft_name is not None:
+        first_title = first_soft_name + " // " + first_machine_name
+    else:
+        first_title = first_machine_name
+
     while desktop.set_title(out.pid, first_title) is False:
         if out.poll() is not None:
             break
@@ -20,7 +32,9 @@ def manage_window(desktop, index, position):
         if out.poll() is not None:
             break
 
-    command, title = Command.get()
+    command, machine_name, soft_name = Command.get()
+    Display.print_window(machine_name, soft_name, 32, position)
+
     delay_start = Config.timeout / Config.windows_quantity
     date = datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout) + datetime.timedelta(
         seconds=(index * delay_start))
@@ -41,7 +55,13 @@ def manage_window(desktop, index, position):
             Sound.reset()
 
         while out.poll() is not None:
+            time.sleep(2)
             out = Mame.run(command)
+
+            if soft_name is not None:
+                title = soft_name + " // " + machine_name
+            else:
+                title = machine_name
 
             while desktop.set_title(out.pid, title) is False:
                 if out.poll() is not None:
@@ -53,8 +73,10 @@ def manage_window(desktop, index, position):
                 if out.poll() is not None:
                     break
 
-            command, title = Command.get()
+            command, machine_name, soft_name = Command.get()
             date = datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout)
+
+            Display.print_window(machine_name, soft_name, 32, position)
 
             count = 0
 

@@ -22,7 +22,7 @@ def get(soft_list_list):
     else:
         rand = random.randrange(len(command_list))
 
-    command, description = command_list[rand]
+    command, machine_name, soft_name = command_list[rand]
     command_list.pop(rand)
 
-    return command, description
+    return command, machine_name, soft_name

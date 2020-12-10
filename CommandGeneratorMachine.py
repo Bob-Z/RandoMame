@@ -5,10 +5,10 @@ def generate_command_list(machine_list):
     command_list = []
     for machine in machine_list:
 
-        machine_name, description = FilterMachine.get(machine)
-        if machine_name is None:
+        command, machine_desc = FilterMachine.get(machine)
+        if command is None:
             continue
 
-        command_list.append([machine_name, description])
+        command_list.append([command, machine_desc, None])
 
     return command_list

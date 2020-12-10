@@ -27,9 +27,7 @@ def generate_command_list(machine_list, soft_list_list, soft_list_name):
         if extra_command is not None:
             command = command + " " + extra_command
 
-        title = soft['description'] + " // " + full_machine_name
-
-        command_list.append([command, title])
+        command_list.append([command, full_machine_name, soft['description']])
 
     return command_list
 
