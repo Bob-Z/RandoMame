@@ -25,7 +25,7 @@ lib = {
     "segacd": {
         "32x_scd": ('megacd.lua', 3, None),
         "cdx": ('megacd.lua', 3, None),
-        "laseract": ('megacd.lua', 3),
+        "laseract": ('megacd.lua', 3, None),
         "segacd": ('megacd.lua', 3, None),
         "segacd2": ('megacd.lua', 3, None),
         "xeye": ('megacd.lua', 3, None)
@@ -35,7 +35,7 @@ lib = {
         "cpc464": ('cpc_cass.lua', 2, None),
         "cpc664": ('cpc_cass.lua', 2, None),
         "cpc6128": ('cpc_cass.lua', 2, None),
-        "cpc6128s": ('cpc_cass.lua', 2, None),
+        "cpc6128s": ('cpc_cass_cpc6128s.lua', 2, None),
         "cpc6128sp": ('cpc_cass.lua', 2, None),
         "cpc464p": ('cpc_cass.lua', 2, "-cart sysukpd"),
         "cpc6128p": ('cpc_cass.lua', 2, "-cart sysukpd"),
