@@ -33,23 +33,6 @@ def clear(rect):
     lock.release()
 
 
-def print_text_(text, font_size, x, y):
-    global lock
-    global main_window
-    global draw_surface
-
-    lock.acquire()
-
-    font = pygame.font.Font('/usr/share/fonts/truetype/freefont/FreeSans.ttf', font_size)
-    text_surface = font.render(text, True, (255, 255, 255), (0, 0, 0))
-    text_rect = text_surface.get_rect()
-    text_rect.center = (x, y)
-    draw_surface.blit(text_surface, text_rect)
-    main_window.blit(draw_surface, draw_surface.get_rect())
-
-    lock.release()
-
-
 def print_text(input_text, font_size, dest_rect):
     global lock
     global main_window
@@ -67,7 +50,7 @@ def print_text(input_text, font_size, dest_rect):
     y = 0
     text = input_text
     max_width = 0
-    
+
     while text:
         i = 1
 
