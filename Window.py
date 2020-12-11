@@ -9,7 +9,7 @@ import Sound
 import WindowManager
 
 
-def manage_window(desktop, index, position):
+def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
     first_command, first_machine_name, first_soft_name = Command.get()
 
     Display.print_window(first_machine_name, first_soft_name, 32, position)
@@ -26,8 +26,8 @@ def manage_window(desktop, index, position):
         if out.poll() is not None:
             break
 
-    while desktop.set_position(out.pid, position['pos_x'],
-                               position['pos_y'],
+    while desktop.set_position(out.pid, desktop_offset_x + position['pos_x'],
+                               desktop_offset_y + position['pos_y'],
                                position['width'], position['height']) is False:
         if out.poll() is not None:
             break
@@ -67,8 +67,8 @@ def manage_window(desktop, index, position):
                 if out.poll() is not None:
                     break
 
-            while desktop.set_position(out.pid, position['pos_x'],
-                                       position['pos_y'],
+            while desktop.set_position(out.pid, desktop_offset_x + position['pos_x'],
+                                       desktop_offset_y + position['pos_y'],
                                        position['width'], position['height']) is False:
                 if out.poll() is not None:
                     break

@@ -23,7 +23,7 @@ def start(machine_list, soft_list, window_qty=1):
     else:
         desktop_info = Desktop.get_desktop_size()
 
-    position = window_position.get(window_qty, desktop_info[0], desktop_info[1], desktop_info[2], desktop_info[3])
+    position = window_position.get(window_qty, 0, 0, desktop_info[2], desktop_info[3])
 
     Display.init()
 
@@ -31,7 +31,7 @@ def start(machine_list, soft_list, window_qty=1):
 
     thread = []
     for index in range(window_qty):
-        thread.append(threading.Thread(target=Window.manage_window, args=(desktop, index, position[index],)))
+        thread.append(threading.Thread(target=Window.manage_window, args=(desktop, index, desktop_info[0], desktop_info[1], position[index],)))
         thread[index].start()
 
     Display.wait_for_keyboard()
