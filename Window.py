@@ -13,7 +13,7 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
     first_command, first_machine_name, first_soft_name = Command.get()
 
     Display.print_window(first_machine_name, first_soft_name, 32, position)
-    time.sleep(2)
+    time.sleep(1.5)
 
     out = Mame.run(first_command)
 
@@ -55,7 +55,7 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
             Sound.reset()
 
         while out.poll() is not None:
-            time.sleep(2)
+            time.sleep(1.5)
             out = Mame.run(command)
 
             if soft_name is not None:

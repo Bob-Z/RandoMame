@@ -6,6 +6,7 @@ import WindowManager
 import XmlGetter
 import Sound
 
+
 Config.parse_command_line()
 
 if Config.mode == "music":
