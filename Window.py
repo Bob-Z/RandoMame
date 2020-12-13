@@ -39,10 +39,12 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
     date = datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout) + datetime.timedelta(
         seconds=(index * delay_start))
 
+    auto_keyboard_timeout = 1.0
+    auto_keyboard_date = datetime.datetime.now()
+
     if Config.mode == 'music':
         Sound.reset()
 
-    count = 0
     while True:
         if Config.mode == 'music':
             silence_detected = Sound.is_silence_detected()
@@ -75,16 +77,17 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
 
             command, machine_name, soft_name = Command.get()
             date = datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout)
+            auto_keyboard_timeout = 1.0
+            auto_keyboard_date = datetime.datetime.now()
 
             Display.print_window(machine_name, soft_name, 32, position)
 
-            count = 0
-
-        if count <= 0:
-            desktop.send_keyboard(out.pid)
-            count = 20
-        else:
-            count = count - 1
+        if auto_keyboard_timeout > 0:
+            if datetime.datetime.now() > auto_keyboard_date + datetime.timedelta(seconds=auto_keyboard_timeout):
+                desktop.send_keyboard(out.pid)
+                auto_keyboard_timeout = auto_keyboard_timeout * 2
+                if auto_keyboard_timeout > 10:
+                    auto_keyboard_timeout = 0
 
         time.sleep(0.1)
 
