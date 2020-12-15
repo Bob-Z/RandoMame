@@ -1,8 +1,9 @@
 import os
+import re
+import struct
+import subprocess
 import threading
 import time
-import subprocess
-import re
 
 silence_loop = 0
 sample_duration_sec = 0.1
@@ -24,20 +25,28 @@ def monitor_silence():
             sample_duration_sec) + 's parec > ' + tmp_file + ' 2>&1'
         os.system(command)
 
-        content = []
         with open(tmp_file, 'rb') as reader:
-            content = reader.read(os.stat(tmp_file).st_size)
+            byte_array = reader.read(os.stat(tmp_file).st_size)
+
+        count = int(len(byte_array) / 2)
+        integers = struct.unpack('h' * count, byte_array)
 
         is_sound = False
-        if len(content) > 0:
-            for c in content:
-                if c != 0:
+        if len(integers) > 63:
+            first = integers[64]
+            first_max = first * 1.05
+            first_min = first * 0.95
+            integers_max = max(first_min, first_max)
+            integers_min = min(first_min, first_max)
+            for i in range(65, len(integers)):
+                if integers[i] > integers_max or integers[i] < integers_min:
                     is_sound = True
                     break
 
         global silence_duration_sec
         if is_sound is False:
             silence_duration_sec += sample_duration_sec + timeout_duration_sec
+            print("silence since: ", silence_duration_sec)
         else:
             silence_duration_sec = 0
 
