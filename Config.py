@@ -73,6 +73,7 @@ def parse_command_line():
             mode = "music"
             windows_quantity = 1
             need_softlist = True
+            smart_sound_timeout_sec = 0
         elif opt in ("-t", "--timeout"):
             timeout = int(arg)
         elif opt in ("-D", "--desktop"):
