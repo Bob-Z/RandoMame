@@ -40,8 +40,9 @@ def start(machine_list, soft_list, window_qty=1):
     while Display.wait_for_keyboard() is False:
         if Config.smart_sound_timeout_sec > 0:
             if Sound.get_silence_duration_sec() > Config.smart_sound_timeout_sec:
-                sound_index = (sound_index + 1) % window_qty
-                print("New sound index:", sound_index)
+                sound_index = sound_index - 1
+                if sound_index == -1:
+                    sound_index = window_qty - 1
                 Sound.reset()
         time.sleep(0.1)
 
