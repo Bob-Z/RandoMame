@@ -1,5 +1,4 @@
 import threading
-import time
 import pygame
 
 import Desktop
@@ -136,7 +135,6 @@ def print_text(input_text, input_font_size, dest_rect):
         text = text[i:]
 
     main_window.blit(draw_surface, draw_surface.get_rect())
-    pygame.display.update()
 
     lock.release()
 
@@ -156,12 +154,11 @@ def print_window(machine_name, soft_name, font_size, position):
 
 def wait_for_keyboard():
     global lock
-    while True:
-        lock.acquire()
-        pygame.display.update()
-        lock.release()
-        event = pygame.event.poll()
-        if event.type == pygame.KEYDOWN:
-            break
-
-        time.sleep(0.1)
+    lock.acquire()
+    pygame.display.update()
+    lock.release()
+    event = pygame.event.poll()
+    if event.type == pygame.KEYDOWN:
+        return True
+    else:
+        return False

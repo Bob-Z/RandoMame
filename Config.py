@@ -18,17 +18,18 @@ year_min = None
 year_max = None
 linear = False
 auto_quit = False
+smart_sound_timeout_sec = 1
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlLmnpqsS:T:t:w:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlLmnO:pqsS:T:t:w:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
                                     "window=", "year_min=", "year_max=", "music", "selected_soft=",
                                     "allow_not_supported",
-                                    "linear", "quit"])
+                                    "linear", "quit", "smart_sound_timeout"])
     except getopt.GetoptError:
         usage()
 
@@ -48,6 +49,7 @@ def parse_command_line():
     global desktop
     global linear
     global auto_quit
+    global smart_sound_timeout_sec
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -85,6 +87,8 @@ def parse_command_line():
             allow_preliminary = True
         elif opt in ("-n", "--allow_not_supported"):
             allow_not_supported = True
+        elif opt in ("-O", "--smart_sound_timeout"):
+            smart_sound_timeout_sec = int(arg)
         elif opt in ("-w", "--window"):
             windows_quantity = int(arg)
         elif opt in ("-l", "--available_softlist"):
@@ -130,6 +134,11 @@ def parse_command_line():
     if year_max is not None:
         print("No machines/softwares later than", year_max)
 
+    if smart_sound_timeout_sec > 0:
+        print("Smart sound timeout =", smart_sound_timeout_sec, "seconds")
+    else:
+        print("Smart sound disabled")
+
     print("")
 
 
@@ -162,6 +171,8 @@ def usage():
     print("  -t, --timeout= : individual run timeout in seconds")
     print("  -L, --linear= : choose selected machines/softwares in MAME's list order (default is random)")
     print("  -q, --quit : Quit when all selected machines/softwares have been shown (default never quit)")
+    print(
+        "  -O, --smart_sound_timeout : Only one window is unmuted. After smart_sound_timeout seconds of silence, another window is un-muted. Set this to 0 to deactivate smart-sound")
     print("")
     print(" - OTHER")
     print("  -l, --available_softlist : display available softlists")

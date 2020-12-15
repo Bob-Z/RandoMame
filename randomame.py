@@ -9,7 +9,7 @@ import Sound
 
 Config.parse_command_line()
 
-if Config.mode == "music":
+if Config.mode == "music" or Config.smart_sound_timeout_sec > 0:
     Sound.init()
 
 if Config.available_softlist is True:
