@@ -20,10 +20,13 @@ def get(machine_list, soft_list_list):
 
         command_list = CommandGeneratorMachine.generate_command_list(machine_list)
         Display.print_text("Found " + str(len(command_list)) + " softwares")
+        found_qty = len(command_list)
         for soft_list in soft_list_list.findall("softwarelist"):
             command_list = command_list + CommandGeneratorSoftList.generate_command_list(machine_list, soft_list_list,
                                                                                          soft_list.attrib['name'])
-            Display.print_text("Found " + str(len(command_list)) + " softwares")
+            if len(command_list) > found_qty + 1000:
+                found_qty = len(command_list)
+                Display.print_text("Found " + str(len(command_list)) + " softwares")
 
         print(len(command_list), "machines or softwares found")
 

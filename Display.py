@@ -122,8 +122,6 @@ def print_text(input_text, dest_rect=None, update=True):
     if dest_rect is None:
         dest_rect = pygame.Rect(0, 0, width, height)
 
-    clear(dest_rect)
-
     offset_x, offset_y, max_width, font_size = print_compute_parameters(input_text, input_font_size, dest_rect)
 
     font = pygame.font.Font('/usr/share/fonts/truetype/freefont/FreeSans.ttf', font_size)
@@ -135,6 +133,8 @@ def print_text(input_text, dest_rect=None, update=True):
     text = input_text
 
     lock.acquire()
+
+    clear(dest_rect)
 
     while text:
         i = 1
