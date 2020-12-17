@@ -1,6 +1,7 @@
 import datetime
 import subprocess
 import threading
+import Display
 import xml.etree.ElementTree as ElementTree
 
 import Config
@@ -13,6 +14,7 @@ soft_list = None
 
 def load_machine_list():
     print("Reading MAME's machines list")
+    Display.print_text("Reading MAME's machines list", None)
     out = subprocess.Popen([Config.mame_binary, '-listxml'],
                            stdout=subprocess.PIPE,
                            stderr=subprocess.STDOUT)
@@ -22,6 +24,7 @@ def load_machine_list():
 
 def load_soft_list():
     print("Reading MAME's softwares list")
+    Display.print_text("Reading MAME's softwares list", None)
     out = subprocess.Popen([Config.mame_binary, '-getsoftlist'],
                            stdout=subprocess.PIPE,
                            stderr=subprocess.STDOUT)
@@ -31,6 +34,7 @@ def load_soft_list():
 
 def parse_machine_list(stdout):
     print("Parsing MAME's machines list")
+    Display.print_text("Parsing MAME's machines list", None)
     # target = XmlMachineFilter()
     # parser = ElementTree.XMLParser(target=target)
     # return ElementTree.fromstring(stdout, parser=parser)
@@ -39,6 +43,7 @@ def parse_machine_list(stdout):
 
 def parse_soft_list(stdout):
     print("Parsing MAME's softwares lists")
+    Display.print_text("Parsing MAME's softwares lists", None)
     return ElementTree.fromstring(stdout)
 
 

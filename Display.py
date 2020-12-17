@@ -1,6 +1,7 @@
-import threading
-import pygame
 import os
+import threading
+
+import pygame
 
 import Desktop
 
@@ -9,23 +10,36 @@ lock = threading.Lock()
 draw_surface = None
 line_spacing = -2
 border_margin = 0.95
+window_x = None
+window_y = None
+width = None
+height = None
 
 
-def init(desktop_info):
+def init(desktop):
     global main_window
     global draw_surface
+    global window_x
+    global window_y
+    global width
+    global height
+
+    window_x = desktop[0]
+    window_y = desktop[1]
+    width = desktop[2]
+    height = desktop[3]
 
     pygame.display.init
     pygame.font.init()
 
-    main_window = pygame.display.set_mode((desktop_info[2], desktop_info[3]), flags=pygame.NOFRAME)
+    main_window = pygame.display.set_mode((width, height), flags=pygame.NOFRAME)
     pygame.display.set_caption('RandoMame')
 
     desktop = Desktop.DesktopClass()
-    desktop.set_position(os.getpid(), desktop_info[0], desktop_info[1], desktop_info[2], desktop_info[3])
+    desktop.set_position(os.getpid(), window_x, window_y, width, height)
 
-    draw_surface = pygame.Surface((desktop_info[2], desktop_info[3]))
-    print_text("RandoMame", 32, pygame.Rect(0, 0, desktop_info[2], desktop_info[3]))
+    draw_surface = pygame.Surface((width, height))
+    print_text("RandoMame", None)
 
 
 def clear(rect):
@@ -37,7 +51,7 @@ def clear(rect):
     lock.release()
 
 
-def print_compute_parameters(input_text, input_font_size, dest_rect, first = True):
+def print_compute_parameters(input_text, input_font_size, dest_rect, first=True):
     global line_spacing
     global border_margin
 
@@ -85,7 +99,9 @@ def print_compute_parameters(input_text, input_font_size, dest_rect, first = Tru
     if wrapped is True and first is False:
         return None, None, None, None
 
-    next_offset_x, next_offset_y, next_max_width, next_font_size = print_compute_parameters(input_text, input_font_size + 2, dest_rect, False)
+    next_offset_x, next_offset_y, next_max_width, next_font_size = print_compute_parameters(input_text,
+                                                                                            input_font_size + 2,
+                                                                                            dest_rect, False)
 
     if next_offset_x is None:
         return offset_x, offset_y, max_width, input_font_size
@@ -93,11 +109,20 @@ def print_compute_parameters(input_text, input_font_size, dest_rect, first = Tru
     return next_offset_x, next_offset_y, next_max_width, next_font_size
 
 
-def print_text(input_text, input_font_size, dest_rect):
+def print_text(input_text, dest_rect, update=True):
     global lock
     global main_window
     global draw_surface
     global line_spacing
+    global width
+    global height
+
+    input_font_size = 32
+
+    if dest_rect is None:
+        dest_rect = pygame.Rect(0, 0, width, height)
+
+    clear(dest_rect)
 
     offset_x, offset_y, max_width, font_size = print_compute_parameters(input_text, input_font_size, dest_rect)
 
@@ -106,10 +131,11 @@ def print_text(input_text, input_font_size, dest_rect):
     # get the height of the font
     font_height = font.size("Tg")[1]
 
-    lock.acquire()
-
     y = dest_rect.top
     text = input_text
+
+    lock.acquire()
+
     while text:
         i = 1
 
@@ -140,20 +166,22 @@ def print_text(input_text, input_font_size, dest_rect):
 
     main_window.blit(draw_surface, draw_surface.get_rect())
 
+    if update is True:
+        pygame.display.update()
+
     lock.release()
 
 
-def print_window(machine_name, soft_name, font_size, position):
+def print_window(machine_name, soft_name, position):
     rect = pygame.Rect(position['pos_x'], position['pos_y'], position['width'], position['height'])
-    clear(rect)
 
     if soft_name is not None:
         upper_rect = pygame.Rect(rect.left, rect.top, rect.width, rect.height / 2)
-        print_text(soft_name, font_size, upper_rect)
+        print_text(soft_name, upper_rect, False)
         lower_rect = pygame.Rect(rect.left, rect.top + rect.height / 2, rect.width, rect.height / 2)
-        print_text(machine_name, font_size, lower_rect)
+        print_text(machine_name, lower_rect, False)
     else:
-        print_text(machine_name, font_size, rect)
+        print_text(machine_name, rect, False)
 
 
 def wait_for_keyboard():

@@ -15,7 +15,7 @@ auto_keyboard_date = None
 def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
     first_command, first_machine_name, first_soft_name = Command.get()
 
-    Display.print_window(first_machine_name, first_soft_name, 32, position)
+    Display.print_window(first_machine_name, first_soft_name, position)
     time.sleep(1.5)
 
     out = Mame.run(first_command)
@@ -44,7 +44,7 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
             is_muted = True
 
     command, machine_name, soft_name = Command.get()
-    Display.print_window(machine_name, soft_name, 32, position)
+    Display.print_window(machine_name, soft_name, position)
 
     delay_start = Config.timeout / Config.windows_quantity
     date = datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout) + datetime.timedelta(
@@ -97,7 +97,7 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
             auto_keyboard_timeout = 1.0
             auto_keyboard_date = datetime.datetime.now()
 
-            Display.print_window(machine_name, soft_name, 32, position)
+            Display.print_window(machine_name, soft_name, position)
 
         send_keyboard(desktop, out.pid)
 
