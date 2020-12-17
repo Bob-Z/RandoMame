@@ -4,7 +4,6 @@ import Config
 import DisplaySoftList
 import WindowManager
 
-
 Config.parse_command_line()
 
 if Config.available_softlist is True:

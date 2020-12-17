@@ -1,9 +1,18 @@
 import re
+import configparser
 
 import Config
 
+ini_data = None
+
 
 def get(machine, check_machine_description=True):
+    global ini_data
+    if Config.ini_file is not None:
+        if ini_data is None:
+            ini_data = configparser.ConfigParser(allow_no_value=True)
+            ini_data.read(Config.ini_file)
+
     if "isdevice" in machine.attrib:
         if machine.attrib["isdevice"] == "yes":
             # print("Skip device ", machine.attrib["name"])
@@ -66,6 +75,23 @@ def get(machine, check_machine_description=True):
 
         if is_found is False:
             return None, None
+
+    if Config.ini_file is not None:
+        if Config.include is not None:
+            found = False
+            for i in Config.include.split(','):
+                if machine.attrib['name'] in ini_data[i]:
+                    found = True
+                    break
+            if found is False:
+                return None, None
+        if Config.exclude is not None:
+            try:
+                for e in Config.exclude.split(','):
+                    if machine.attrib['name'] in ini_data[e]:
+                        return None, None
+            except KeyError:
+                pass
 
     if Config.mode == 'arcade':
         machine_input = machine.find("input")

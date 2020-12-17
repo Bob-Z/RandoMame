@@ -20,17 +20,20 @@ linear = False
 auto_quit = False
 smart_sound_timeout_sec = 1
 manufacturer = None
+ini_file = None
+include = None
+exclude = None
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlLmM:nO:pqsS:T:t:w:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:E:hi:I:lLmM:nO:pqsS:T:t:w:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
                                     "window=", "year_min=", "year_max=", "music", "selected_soft=",
                                     "allow_not_supported",
-                                    "linear", "quit", "smart_sound_timeout", "manufacturer="])
+                                    "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=", "exclude="])
     except getopt.GetoptError:
         usage()
 
@@ -52,6 +55,9 @@ def parse_command_line():
     global auto_quit
     global smart_sound_timeout_sec
     global manufacturer
+    global ini_file
+    global include
+    global exclude
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -106,8 +112,14 @@ def parse_command_line():
             linear = True
         elif opt in ("-q", "--quit"):
             auto_quit = True
+        elif opt in ("-i", "--ini_file"):
+            ini_file = arg
+        elif opt in ("-I", "--include"):
+            include = arg
+        elif opt in ("-E", "--exclude"):
+            exclude = arg
         else:
-            print("Unknown option" + opt)
+            print("Unknown option " + opt)
             usage()
 
     global mame_binary
@@ -142,6 +154,13 @@ def parse_command_line():
     if manufacturer is not None:
         print("Manufacturer: ", manufacturer)
 
+    if ini_file is not None:
+        print("ini file: ", ini_file)
+    if include is not None:
+        print("included sections: ", include)
+    if exclude is not None:
+        print("excluded sections: ", exclude)
+
     if smart_sound_timeout_sec > 0:
         print("Smart sound timeout =", smart_sound_timeout_sec, "seconds")
     else:
@@ -167,6 +186,9 @@ def usage():
     print("")
     print(" - FILTER")
     print("  -d, --description : coma separated regex expression filtering machines and softwares description")
+    print("  -E, --exclude= : coma separated sections from ini file excluded")
+    print("  -i, --ini_file= : ini file from where sections will be included or excluded")
+    print("  -I, --include= : coma separated sections from ini file included ")
     print("  -M, --manufacturer : coma separated list of manufacturer allowed")
     print("  -n, --allow_not_supported : Allow not supported softwares")
     print("  -p, --allow_preliminary : Allow preliminary drivers")

@@ -46,9 +46,7 @@ def clear(rect):
     global lock
     global draw_surface
 
-    lock.acquire()
     pygame.draw.rect(draw_surface, (0, 0, 0), rect)
-    lock.release()
 
 
 def print_compute_parameters(input_text, input_font_size, dest_rect, first=True):
