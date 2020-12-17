@@ -27,7 +27,7 @@ def start(machine_list, soft_list, window_qty=1):
 
     position = window_position.get(window_qty, 0, 0, desktop_info[2], desktop_info[3])
 
-    Display.init()
+    Display.init(desktop_info)
 
     desktop = DesktopClass()
 
@@ -44,7 +44,6 @@ def start(machine_list, soft_list, window_qty=1):
                 if sound_index == -1:
                     sound_index = window_qty - 1
                 Sound.reset()
-        time.sleep(0.1)
 
     shutdown()
 

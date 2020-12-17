@@ -1,5 +1,6 @@
 import threading
 import pygame
+import os
 
 import Desktop
 
@@ -10,18 +11,21 @@ line_spacing = -2
 border_margin = 0.95
 
 
-def init():
+def init(desktop_info):
     global main_window
     global draw_surface
 
     pygame.display.init
     pygame.font.init()
 
-    desktop_size = Desktop.get_desktop_size()
-    main_window = pygame.display.set_mode((desktop_size[2], desktop_size[3]), flags=pygame.NOFRAME)
-    draw_surface = pygame.Surface((desktop_size[2], desktop_size[3]))
+    main_window = pygame.display.set_mode((desktop_info[2], desktop_info[3]), flags=pygame.NOFRAME)
     pygame.display.set_caption('RandoMame')
-    print_text("RandoMame", 32, pygame.Rect(0, 0, desktop_size[2], desktop_size[3]))
+
+    desktop = Desktop.DesktopClass()
+    desktop.set_position(os.getpid(), desktop_info[0], desktop_info[1], desktop_info[2], desktop_info[3])
+
+    draw_surface = pygame.Surface((desktop_info[2], desktop_info[3]))
+    print_text("RandoMame", 32, pygame.Rect(0, 0, desktop_info[2], desktop_info[3]))
 
 
 def clear(rect):
@@ -153,11 +157,9 @@ def print_window(machine_name, soft_name, font_size, position):
 
 
 def wait_for_keyboard():
-    global lock
-    lock.acquire()
     pygame.display.update()
-    lock.release()
-    event = pygame.event.poll()
+
+    event = pygame.event.wait(100)
     if event.type == pygame.KEYDOWN:
         return True
     else:
