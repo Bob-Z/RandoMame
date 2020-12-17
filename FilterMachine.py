@@ -55,6 +55,18 @@ def get(machine, check_machine_description=True):
         if found is False:
             return None, None
 
+    if Config.manufacturer is not None:
+        current_manuf = machine.find("manufacturer").text
+        manuf_list = Config.manufacturer.split(',')
+        is_found = False
+        for manuf in manuf_list:
+            if current_manuf == manuf:
+                is_found = True
+                break
+
+        if is_found is False:
+            return None, None
+
     if Config.mode == 'arcade':
         machine_input = machine.find("input")
         if machine_input is not None:

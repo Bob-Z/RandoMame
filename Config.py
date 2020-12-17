@@ -19,17 +19,18 @@ year_max = None
 linear = False
 auto_quit = False
 smart_sound_timeout_sec = 1
+manufacturer = None
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlLmnO:pqsS:T:t:w:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:hlLmM:nO:pqsS:T:t:w:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
                                     "window=", "year_min=", "year_max=", "music", "selected_soft=",
                                     "allow_not_supported",
-                                    "linear", "quit", "smart_sound_timeout"])
+                                    "linear", "quit", "smart_sound_timeout", "manufacturer="])
     except getopt.GetoptError:
         usage()
 
@@ -50,6 +51,7 @@ def parse_command_line():
     global linear
     global auto_quit
     global smart_sound_timeout_sec
+    global manufacturer
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -68,7 +70,7 @@ def parse_command_line():
             selected_softlist = arg.split(',')
             need_softlist = True
         elif opt in ("-T", "--selected_soft"):
-            selected_soft = arg.split(',')
+            selected_soft = arg
         elif opt in ("-m", "--music"):
             mode = "music"
             windows_quantity = 1
@@ -96,6 +98,8 @@ def parse_command_line():
             available_softlist = True
         elif opt in ("-y", "--year_min"):
             year_min = int(arg)
+        elif opt in ("-M", "--manufacturer"):
+            manufacturer = arg
         elif opt in ("-Y", "--year_max"):
             year_max = int(arg)
         elif opt in ("-L", "--linear"):
@@ -135,6 +139,9 @@ def parse_command_line():
     if year_max is not None:
         print("No machines/softwares later than", year_max)
 
+    if manufacturer is not None:
+        print("Manufacturer: ", manufacturer)
+
     if smart_sound_timeout_sec > 0:
         print("Smart sound timeout =", smart_sound_timeout_sec, "seconds")
     else:
@@ -160,8 +167,9 @@ def usage():
     print("")
     print(" - FILTER")
     print("  -d, --description : coma separated regex expression filtering machines and softwares description")
-    print("  -p, --allow_preliminary : Allow preliminary drivers")
+    print("  -M, --manufacturer : coma separated list of manufacturer allowed")
     print("  -n, --allow_not_supported : Allow not supported softwares")
+    print("  -p, --allow_preliminary : Allow preliminary drivers")
     print("  -T, --selected_soft= : Coma separated list of allowed driver names (use with selected_softlist mode)")
     print("  -y, --year_min= : Machines/softwares can't be earlier than this")
     print("  -Y, --year_max= : Machines/softwares can't be older than this")
