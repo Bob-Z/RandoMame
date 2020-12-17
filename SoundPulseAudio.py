@@ -46,7 +46,6 @@ def monitor_silence():
         global silence_duration_sec
         if is_sound is False:
             silence_duration_sec += sample_duration_sec + timeout_duration_sec
-            print("silence since: ", silence_duration_sec)
         else:
             silence_duration_sec = 0
 
