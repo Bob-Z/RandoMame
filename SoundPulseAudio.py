@@ -19,8 +19,7 @@ def monitor_silence():
     global silence_loop
     silence_loop = 0
     while running is True:
-        command = 'rm ' + tmp_file
-        os.system(command)
+        os.remove(tmp_file)
         command = 'XDG_RUNTIME_DIR=/run/user/' + str(os.getuid()) + ' timeout ' + str(
             sample_duration_sec) + 's parec > ' + tmp_file + ' 2>&1'
         os.system(command)
