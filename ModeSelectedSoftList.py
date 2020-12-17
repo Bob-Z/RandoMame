@@ -2,6 +2,7 @@ import random
 
 import CommandGeneratorSoftList
 import Config
+import Display
 
 command_list = []
 first_pass = True
@@ -18,7 +19,7 @@ def get(machine_list, soft_list_list, soft_list_name_list):
         for soft_list_name in soft_list_name_list:
             command_list = command_list + CommandGeneratorSoftList.generate_command_list(machine_list, soft_list_list,
                                                                                          soft_list_name)
-            print(len(command_list), "softwares found in list", soft_list_name)
+            Display.print_text("Found " + str(len(command_list)) + " softwares")
 
     if Config.linear is True:
         rand = 0

@@ -1,3 +1,4 @@
+import Display
 import FilterSoftware
 
 
@@ -20,7 +21,6 @@ def generate_music_list(soft_list_list):
             found_music.append(
                 ["vgmplay -quik " + soft_name + ":" + part.attrib['name'], feature.attrib['value'], description])
 
-    if len(found_music) > 0:
-        print("Found", len(found_music), "musics")
+        Display.print_text("Found " + str(len(found_music)) + " musics")
 
     return found_music

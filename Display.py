@@ -39,7 +39,7 @@ def init(desktop):
     desktop.set_position(os.getpid(), window_x, window_y, width, height)
 
     draw_surface = pygame.Surface((width, height))
-    print_text("RandoMame", None)
+    print_text("RandoMame")
 
 
 def clear(rect):
@@ -109,7 +109,7 @@ def print_compute_parameters(input_text, input_font_size, dest_rect, first=True)
     return next_offset_x, next_offset_y, next_max_width, next_font_size
 
 
-def print_text(input_text, dest_rect, update=True):
+def print_text(input_text, dest_rect=None, update=True):
     global lock
     global main_window
     global draw_surface
@@ -167,7 +167,10 @@ def print_text(input_text, dest_rect, update=True):
     main_window.blit(draw_surface, draw_surface.get_rect())
 
     if update is True:
-        pygame.display.update()
+        try:
+            pygame.display.update()
+        except pygame.error:
+            pass
 
     lock.release()
 
