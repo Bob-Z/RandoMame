@@ -60,7 +60,7 @@ def get(machine, check_machine_description=True):
         manuf_list = Config.manufacturer.split(',')
         is_found = False
         for manuf in manuf_list:
-            if current_manuf == manuf:
+            if re.match(manuf, current_manuf, re.IGNORECASE) is not None:
                 is_found = True
                 break
 
