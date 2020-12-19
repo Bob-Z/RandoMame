@@ -12,7 +12,7 @@ def get(soft_list_list):
     global first_pass
     if len(command_list) == 0:
         if first_pass is False and Config.auto_quit is True:
-            exit(0)
+            return None, None, None
         first_pass = False
 
         command_list = CommandGeneratorMusic.generate_music_list(soft_list_list)

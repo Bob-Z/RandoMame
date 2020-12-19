@@ -6,6 +6,7 @@ import Config
 import Display
 import Mame
 import Sound
+import os
 import WindowManager
 
 auto_keyboard_timeout = None
@@ -14,6 +15,10 @@ auto_keyboard_date = None
 
 def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
     first_command, first_machine_name, first_soft_name = Command.get()
+
+    if first_command is None:
+        print("No software for window", index)
+        return
 
     Display.print_window(first_machine_name, first_soft_name, position)
     time.sleep(1.5)
@@ -44,6 +49,10 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
             is_muted = True
 
     command, machine_name, soft_name = Command.get()
+    if command is None:
+        print("No more software for window", index)
+        return
+
     Display.print_window(machine_name, soft_name, position)
 
     delay_start = Config.timeout / Config.windows_quantity
@@ -93,6 +102,10 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
                 is_muted = True
 
             command, machine_name, soft_name = Command.get()
+            if command is None:
+                print("No more software for window", index)
+                return
+
             date = datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout)
             auto_keyboard_timeout = 1.0
             auto_keyboard_date = datetime.datetime.now()
