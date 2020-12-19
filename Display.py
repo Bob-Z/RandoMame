@@ -1,5 +1,6 @@
 import os
 import threading
+import time
 
 import pygame
 
@@ -187,8 +188,8 @@ def print_window(machine_name, soft_name, position):
 
 def wait_for_keyboard():
     pygame.display.update()
-
-    event = pygame.event.wait(100)
+    time.sleep(0.05)
+    event = pygame.event.poll()
     if event.type == pygame.KEYDOWN:
         return True
     else:
