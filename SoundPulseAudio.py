@@ -33,7 +33,7 @@ def monitor_silence():
 
         count = int(len(byte_array) / 2)
 
-        if count > 0:
+        if count > 85:
             integers = struct.unpack('h' * count, byte_array)
 
             is_sound = False
