@@ -19,7 +19,11 @@ def monitor_silence():
     global silence_loop
     silence_loop = 0
     while running is True:
-        os.remove(tmp_file)
+        try:
+            os.remove(tmp_file)
+        except FileNotFoundError:
+            pass
+
         command = 'XDG_RUNTIME_DIR=/run/user/' + str(os.getuid()) + ' timeout ' + str(
             sample_duration_sec) + 's parec > ' + tmp_file + ' 2>&1'
         os.system(command)
@@ -28,25 +32,27 @@ def monitor_silence():
             byte_array = reader.read(os.stat(tmp_file).st_size)
 
         count = int(len(byte_array) / 2)
-        integers = struct.unpack('h' * count, byte_array)
 
-        is_sound = False
-        if len(integers) > 63:
-            first = integers[64]
-            first_max = first * 1.05
-            first_min = first * 0.95
-            integers_max = max(first_min, first_max)
-            integers_min = min(first_min, first_max)
-            for i in range(65, len(integers)):
-                if integers[i] > integers_max or integers[i] < integers_min:
-                    is_sound = True
-                    break
+        if count > 0:
+            integers = struct.unpack('h' * count, byte_array)
 
-        global silence_duration_sec
-        if is_sound is False:
-            silence_duration_sec += sample_duration_sec + timeout_duration_sec
-        else:
-            silence_duration_sec = 0
+            is_sound = False
+            if len(integers) > 63:
+                first = integers[64]
+                first_max = first * 1.1
+                first_min = first * 0.9
+                integers_max = max(first_min, first_max)
+                integers_min = min(first_min, first_max)
+                for i in range(65, len(integers)):
+                    if integers[i] > integers_max or integers[i] < integers_min:
+                        is_sound = True
+                        break
+
+            global silence_duration_sec
+            if is_sound is False:
+                silence_duration_sec += sample_duration_sec + timeout_duration_sec
+            else:
+                silence_duration_sec = 0
 
         time.sleep(timeout_duration_sec)
 
