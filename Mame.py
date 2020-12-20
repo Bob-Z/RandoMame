@@ -18,6 +18,9 @@ def run(command):
     if Config.mode != 'music':
         args.append('-artwork_crop')
 
+    if Config.extra is not None:
+        args.append(Config.extra)
+
     full_command = ""
     for a in args:
         full_command += a + " "

@@ -23,17 +23,18 @@ manufacturer = None
 ini_file = None
 include = None
 exclude = None
+extra = None
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:E:hi:I:lLmM:nO:pqsS:T:t:w:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:E:hi:I:lLmM:nO:pqsS:T:t:w:x:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
                                     "window=", "year_min=", "year_max=", "music", "selected_soft=",
                                     "allow_not_supported",
-                                    "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=", "exclude="])
+                                    "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=", "exclude=", "extra="])
     except getopt.GetoptError:
         usage()
 
@@ -58,6 +59,7 @@ def parse_command_line():
     global ini_file
     global include
     global exclude
+    global extra
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -118,6 +120,8 @@ def parse_command_line():
             include = arg
         elif opt in ("-E", "--exclude"):
             exclude = arg
+        elif opt in ("-x", "--extra"):
+            extra = arg
         else:
             print("Unknown option " + opt)
             usage()
@@ -161,6 +165,9 @@ def parse_command_line():
     if exclude is not None:
         print("excluded sections: ", exclude)
 
+    if extra is not None:
+        print("extra command: ", extra)
+
     if smart_sound_timeout_sec > 0:
         print("Smart sound timeout =", smart_sound_timeout_sec, "seconds")
     else:
@@ -193,6 +200,7 @@ def usage():
     print("  -n, --allow_not_supported : Allow not supported softwares")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
     print("  -T, --selected_soft= : Coma separated list of allowed driver names (use with selected_softlist mode)")
+    print("  -x, --extra= : extra command passed to MAME binary")
     print("  -y, --year_min= : Machines/softwares can't be earlier than this")
     print("  -Y, --year_max= : Machines/softwares can't be older than this")
     print("")
