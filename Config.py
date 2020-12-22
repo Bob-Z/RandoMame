@@ -24,17 +24,19 @@ ini_file = None
 include = None
 exclude = None
 extra = None
+force_driver = None
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:E:hi:I:lLmM:nO:pqsS:T:t:w:x:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:E:f:hi:I:lLmM:nO:pqsS:T:t:w:x:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
                                     "window=", "year_min=", "year_max=", "music", "selected_soft=",
                                     "allow_not_supported",
-                                    "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=", "exclude=", "extra="])
+                                    "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
+                                    "exclude=", "extra=", "force_driver="])
     except getopt.GetoptError:
         usage()
 
@@ -60,6 +62,7 @@ def parse_command_line():
     global include
     global exclude
     global extra
+    global force_driver
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -122,9 +125,14 @@ def parse_command_line():
             exclude = arg
         elif opt in ("-x", "--extra"):
             extra = arg
+        elif opt in ("-f", "--force_driver"):
+            force_driver = arg
         else:
             print("Unknown option " + opt)
             usage()
+
+    if windows_quantity == 1:
+        smart_sound_timeout_sec = 0
 
     global mame_binary
     mame_binary = args[0]
@@ -168,6 +176,9 @@ def parse_command_line():
     if extra is not None:
         print("extra command: ", extra)
 
+    if force_driver is not None:
+        print("forced driver: ", force_driver)
+
     if smart_sound_timeout_sec > 0:
         print("Smart sound timeout =", smart_sound_timeout_sec, "seconds")
     else:
@@ -194,6 +205,7 @@ def usage():
     print(" - FILTER")
     print("  -d, --description : coma separated regex expression filtering machines and softwares description")
     print("  -E, --exclude= : coma separated sections from ini file excluded")
+    print("  -f, --force_driver= : coma separated list of drivers used")
     print("  -i, --ini_file= : ini file from where sections will be included or excluded")
     print("  -I, --include= : coma separated sections from ini file included ")
     print("  -M, --manufacturer : coma separated list of manufacturer allowed")

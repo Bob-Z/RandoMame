@@ -3,6 +3,7 @@ import random
 import FilterMachine
 import FilterSoftware
 import AutoBoot
+import Config
 
 machine_by_soft_list = {}
 
@@ -63,6 +64,11 @@ def generate_soft_list(soft_list_name, soft_list_list):
 
 
 def find_machine(machine_list, list_name):
+    if Config.force_driver is not None:
+        drivers = Config.force_driver.split(',')
+        rand = random.randrange(len(drivers))
+        return drivers[rand], drivers[rand]
+
     global machine_by_soft_list
     try:
         found_machine_list = machine_by_soft_list[list_name]

@@ -6,6 +6,7 @@ import pygame
 
 import Desktop
 
+init_done = False
 main_window = None
 lock = threading.Lock()
 draw_surface = None
@@ -24,6 +25,7 @@ def init(desktop):
     global window_y
     global width
     global height
+    global init_done
 
     window_x = desktop[0]
     window_y = desktop[1]
@@ -41,6 +43,8 @@ def init(desktop):
 
     draw_surface = pygame.Surface((width, height))
     print_text("RandoMame")
+
+    init_done = True
 
 
 def clear(rect):
@@ -115,6 +119,11 @@ def print_text(input_text, dest_rect=None, update=True):
     global line_spacing
     global width
     global height
+    global init_done
+
+    if init_done is False:
+        print(input_text)
+        return
 
     input_font_size = 32
 
