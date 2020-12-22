@@ -12,9 +12,14 @@ def generate_command_list(machine_list):
 
         return command_list
 
-    for machine in machine_list:
+    check_machine_description = True
 
-        command, machine_desc = FilterMachine.get(machine)
+    if Config.loose_search is True:
+        machine_list = FilterMachine.loose_search_machine_list(machine_list)
+        check_machine_description = False
+
+    for machine in machine_list:
+        command, machine_desc = FilterMachine.get(machine, check_machine_description)
         if command is None:
             continue
 

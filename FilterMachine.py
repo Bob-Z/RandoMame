@@ -2,11 +2,12 @@ import re
 import configparser
 
 import Config
+import Display
 
 ini_data = None
 
 
-def get(machine, check_machine_description=True):
+def get(machine, check_machine_description):
     global ini_data
     if Config.ini_file is not None:
         if ini_data is None:
@@ -53,15 +54,8 @@ def get(machine, check_machine_description=True):
         except ValueError:
             return None, None
 
-    description = machine.find("description").text
     if Config.description is not None and check_machine_description is True:
-        for desc in Config.description:
-            found = False
-            if re.match(desc, description, re.IGNORECASE) is not None:
-                found = True
-                break
-
-        if found is False:
+        if strict_search_machine(machine) is False:
             return None, None
 
     if Config.manufacturer is not None:
@@ -103,6 +97,56 @@ def get(machine, check_machine_description=True):
             # print("Skip no input machine ", machine.attrib['name'], "-", title)
             return None, None
 
+    description = machine.find("description").text
     full_name = description + " (" + year + ")"
 
     return machine.attrib['name'], full_name
+
+
+def loose_search_machine_list(machine_list):
+    new_machine_list = []
+    for desc in Config.description:
+        found_qty = 2
+        word_qty = 0
+
+        while found_qty > 1:
+            word_qty += 1
+            s = ".*"
+            desc_list = desc.split(' ')
+            for j in range(-word_qty, 0):
+                s += desc_list[j]
+                s += ' '
+
+            # remove last ' '
+            search_string = s[:-1]
+
+            found_qty = 0
+            for machine in machine_list:
+                if loose_search_machine(machine, search_string) is True:
+                    found_qty += 1
+                    found_machine = machine
+                    if found_qty > 1:
+                        break
+
+        if found_qty == 1:
+            new_machine_list.append(found_machine)
+            Display.print_text("Loose search find " + str(len(new_machine_list)) + " machines")
+
+    return new_machine_list
+
+
+def loose_search_machine(machine, search_string):
+    description = machine.find("description").text
+    if re.match(search_string, description, re.IGNORECASE) is not None:
+        return True
+
+    return False
+
+
+def strict_search_machine(machine):
+    description = machine.find("description").text
+    for desc in Config.description:
+        if re.match(desc, description, re.IGNORECASE) is not None:
+            return True
+
+    return False

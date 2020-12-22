@@ -25,18 +25,19 @@ include = None
 exclude = None
 extra = None
 force_driver = None
+loose_search = False
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:E:f:hi:I:lLmM:nO:pqsS:T:t:w:x:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:E:f:hi:I:lLmM:noO:pqsS:T:t:w:x:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
                                     "window=", "year_min=", "year_max=", "music", "selected_soft=",
                                     "allow_not_supported",
                                     "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
-                                    "exclude=", "extra=", "force_driver="])
+                                    "exclude=", "extra=", "force_driver=", "loose_search"])
     except getopt.GetoptError:
         usage()
 
@@ -63,6 +64,7 @@ def parse_command_line():
     global exclude
     global extra
     global force_driver
+    global loose_search
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -101,6 +103,8 @@ def parse_command_line():
             allow_preliminary = True
         elif opt in ("-n", "--allow_not_supported"):
             allow_not_supported = True
+        elif opt in ("-o", "--loose_search"):
+            loose_search = True
         elif opt in ("-O", "--smart_sound_timeout"):
             smart_sound_timeout_sec = int(arg)
         elif opt in ("-w", "--window"):
@@ -179,6 +183,9 @@ def parse_command_line():
     if force_driver is not None:
         print("forced driver: ", force_driver)
 
+    if loose_search is True:
+        print("Loose description search enabled")
+
     if smart_sound_timeout_sec > 0:
         print("Smart sound timeout =", smart_sound_timeout_sec, "seconds")
     else:
@@ -210,6 +217,7 @@ def usage():
     print("  -I, --include= : coma separated sections from ini file included ")
     print("  -M, --manufacturer : coma separated list of manufacturer allowed")
     print("  -n, --allow_not_supported : Allow not supported softwares")
+    print("  -o, --loose_search : Enable loose description search for machine name. Default is strict search")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
     print("  -T, --selected_soft= : Coma separated list of allowed driver names (use with selected_softlist mode)")
     print("  -x, --extra= : extra command passed to MAME binary")
