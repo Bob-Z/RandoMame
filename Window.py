@@ -102,6 +102,10 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
                 desktop.set_title(out.pid, title)
                 is_muted = True
 
+            date = datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout)
+            auto_keyboard_timeout = 1.0
+            auto_keyboard_date = datetime.datetime.now()
+
             command, machine_name, soft_name = Command.get()
             if command is None:
                 print("No more software for window", index)
@@ -109,12 +113,8 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
 
                 while WindowManager.is_running() is True and send_keyboard(desktop, out.pid) is True:
                     time.sleep(0.1)
-                    
-                return
 
-            date = datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout)
-            auto_keyboard_timeout = 1.0
-            auto_keyboard_date = datetime.datetime.now()
+                return
 
             Display.print_window(machine_name, soft_name, position)
 
