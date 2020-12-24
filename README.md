@@ -1,5 +1,7 @@
 Run automatically MAME emulator.
 
+[![Alt text](https://img.youtube.com/vi/aMN4Cwb4-aM/0.jpg)](https://www.youtube.com/watch?v=aMN4Cwb4-aM)
+[![Alt text](https://img.youtube.com/vi/G49PfDzETW0/0.jpg)](https://www.youtube.com/watch?v=G49PfDzETW0)
 [![Alt text](https://img.youtube.com/vi/4G7xrfd147c/0.jpg)](https://www.youtube.com/watch?v=4G7xrfd147c)
 [![Alt text](https://img.youtube.com/vi/k6ZLm5gsaIQ/0.jpg)](https://www.youtube.com/watch?v=k6ZLm5gsaIQ)
 [![Alt text](https://img.youtube.com/vi/GNj4MOVqYY4/0.jpg)](https://www.youtube.com/watch?v=GNj4MOVqYY4)
