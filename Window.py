@@ -106,6 +106,10 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
             if command is None:
                 print("No more software for window", index)
                 Display.print_window("No more software", None, position)
+
+                while WindowManager.is_running() is True and send_keyboard(desktop, out.pid) is True:
+                    time.sleep(0.1)
+                    
                 return
 
             date = datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout)
@@ -145,3 +149,6 @@ def send_keyboard(desktop, pid):
             auto_keyboard_timeout = auto_keyboard_timeout + 1
             if auto_keyboard_timeout > 15:
                 auto_keyboard_timeout = 0
+        return True
+    else:
+        return False
