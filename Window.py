@@ -51,6 +51,7 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
     command, machine_name, soft_name = Command.get()
     if command is None:
         print("No more software for window", index)
+        Display.print_window("No more software", None, position)
         return
 
     Display.print_window(machine_name, soft_name, position)
@@ -104,6 +105,7 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
             command, machine_name, soft_name = Command.get()
             if command is None:
                 print("No more software for window", index)
+                Display.print_window("No more software", None, position)
                 return
 
             date = datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout)
