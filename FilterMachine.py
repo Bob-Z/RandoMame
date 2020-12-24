@@ -3,6 +3,7 @@ import configparser
 
 import Config
 import Display
+import unicodedata
 
 ini_data = None
 
@@ -109,10 +110,11 @@ def loose_search_machine_list(machine_list):
         found_qty = 2
         word_qty = 0
 
+        norm_desc = unicodedata.normalize("NFKD", desc)
         while found_qty > 1:
             word_qty += 1
             s = ".*"
-            desc_list = desc.split(' ')
+            desc_list = norm_desc.split(' ')
             for j in range(-word_qty, 0):
                 s += desc_list[j]
                 s += ' '
@@ -131,6 +133,8 @@ def loose_search_machine_list(machine_list):
         if found_qty == 1:
             new_machine_list.append(found_machine)
             Display.print_text("Loose search find " + str(len(new_machine_list)) + " machines")
+        else:
+            print("No loose match for", search_string)
 
     return new_machine_list
 
