@@ -110,11 +110,11 @@ def loose_search_machine_list(machine_list):
         found_qty = 2
         word_qty = 0
 
-        norm_desc = unicodedata.normalize("NFKD", desc)
         while found_qty > 1:
             word_qty += 1
-            s = ".*"
-            desc_list = norm_desc.split(' ')
+            #s = ".*"
+            s = ""
+            desc_list = desc.split(' ')
             for j in range(-word_qty, 0):
                 s += desc_list[j]
                 s += ' '
@@ -124,6 +124,10 @@ def loose_search_machine_list(machine_list):
 
             found_qty = 0
             for machine in machine_list:
+                if exact_search_machine(machine, search_string) is True:
+                    found_machine = machine
+                    found_qty = 1
+                    break
                 if loose_search_machine(machine, search_string) is True:
                     found_qty += 1
                     found_machine = machine
@@ -139,9 +143,19 @@ def loose_search_machine_list(machine_list):
     return new_machine_list
 
 
+def exact_search_machine(machine, search_string):
+    description = machine.find("description").text
+    s = search_string+"$"
+    if re.match(s, description, re.IGNORECASE) is not None:
+        return True
+
+    return False
+
+
 def loose_search_machine(machine, search_string):
     description = machine.find("description").text
-    if re.match(search_string, description, re.IGNORECASE) is not None:
+    s = ".*" + search_string
+    if re.match(s, description, re.IGNORECASE) is not None:
         return True
 
     return False
