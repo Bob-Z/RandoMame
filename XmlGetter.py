@@ -68,7 +68,7 @@ def get():
         get_soft_list_thread.start()
 
     machine_list = None
-    if Config.mode != 'music':
+    if Config.need_machine is True:
         a = datetime.datetime.now()
         stdout, stderr = load_machine_list()
         b = datetime.datetime.now()

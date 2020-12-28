@@ -11,6 +11,7 @@ allow_preliminary = False
 allow_not_supported = False
 selected_softlist = []
 selected_soft = []
+need_machine = True
 need_softlist = False
 available_softlist = False
 description = None
@@ -45,6 +46,7 @@ def parse_command_line():
     global selected_softlist
     global selected_soft
     global need_softlist
+    global need_machine
     global available_softlist
     global available_softlist
     global description
@@ -87,6 +89,7 @@ def parse_command_line():
         elif opt in ("-m", "--music"):
             mode = "music"
             windows_quantity = 1
+            need_machine = False
             need_softlist = True
             smart_sound_timeout_sec = 0
         elif opt in ("-t", "--timeout"):
@@ -131,6 +134,7 @@ def parse_command_line():
             extra = arg
         elif opt in ("-f", "--force_driver"):
             force_driver = arg
+            need_machine = False
         else:
             print("Unknown option " + opt)
             usage()
