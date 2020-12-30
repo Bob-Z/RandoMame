@@ -222,10 +222,8 @@ def print_cabinet(driver_name_list, rect):
 
     try:
         with zipfile.ZipFile('/media/4To/Mame/cabinets.zip') as zip_file:
-            print(driver_name_list)
             for driver_name in driver_name_list:
                 try:
-                    print("Trying driver " + driver_name)
                     with zip_file.open(driver_name + '.png') as file:
                         picture = pygame.image.load(file)
                         pict_rect = picture.get_rect()
