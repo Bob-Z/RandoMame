@@ -8,7 +8,7 @@ def generate_command_list(machine_list):
     if Config.force_driver is not None:
         drivers = Config.force_driver.split(',')
         for d in drivers:
-            command_list.append([d, d, None])
+            command_list.append([d, d, None, [d]])
 
         return command_list
 
@@ -23,6 +23,6 @@ def generate_command_list(machine_list):
         if command is None:
             continue
 
-        command_list.append([command, machine_desc, None, command])
+        command_list.append([command[0], machine_desc, None, command])
 
     return command_list

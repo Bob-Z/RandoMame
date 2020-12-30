@@ -1,8 +1,9 @@
 import os
 import threading
 import time
-import pygame
 import zipfile
+
+import pygame
 
 import Desktop
 
@@ -183,13 +184,13 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
     lock.release()
 
 
-def print_window(machine_name, soft_name, position, driver_name):
+def print_window(machine_name, soft_name, position, driver_name_list):
     rect = pygame.Rect(position['pos_x'], position['pos_y'], position['width'], position['height'])
 
     do_clear = True
 
-    if driver_name is not None:
-        print_cabinet(driver_name, rect)
+    if driver_name_list is not None:
+        print_cabinet(driver_name_list, rect)
         do_clear = False
 
     if soft_name is not None:
@@ -213,7 +214,7 @@ def wait_for_keyboard():
     return False
 
 
-def print_cabinet(driver_name, rect):
+def print_cabinet(driver_name_list, rect):
     clear(rect)
 
     global lock
@@ -221,27 +222,38 @@ def print_cabinet(driver_name, rect):
 
     try:
         with zipfile.ZipFile('/media/4To/Mame/cabinets.zip') as zip_file:
-            with zip_file.open(driver_name + '.png') as file:
-                picture = pygame.image.load(file)
-                pict_rect = picture.get_rect()
+            print(driver_name_list)
+            for driver_name in driver_name_list:
+                try:
+                    print("Trying driver " + driver_name)
+                    with zip_file.open(driver_name + '.png') as file:
+                        picture = pygame.image.load(file)
+                        pict_rect = picture.get_rect()
 
-                factor = rect.width / pict_rect.width
-                new_width = rect.width
-                new_height = int(pict_rect.height * factor)
-                if new_height > rect.height:
-                    factor = rect.height / pict_rect.height
-                    new_width = int(pict_rect.width * factor)
-                    new_height = rect.height
+                        factor = rect.width / pict_rect.width
+                        new_width = rect.width
+                        new_height = int(pict_rect.height * factor)
+                        if new_height > rect.height:
+                            factor = rect.height / pict_rect.height
+                            new_width = int(pict_rect.width * factor)
+                            new_height = rect.height
 
-                picture = pygame.transform.scale(picture, (new_width, new_height))
+                        picture = pygame.transform.scale(picture, (new_width, new_height))
 
-                pict_rect = picture.get_rect()
-                pict_rect.center = rect.center
+                        pict_rect = picture.get_rect()
+                        pict_rect.center = rect.center
 
-                lock.acquire()
-                draw_surface.blit(picture, pict_rect)
-                lock.release()
+                        lock.acquire()
+                        draw_surface.blit(picture, pict_rect)
+                        lock.release()
+
+                        return
+                except zipfile.error:
+                    print("ZIP file corrupted")
+                except KeyError:
+                    pass
+
     except zipfile.error:
-        pass
+        print("ZIP file corrupted")
     except KeyError:
         pass

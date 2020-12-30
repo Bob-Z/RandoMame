@@ -101,7 +101,11 @@ def get(machine, check_machine_description):
     description = machine.find("description").text
     full_name = description + " (" + year + ")"
 
-    return machine.attrib['name'], full_name
+    if 'cloneof' in machine.attrib:
+        machine_list = [machine.attrib['name'], machine.attrib['cloneof']]
+    else:
+        machine_list = [machine.attrib['name']]
+    return machine_list, full_name
 
 
 def loose_search_machine_list(machine_list):
