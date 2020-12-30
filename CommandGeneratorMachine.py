@@ -23,6 +23,6 @@ def generate_command_list(machine_list):
         if command is None:
             continue
 
-        command_list.append([command, machine_desc, None])
+        command_list.append([command, machine_desc, None, command])
 
     return command_list

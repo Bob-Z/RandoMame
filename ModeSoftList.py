@@ -13,7 +13,7 @@ def get(machine_list, soft_list_list):
     global first_pass
     if len(command_list) == 0:
         if first_pass is False and Config.auto_quit is True:
-            return None, None, None
+            return None, None, None, None
         first_pass = False
 
         for soft_list in soft_list_list.findall("softwarelist"):
@@ -26,7 +26,7 @@ def get(machine_list, soft_list_list):
     else:
         rand = random.randrange(len(command_list))
 
-    command, machine_name, soft_name = command_list[rand]
+    command, machine_name, soft_name, driver_name = command_list[rand]
     command_list.pop(rand)
 
-    return command, machine_name, soft_name
+    return command, machine_name, soft_name, driver_name

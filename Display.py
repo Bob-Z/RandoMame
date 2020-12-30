@@ -1,8 +1,8 @@
 import os
 import threading
 import time
-
 import pygame
+import zipfile
 
 import Desktop
 
@@ -48,7 +48,6 @@ def init(desktop):
 
 
 def clear(rect):
-    global lock
     global draw_surface
 
     pygame.draw.rect(draw_surface, (0, 0, 0), rect)
@@ -112,7 +111,7 @@ def print_compute_parameters(input_text, input_font_size, dest_rect, first=True)
     return next_offset_x, next_offset_y, next_max_width, next_font_size
 
 
-def print_text(input_text, dest_rect=None, update=True):
+def print_text(input_text, dest_rect=None, update=True, do_clear=True):
     global lock
     global main_window
     global draw_surface
@@ -142,7 +141,8 @@ def print_text(input_text, dest_rect=None, update=True):
 
     lock.acquire()
 
-    clear(dest_rect)
+    if do_clear is True:
+        clear(dest_rect)
 
     while text:
         i = 1
@@ -183,16 +183,22 @@ def print_text(input_text, dest_rect=None, update=True):
     lock.release()
 
 
-def print_window(machine_name, soft_name, position):
+def print_window(machine_name, soft_name, position, driver_name):
     rect = pygame.Rect(position['pos_x'], position['pos_y'], position['width'], position['height'])
+
+    do_clear = True
+
+    if driver_name is not None:
+        print_cabinet(driver_name, rect)
+        do_clear = False
 
     if soft_name is not None:
         upper_rect = pygame.Rect(rect.left, rect.top, rect.width, rect.height / 2)
-        print_text(soft_name, upper_rect, False)
+        print_text(soft_name, upper_rect, False, do_clear)
         lower_rect = pygame.Rect(rect.left, rect.top + rect.height / 2, rect.width, rect.height / 2)
-        print_text(machine_name, lower_rect, False)
+        print_text(machine_name, lower_rect, False, do_clear)
     else:
-        print_text(machine_name, rect, False)
+        print_text(machine_name, rect, False, do_clear)
 
 
 def wait_for_keyboard():
@@ -205,3 +211,37 @@ def wait_for_keyboard():
             return True
 
     return False
+
+
+def print_cabinet(driver_name, rect):
+    clear(rect)
+
+    global lock
+    global draw_surface
+
+    try:
+        with zipfile.ZipFile('/media/4To/Mame/cabinets.zip') as zip_file:
+            with zip_file.open(driver_name + '.png') as file:
+                picture = pygame.image.load(file)
+                pict_rect = picture.get_rect()
+
+                factor = rect.width / pict_rect.width
+                new_width = rect.width
+                new_height = int(pict_rect.height * factor)
+                if new_height > rect.height:
+                    factor = rect.height / pict_rect.height
+                    new_width = int(pict_rect.width * factor)
+                    new_height = rect.height
+
+                picture = pygame.transform.scale(picture, (new_width, new_height))
+
+                pict_rect = picture.get_rect()
+                pict_rect.center = rect.center
+
+                lock.acquire()
+                draw_surface.blit(picture, pict_rect)
+                lock.release()
+    except zipfile.error:
+        pass
+    except KeyError:
+        pass

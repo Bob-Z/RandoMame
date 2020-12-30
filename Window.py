@@ -14,13 +14,13 @@ auto_keyboard_date = None
 
 
 def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
-    first_command, first_machine_name, first_soft_name = Command.get()
+    first_command, first_machine_name, first_soft_name, first_driver = Command.get()
 
     if first_command is None:
         print("No software for window", index)
         return
 
-    Display.print_window(first_machine_name, first_soft_name, position)
+    Display.print_window(first_machine_name, first_soft_name, position, first_driver)
     time.sleep(1.5)
 
     out = Mame.run(first_command)
@@ -48,13 +48,13 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
             Sound.set_mute(out.pid, True)
             is_muted = True
 
-    command, machine_name, soft_name = Command.get()
+    command, machine_name, soft_name, driver_name = Command.get()
     if command is None:
         print("No more software for window", index)
         Display.print_window("No more software", None, position)
         return
 
-    Display.print_window(machine_name, soft_name, position)
+    Display.print_window(machine_name, soft_name, position, driver_name)
 
     delay_start = Config.timeout / Config.windows_quantity
     date = datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout) + datetime.timedelta(
@@ -106,7 +106,7 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
             auto_keyboard_timeout = 1.0
             auto_keyboard_date = datetime.datetime.now()
 
-            command, machine_name, soft_name = Command.get()
+            command, machine_name, soft_name, driver_name = Command.get()
             if command is None:
                 print("No more software for window", index)
                 Display.print_window("No more software", None, position)
@@ -116,7 +116,7 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
 
                 return
 
-            Display.print_window(machine_name, soft_name, position)
+            Display.print_window(machine_name, soft_name, position, driver_name)
 
         send_keyboard(desktop, out.pid)
 

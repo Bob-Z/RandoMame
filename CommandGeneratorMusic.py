@@ -21,7 +21,7 @@ def generate_music_list(soft_list_list):
         for part in soft.findall('part'):
             feature = part.find('feature')
             found_music.append(
-                ["vgmplay -quik " + soft_name + ":" + part.attrib['name'], feature.attrib['value'], description])
+                ["vgmplay -quik " + soft_name + ":" + part.attrib['name'], feature.attrib['value'], description, None])
 
         if len(found_music) > found_qty + 1000:
             found_qty = len(found_music)
