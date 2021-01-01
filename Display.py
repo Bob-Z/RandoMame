@@ -63,7 +63,7 @@ def print_compute_parameters(input_text, input_font_size, dest_rect, first=True)
     # get the height of the font
     font_height = font.size("Tg")[1]
 
-    y = 0
+    y = dest_rect.top
     text = input_text
     max_width = 0
 
