@@ -15,6 +15,16 @@ def get(machine, check_machine_description):
             ini_data = configparser.ConfigParser(allow_no_value=True)
             ini_data.read(Config.ini_file)
 
+    if Config.force_driver is not None:
+        found = False
+        drivers = Config.force_driver.split(',')
+        for d in drivers:
+            if machine.attrib['name'] == d:
+                found = True
+
+        if found is False:
+            return None, None
+
     if "isdevice" in machine.attrib:
         if machine.attrib["isdevice"] == "yes":
             # print("Skip device ", machine.attrib["name"])

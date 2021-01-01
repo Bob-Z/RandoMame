@@ -134,7 +134,6 @@ def parse_command_line():
             extra = arg
         elif opt in ("-f", "--force_driver"):
             force_driver = arg
-            need_machine = False
         else:
             print("Unknown option " + opt)
             usage()

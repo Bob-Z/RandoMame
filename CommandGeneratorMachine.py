@@ -5,13 +5,6 @@ import Config
 def generate_command_list(machine_list):
     command_list = []
 
-    if Config.force_driver is not None:
-        drivers = Config.force_driver.split(',')
-        for d in drivers:
-            command_list.append([d, d, None, [d]])
-
-        return command_list
-
     check_machine_description = True
 
     if Config.loose_search is True:
