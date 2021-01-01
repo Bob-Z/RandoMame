@@ -6,7 +6,6 @@ import Config
 import Display
 import Mame
 import Sound
-import os
 import WindowManager
 
 auto_keyboard_timeout = None
@@ -109,7 +108,7 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
             command, machine_name, soft_name, driver_name_list = Command.get()
             if command is None:
                 print("No more software for window", index)
-                Display.print_window("No more software", None, position)
+                Display.print_window("No more software", None, position, driver_name_list)
 
                 while WindowManager.is_running() is True and send_keyboard(desktop, out.pid) is True:
                     time.sleep(0.1)
