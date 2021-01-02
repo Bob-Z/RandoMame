@@ -164,9 +164,15 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
             else:
                 i -= 1
 
-        image = font.render(text[:i], True, (128, 128, 128))
-
         line_offset_x = (max_width - font.size(text[:i])[0]) / 2
+
+        image = font.render(text[:i], True, (0, 0, 0))
+        draw_surface.blit(image, (dest_rect.left + offset_x + line_offset_x + 1, dest_rect.top + y + offset_y + 1))
+        draw_surface.blit(image, (dest_rect.left + offset_x + line_offset_x + 1, dest_rect.top + y + offset_y - 1))
+        draw_surface.blit(image, (dest_rect.left + offset_x + line_offset_x - 1, dest_rect.top + y + offset_y + 1))
+        draw_surface.blit(image, (dest_rect.left + offset_x + line_offset_x - 1, dest_rect.top + y + offset_y - 1))
+
+        image = font.render(text[:i], True, (255, 255, 255))
         draw_surface.blit(image, (dest_rect.left + offset_x + line_offset_x, dest_rect.top + y + offset_y))
         y += font_height + line_spacing
 
