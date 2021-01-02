@@ -50,7 +50,7 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
     command, machine_name, soft_name, driver_name_list = Command.get()
     if command is None:
         print("No more software for window", index)
-        Display.print_window("No more software", None, position)
+        Display.print_window("No more software", None, position, driver_name_list)
         return
 
     Display.print_window(machine_name, soft_name, position, driver_name_list)
