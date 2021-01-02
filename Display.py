@@ -63,7 +63,7 @@ def print_compute_parameters(input_text, input_font_size, dest_rect, first=True)
     # get the height of the font
     font_height = font.size("Tg")[1]
 
-    y = dest_rect.top
+    y = 0
     text = input_text
     max_width = 0
 
@@ -72,7 +72,7 @@ def print_compute_parameters(input_text, input_font_size, dest_rect, first=True)
         i = 1
 
         # determine if the row of text will be outside our area
-        if y + font_height > dest_rect.bottom:
+        if y + font_height > dest_rect.height:
             y -= line_spacing
             wrapped = True
             break
@@ -137,7 +137,7 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
     # get the height of the font
     font_height = font.size("Tg")[1]
 
-    y = dest_rect.top
+    y = 0
     text = input_text
 
     lock.acquire()
@@ -149,7 +149,7 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
         i = 1
 
         # determine if the row of text will be outside our area
-        if y + font_height > dest_rect.bottom:
+        if y + font_height > dest_rect.height:
             break
 
         # determine maximum width of line
@@ -164,10 +164,10 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
             else:
                 i -= 1
 
-        image = font.render(text[:i], True, (255, 255, 255))
+        image = font.render(text[:i], True, (128, 128, 128))
 
         line_offset_x = (max_width - font.size(text[:i])[0]) / 2
-        draw_surface.blit(image, (dest_rect.left + offset_x + line_offset_x, y + offset_y))
+        draw_surface.blit(image, (dest_rect.left + offset_x + line_offset_x, dest_rect.top + y + offset_y))
         y += font_height + line_spacing
 
         # remove the text we have just blitted
