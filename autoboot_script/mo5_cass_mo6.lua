@@ -6,7 +6,7 @@ local function process_frame()
 		emu.keypost('1')
         elseif frame_num == 300 then
 		emu.keypost('RUN"CASS:\n')
-		manager:machine().cassettes[":cassette"]:play()
+		manager.machine.cassettes[":cassette"]:play()
         end
 end
 

@@ -1,3 +1,3 @@
 emu.keypost('\nload ""\n')
-manager:machine().cassettes[":cassette"]:play()
+manager.machine.cassettes[":cassette"]:play()
 

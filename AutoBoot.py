@@ -66,6 +66,7 @@ lib = {
         "didakm91": ('spectrum_cass.lua', 2, None),
         "didakm92": ('spectrum_cass.lua', 2, None),
         "didakm93": ('spectrum_cass.lua', 2, None),
+        "expert3t": ('spectrum_cass.lua', 2, None),
         "hc85": ('spectrum_cass.lua', 2, None),
         "hc90": ('spectrum_cass.lua', 2, None),
         "hc91": ('spectrum_cass.lua', 2, None),

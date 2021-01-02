@@ -1,5 +1,5 @@
 local button = {}
-local ports = manager:machine():ioport().ports[":kbrow.2"]
+local ports = manager.machine.ioport.ports[":kbrow.2"]
 for field_name, field in pairs(ports.fields) do
     button[field_name] = field
     print(field_name)
@@ -15,7 +15,7 @@ local function process_frame()
         if frame_num == 75 then
 		button["Shift"]:set_value(0)
 		emu.keypost('|TAPE\nRUN"\n\n')
-		manager:machine().cassettes[":cassette"]:play()
+		manager.machine().cassettes[":cassette"]:play()
         end
 end
 

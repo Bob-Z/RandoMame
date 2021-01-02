@@ -1,7 +1,7 @@
 print("tick")
 
 local button = {}
-for key, ports in pairs(manager:machine():ioport().ports) do
+for key, ports in pairs(manager.machine.ioport.ports) do
 	for field_name, field in pairs(ports.fields) do
 	    button[field_name] = field
 	end

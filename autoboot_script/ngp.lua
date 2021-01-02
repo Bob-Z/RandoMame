@@ -1,5 +1,5 @@
 local button = {}
-local ports = manager:machine():ioport().ports[":Controls"]
+local ports = manager.machine.ioport.ports[":Controls"]
 for field_name, field in pairs(ports.fields) do
     button[field_name] = field
 end

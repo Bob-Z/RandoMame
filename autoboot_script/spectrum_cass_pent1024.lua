@@ -8,7 +8,7 @@ local function process_frame()
 		emu.keypost('a\n')
         elseif frame_num == 450 then
 		emu.keypost('\nj""\n')
-		manager:machine().cassettes[":cassette"]:play()
+		manager.machine.cassettes[":cassette"]:play()
         end
 end
 

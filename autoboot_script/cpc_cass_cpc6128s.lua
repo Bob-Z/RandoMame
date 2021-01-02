@@ -6,7 +6,7 @@ local function process_frame()
                 emu.keypost('Ö')
         elseif frame_num == 15 then
 		emu.keypost('TAPE\nRUN"\n\n')
-		manager:machine().cassettes[":cassette"]:play()
+		manager.machine.cassettes[":cassette"]:play()
         end
 end
 

@@ -1,5 +1,5 @@
 local button = {}
-local ports = manager:machine():ioport().ports[":PLUS1"]
+local ports = manager.machine.ioport.ports[":PLUS1"]
 for field_name, field in pairs(ports.fields) do
     button[field_name] = field
     print(field_name)
@@ -16,7 +16,7 @@ local function process_frame()
 
 	elseif frame_num == 300 then
 		emu.keypost('\n\nload ""\n')
-                manager:machine().cassettes[":cassette"]:play()
+                manager.machine.cassettes[":cassette"]:play()
 	end
 end
 
