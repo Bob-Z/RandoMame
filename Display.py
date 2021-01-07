@@ -189,6 +189,8 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
 
     lock.release()
 
+    print(input_text)
+
 
 def print_window(machine_name, soft_name, position, driver_name_list):
     rect = pygame.Rect(position['pos_x'], position['pos_y'], position['width'], position['height'])
