@@ -54,6 +54,11 @@ lib = {
         "ngpc": ('ngp.lua', 0, None),
     },
 
+    "orao": {
+        "orao": ('orao_cass.lua', 0, None),
+        "orao103": ('orao_cass.lua', 0, None),
+    },
+
     "spectrum_cass": {
         "blitzs": ('spectrum_cass.lua', 2, None),
         "byte": ('spectrum_cass.lua', 2, None),
