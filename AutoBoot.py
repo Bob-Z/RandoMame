@@ -59,6 +59,14 @@ lib = {
         "orao103": ('orao_cass.lua', 0, None),
     },
 
+    "sorcerer_cass": {
+        "sorcerer": ('sorcerer_cass.lua', 2, None),
+        "sorcerer2": ('sorcerer_cass.lua', 2, None),
+        "sorcerera": ('sorcerer_cass.lua', 2, None),
+        "sorcererb": ('sorcerer_cass.lua', 2, None),
+        "sorcererd": ('sorcerer_cass.lua', 2, None),
+    },
+
     "spectrum_cass": {
         "blitzs": ('spectrum_cass.lua', 2, None),
         "byte": ('spectrum_cass.lua', 2, None),

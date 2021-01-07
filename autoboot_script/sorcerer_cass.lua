@@ -1,0 +1,1 @@
+emu.keypost('LOG\n')
