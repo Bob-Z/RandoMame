@@ -2,6 +2,7 @@ import random
 
 import CommandGeneratorMusic
 import Config
+import Display
 
 command_list = []
 first_pass = True
@@ -16,6 +17,7 @@ def get(soft_list_list):
         first_pass = False
 
         command_list = CommandGeneratorMusic.generate_music_list(soft_list_list)
+        Display.print_text("Found " + str(len(command_list)) + " musics")
 
     if Config.linear is True:
         rand = 0
