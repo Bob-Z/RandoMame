@@ -64,14 +64,16 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
     global auto_keyboard_date
     auto_keyboard_date = datetime.datetime.now()
 
-    if Config.mode == 'music':
-        Sound.reset()
+    is_sound_started = False
 
     while True:
         if Config.mode == 'music':
-            if Sound.get_silence_duration_sec() > 5.0:
+            if Sound.get_silence_duration_sec() == 0:
+                is_sound_started = True
+
+            if is_sound_started is True and Sound.get_silence_duration_sec() > 5.0:
                 out.kill()
-                Sound.reset()
+                is_sound_started = False
 
         if date < datetime.datetime.now():
             out.kill()
@@ -116,6 +118,8 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
                 return
 
             Display.print_window(machine_name, soft_name, position, driver_name_list)
+
+            is_sound_started = False
 
         send_keyboard(desktop, out.pid)
 
