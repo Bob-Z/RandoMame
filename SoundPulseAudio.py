@@ -65,7 +65,7 @@ def monitor_silence():
 
 
 def init():
-    print('Warning ! For smart sound to work,  make sure that your default (or fallback) "Input device" in PulseAudio\'s configuration is your output device\'s "monitor"')
+    print('Warning ! For smart sound to work,  make sure that your default (a.k.a. fallback) "Input device" in PulseAudio\'s configuration is your output device\'s "monitor"')
     global monitor_silence_thread
     monitor_silence_thread = threading.Thread(target=monitor_silence)
     monitor_silence_thread.start()

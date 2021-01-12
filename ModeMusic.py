@@ -26,5 +26,6 @@ def get(soft_list_list):
 
     command, machine_name, soft_name, driver_name = command_list[rand]
     command_list.pop(rand)
+    print(str(len(command_list)), "softwares left")
 
     return command, machine_name, soft_name, driver_name
