@@ -1,9 +1,8 @@
-import re
 import configparser
+import re
 
 import Config
 import Display
-import unicodedata
 
 ini_data = None
 
@@ -37,10 +36,10 @@ def get(machine, check_machine_description):
         if machine.attrib["runnable"] == "no":
             # print("Skip non runnable ", machine.attrib["name"])
             return None, None
-    if "ismechanical" in machine.attrib:
-        if machine.attrib["ismechanical"] == "yes":
+    #if "ismechanical" in machine.attrib:
+    #    if machine.attrib["ismechanical"] == "yes":
             # print("Skip mechanical ", machine.attrib["name"])
-            return None, None
+    #        return None, None
 
     if Config.allow_preliminary is False:
         machine_driver = machine.find("driver")
@@ -126,7 +125,7 @@ def loose_search_machine_list(machine_list):
 
         while found_qty > 1:
             word_qty += 1
-            #s = ".*"
+            # s = ".*"
             s = ""
             desc_list = desc.split(' ')
             for j in range(-word_qty, 0):
@@ -137,16 +136,21 @@ def loose_search_machine_list(machine_list):
             search_string = s[:-1]
 
             found_qty = 0
+            is_exact_match = False
             for machine in machine_list:
                 if exact_search_machine(machine, search_string) is True:
                     found_machine = machine
                     found_qty = 1
+                    is_exact_match = True
                     break
-                if loose_search_machine(machine, search_string) is True:
-                    found_qty += 1
-                    found_machine = machine
-                    if found_qty > 1:
-                        break
+
+            if is_exact_match is False:
+                for machine in machine_list:
+                    if loose_search_machine(machine, search_string) is True:
+                        found_qty += 1
+                        found_machine = machine
+                        if found_qty > 1:
+                            break
 
         if found_qty == 1:
             new_machine_list.append(found_machine)
@@ -159,8 +163,8 @@ def loose_search_machine_list(machine_list):
 
 def exact_search_machine(machine, search_string):
     description = machine.find("description").text
-    s = search_string+"$"
-    if re.match(s, description, re.IGNORECASE) is not None:
+    s = "^" + search_string + "$"
+    if re.search(s, description, re.IGNORECASE) is not None:
         return True
 
     return False
@@ -169,7 +173,7 @@ def exact_search_machine(machine, search_string):
 def loose_search_machine(machine, search_string):
     description = machine.find("description").text
     s = ".*" + search_string
-    if re.match(s, description, re.IGNORECASE) is not None:
+    if re.search(s, description, re.IGNORECASE) is not None:
         return True
 
     return False
