@@ -119,8 +119,16 @@ def get(machine, check_machine_description):
 
 def loose_search_machine_list(machine_list):
     new_machine_list = []
+
     for desc in Config.description:
         found_qty = 2
+
+        for machine in machine_list:
+            if exact_search_machine(machine, desc) is True:
+                found_machine = machine
+                found_qty = 1
+                break
+
         word_qty = 0
 
         while found_qty > 1:
@@ -136,21 +144,13 @@ def loose_search_machine_list(machine_list):
             search_string = s[:-1]
 
             found_qty = 0
-            is_exact_match = False
-            for machine in machine_list:
-                if exact_search_machine(machine, search_string) is True:
-                    found_machine = machine
-                    found_qty = 1
-                    is_exact_match = True
-                    break
 
-            if is_exact_match is False:
-                for machine in machine_list:
-                    if loose_search_machine(machine, search_string) is True:
-                        found_qty += 1
-                        found_machine = machine
-                        if found_qty > 1:
-                            break
+            for machine in machine_list:
+                if loose_search_machine(machine, search_string) is True:
+                    found_qty += 1
+                    found_machine = machine
+                    if found_qty > 1:
+                        break
 
         if found_qty == 1:
             new_machine_list.append(found_machine)
