@@ -8,6 +8,7 @@ import Display
 import Window
 import Sound
 import XmlGetter
+import os
 
 from Desktop import DesktopClass
 from WindowPosition import WindowPosition
@@ -65,6 +66,9 @@ def start():
 
     for t in thread:
         t.join()
+
+    if Config.end_command is not None:
+        os.system(Config.end_command)
 
     sys.exit(0)
 

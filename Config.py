@@ -27,18 +27,20 @@ exclude = None
 extra = None
 force_driver = None
 loose_search = False
+start_command = None
+end_command = None
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAd:D:E:f:hi:I:lLmM:noO:pqsS:T:t:w:x:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAc:C:d:D:E:f:hi:I:lLmM:noO:pqsS:T:t:w:x:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
                                     "window=", "year_min=", "year_max=", "music", "selected_soft=",
                                     "allow_not_supported",
                                     "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
-                                    "exclude=", "extra=", "force_driver=", "loose_search"])
+                                    "exclude=", "extra=", "force_driver=", "loose_search", "start_command=", "end_command="])
     except getopt.GetoptError:
         usage()
 
@@ -67,6 +69,8 @@ def parse_command_line():
     global extra
     global force_driver
     global loose_search
+    global start_command
+    global end_command
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -134,6 +138,10 @@ def parse_command_line():
             extra = arg
         elif opt in ("-f", "--force_driver"):
             force_driver = arg
+        elif opt in ("-c", "--start_command"):
+            start_command = arg
+        elif opt in ("-C", "--end_command"):
+            end_command = arg
         else:
             print("Unknown option " + opt)
             usage()
@@ -237,6 +245,8 @@ def usage():
         "  -O, --smart_sound_timeout : Only one window is unmuted. After smart_sound_timeout seconds of silence, another window is un-muted. Set this to 0 to deactivate smart-sound")
     print("")
     print(" - OTHER")
+    print("  -c, --start_command : command line to be executed on start (when MAME is first launched)")
+    print("  -C, --end_command : command line to be executed at end (when Randomame window is closed)")
     print("  -l, --available_softlist : display available softlists")
     print("  -h, --help : print this message")
 

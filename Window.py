@@ -1,4 +1,5 @@
 import datetime
+import os
 import time
 
 import Command
@@ -20,6 +21,9 @@ def manage_window(desktop, index, desktop_offset_x, desktop_offset_y, position):
         return
 
     Display.print_window(first_machine_name, first_soft_name, position, first_driver_name_list)
+    if Config.start_command is not None and index == 0:
+        os.system(Config.start_command)
+
     time.sleep(1.5)
 
     out = Mame.run(first_command)
