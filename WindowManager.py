@@ -1,4 +1,3 @@
-import threading
 import sys
 
 import Command
@@ -16,9 +15,12 @@ from WindowPosition import WindowPosition
 
 running = True
 sound_index = 0
+window = []
 
 
 def start():
+    global window
+
     window_position = WindowPosition()
 
     if Config.desktop is not None:
@@ -46,10 +48,8 @@ def start():
 
     desktop = DesktopClass()
 
-    thread = []
     for index in range(Config.windows_quantity):
-        thread.append(threading.Thread(target=Window.manage_window, args=(desktop, index, desktop_info[0], desktop_info[1], position[index],)))
-        thread[index].start()
+        window.append(Window.Window(desktop, index, desktop_info[0], desktop_info[1], position[index]))
 
     global sound_index
     while Display.wait_for_keyboard() is False:
@@ -58,14 +58,30 @@ def start():
                 sound_index = sound_index - 1
                 if sound_index == -1:
                     sound_index = Config.windows_quantity - 1
+
+                for w in window:
+                    w.set_sound_index(sound_index)
+
                 Sound.reset()
+
+        is_alive = False
+        for w in window:
+            if w.is_alive() is True:
+                is_alive = True
+                break
+
+        if is_alive is False:
+            break
+
+    if Config.end_command is not None:
+        os.system(Config.end_command)
 
     shutdown()
 
     Sound.kill()
 
-    for t in thread:
-        t.join()
+    for w in window:
+        w.join()
 
     if Config.end_command is not None:
         os.system(Config.end_command)
@@ -73,16 +89,7 @@ def start():
     sys.exit(0)
 
 
-def is_running():
-    global running
-    return running
-
-
 def shutdown():
-    global running
-    running = False
-
-
-def get_sound_index():
-    global sound_index
-    return sound_index
+    global window
+    for w in window:
+        w.stop()
