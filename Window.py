@@ -46,8 +46,6 @@ class Window:
 
         self.launch_mame()
 
-        self.first_launch = False
-
         while self.thread_running is True:
             self.launch_mame()
 
@@ -87,6 +85,8 @@ class Window:
             self.init_silence()
 
             self.init_date()
+
+            self.first_launch = False
 
             self.get_command()
 
