@@ -3,7 +3,6 @@ import random
 import FilterMachine
 import FilterSoftware
 import AutoBoot
-import Config
 
 machine_by_soft_list = {}
 
@@ -15,15 +14,17 @@ def generate_command_list(machine_list, soft_list_list, soft_list_name):
         return command_list
 
     for soft in soft_list:
-        machine_name, full_machine_name = find_machine(machine_list, soft['softlist_name'])
+        machine, machine_name, full_machine_name = pick_random_machine(machine_list, soft['softlist_name'])
         if machine_name is None:
             continue
 
-        command = machine_name[0] + " " + soft['soft_name']
+        interface_command_line = get_interface_command_line(machine, soft)
+        command = machine_name[0] + " " + interface_command_line + " " + soft['soft_name']
 
         autoboot_script, autoboot_delay, extra_command = AutoBoot.get_autoboot_command(soft_list_name, machine_name[0])
         if autoboot_delay is not None:
-            command = command + " -autoboot_script autoboot_script/" + autoboot_script + " -autoboot_delay " + str(autoboot_delay)
+            command = command + " -autoboot_script autoboot_script/" + autoboot_script + " -autoboot_delay " + str(
+                autoboot_delay)
 
         if extra_command is not None:
             command = command + " " + extra_command
@@ -55,7 +56,10 @@ def generate_soft_list(soft_list_name, soft_list_list):
         if soft_name is None:
             continue
 
-        found_software.append({'softlist_name': soft_list_name, 'soft_name': soft_name, 'description': description})
+        part = soft.findall("part")
+        soft_interface = part[0].attrib["interface"]
+
+        found_software.append({'softlist_name': soft_list_name, 'soft_name': soft_name, 'description': description, 'interface': soft_interface})
 
     if len(found_software) > 0:
         print("Found", len(found_software), "softwares in software list", soft_list_name)
@@ -63,7 +67,7 @@ def generate_soft_list(soft_list_name, soft_list_list):
     return found_software
 
 
-def find_machine(machine_list, list_name):
+def pick_random_machine(machine_list, list_name):
     global machine_by_soft_list
     try:
         found_machine_list = machine_by_soft_list[list_name]
@@ -93,6 +97,20 @@ def find_machine(machine_list, list_name):
 
     if len(found_machine_list) == 0:
         print("No machine available for software  list", list_name)
-        return None, None
+        return None, None, None
 
-    return machine_name, title
+    return machine, machine_name, title
+
+
+def get_interface_command_line(machine, soft):
+    device = machine.findall("device")
+    command_line = ""
+    for d in device:
+        if 'interface' in d.attrib:
+            if d.attrib['interface'] == soft.get("interface"):
+                instance = d.find("instance")
+                interface_name = instance.attrib["briefname"]
+                command_line = "-" + interface_name
+                break
+
+    return command_line
