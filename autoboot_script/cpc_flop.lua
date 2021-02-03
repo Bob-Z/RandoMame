@@ -76,8 +76,11 @@ end
 frame_num = 0
 local function process_frame()
     frame_num = frame_num + 1
+
     if cat_frame == 0 then
-        cat(frame_num)
+        if frame_num > 250 then
+            cat(frame_num)
+        end
     else
         if try_run == 0 then
             if frame_num > cat_frame + 250 then
@@ -94,4 +97,5 @@ local function process_frame()
 end
 
 emu.keypost("|disc\n")
+emu.keypost("run\"disc\n")
 emu.register_frame_done(process_frame)
