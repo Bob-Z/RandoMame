@@ -24,7 +24,35 @@ local function cat(frame)
     cat_frame = frame
 end
 
+local function is_extension_allowed()
+    addr = base_addr + file_index * next_file + base_file_name_size
+
+    ext = {}
+    for c = 0, 2 do
+        ext[c+1] = mem:read_u8(addr + c) & 0x7F
+    end
+
+    forbidden_ext = { string.byte('T'), string.byte('X'), string.byte('T')}
+
+    allowed = 0
+
+    for c = 1, 3 do
+        if forbidden_ext[c] ~= ext[c] then
+            allowed = 1
+            break
+        end
+    end
+
+    return allowed
+end
+
+
 local function run_file()
+    if is_extension_allowed() == 0 then
+        file_index = file_index + 1
+        return
+    end
+
     stack_char("r")
     stack_char("u")
     stack_char("n")
@@ -39,14 +67,7 @@ local function run_file()
     end
 
     stack_char("\n")
-end
-
-local function read_file_name()
-    start_file = mem:read_u8(base_addr + file_index * next_file)
-    if start_file ~= 0 then
-        run_file()
-        try_run = 1
-    end
+    try_run = 1
 end
 
 local function wait_for_clean_memory(frame)
@@ -84,7 +105,7 @@ local function process_frame()
     else
         if try_run == 0 then
             if frame_num > cat_frame + 250 then
-                read_file_name()
+                run_file()
             end
         else
             wait_for_clean_memory(frame_num)
