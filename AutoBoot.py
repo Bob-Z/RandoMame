@@ -44,6 +44,18 @@ lib = {
         "al520ex": ('cpc_cass_al520ex.lua', 0, None),
     },
 
+    "cpc_flop": {
+        "cpc664": ('cpc_flop.lua', 1.5, None),
+        "cpc6128": ('cpc_flop.lua', 1.5, None),
+        "cpc6128s": ('cpc_flop.lua', 1.5, None),
+        "cpc6128sp": ('cpc_flop.lua', 1.5, None),
+        "cpc464p": ('cpc_flop.lua', 1.5, "-cart sysukpd"),
+        "cpc6128p": ('cpc_flop.lua', 1.5, "-cart sysukpd"),
+        "cpc6128f": ('cpc_flop.lua', 1.5, None),
+        "kccomp": ('cpc_flop.lua', 1.5, None),
+        "al520ex": ('cpc_flop.lua', 1.5, None),
+    },
+
     "ngp": {
         "ngp": ('ngp.lua', 0, None),
         "ngpc": ('ngp.lua', 0, None),
