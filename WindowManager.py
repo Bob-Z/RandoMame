@@ -74,17 +74,18 @@ def start():
             break
 
     if Config.end_command is not None:
+        print("Execute end command:", Config.end_command)
         os.system(Config.end_command)
 
+    print("Shutdown remaining windows")
     shutdown()
 
+    print("Stop sound recording thread")
     Sound.kill()
 
+    print("Wait for remaining windows")
     for w in window:
         w.join()
-
-    if Config.end_command is not None:
-        os.system(Config.end_command)
 
     sys.exit(0)
 
