@@ -80,7 +80,7 @@ def pick_random_machine(machine_list, soft):
                     # This machine support selected soft_list
 
                     interface_command_line = get_interface_command_line(machine, soft)
-                    if interface_command_line is not None:
+                    if interface_command_line != "":
                         # This machine has the correct interface this software
                         found_machine_list.append(machine)
                         break
@@ -109,7 +109,7 @@ def pick_random_machine(machine_list, soft):
 
 def get_interface_command_line(machine, soft):
     device = machine.findall("device")
-    command_line = None
+    command_line = ""
     for d in device:
         if 'interface' in d.attrib:
             if d.attrib['interface'] == soft.get("interface"):
