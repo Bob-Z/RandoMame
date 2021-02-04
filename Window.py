@@ -161,6 +161,9 @@ class Window:
                 self.is_sound_started = False
 
     def init_smart_sound(self):
+        if self.index == 0:
+            Sound.set_mute(self.out.pid, True
+                           )
         if Config.smart_sound_timeout_sec > 0:
             Sound.set_mute(self.out.pid, False)
             self.is_muted = False
