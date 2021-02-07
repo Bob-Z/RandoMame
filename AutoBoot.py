@@ -144,6 +144,7 @@ lib = {
         "cpc330k": ('msx1_cass.lua', 4, None),
         "cpc51": ('msx1_cass.lua', 4, None),
         "cpc61": ('msx1_cass.lua', 4, None),
+        "cx5m": ('msx1_cass.lua', 4, None),
         "dpc200e": ('msx1_cass.lua', 4, None),
         "dgnmsx": ('msx1_cass.lua', 4, None),
         "fmx": ('msx1_cass.lua', 4, None),
