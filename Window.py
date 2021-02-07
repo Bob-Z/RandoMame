@@ -22,7 +22,7 @@ class Window:
         self.sound_index = 0
 
         self.is_running = True
-        self.is_muted = True
+        self.is_muted = False
         self.out = None
 
         self.command = None
@@ -70,7 +70,7 @@ class Window:
             wait_loop = 15
             while wait_loop > 0:
                 time.sleep(0.1)
-                wait_loop = wait_loop-1
+                wait_loop = wait_loop - 1
                 if self.is_running is False:
                     return
 
@@ -127,7 +127,7 @@ class Window:
         self.command, self.machine_name, self.soft_name, driver_name_list = Command.get()
         if self.command is None:
             print("No more software for window", self.index)
-            Display.print_window("No more software", None, self.position, self.driver_name_list)
+            Display.print_window(" ", None, self.position, self.driver_name_list)
         else:
             Display.print_window(self.machine_name, self.soft_name, self.position, self.driver_name_list)
 
@@ -161,12 +161,13 @@ class Window:
                 self.is_sound_started = False
 
     def init_smart_sound(self):
-        if self.index == 0:
-            Sound.set_mute(self.out.pid, True
-                           )
-        if Config.smart_sound_timeout_sec > 0:
+        if Config.mode == 'music':
             Sound.set_mute(self.out.pid, False)
             self.is_muted = False
+        else:
+            if Config.smart_sound_timeout_sec > 0:
+                Sound.set_mute(self.out.pid, True)
+                self.is_muted = True
 
     def manage_smart_sound(self):
         if Config.smart_sound_timeout_sec > 0:
