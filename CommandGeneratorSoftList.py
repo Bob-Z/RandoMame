@@ -114,8 +114,10 @@ def get_interface_command_line(machine, soft):
         if 'interface' in d.attrib:
             if d.attrib['interface'] == soft.get("interface"):
                 instance = d.find("instance")
-                interface_name = instance.attrib["briefname"]
-                command_line = "-" + interface_name
-                break
+                if instance is not None:
+                    if 'briefname' in instance.attrib:
+                        interface_name = instance.attrib["briefname"]
+                        command_line = "-" + interface_name
+                        break
 
     return command_line
