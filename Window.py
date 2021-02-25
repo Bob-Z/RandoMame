@@ -124,7 +124,7 @@ class Window:
             Sound.reset()
 
     def get_command(self):
-        self.command, self.machine_name, self.soft_name, driver_name_list = Command.get()
+        self.command, self.machine_name, self.soft_name, self.driver_name_list = Command.get()
         if self.command is None:
             print("No more software for window", self.index)
             Display.print_window(" ", None, self.position, self.driver_name_list)
