@@ -225,6 +225,11 @@ def wait_for_keyboard():
 def print_cabinet(driver_name_list, rect):
     clear(rect)
 
+    if print_cabinet_from_dir(driver_name_list, rect) is False:
+        print_cabinet_from_zip(driver_name_list, rect)
+
+
+def print_cabinet_from_zip(driver_name_list, rect):
     global lock
     global draw_surface
 
@@ -234,26 +239,12 @@ def print_cabinet(driver_name_list, rect):
                 try:
                     with zip_file.open(driver_name + '.png') as file:
                         picture = pygame.image.load(file)
-                        pict_rect = picture.get_rect()
 
-                        factor = rect.width / pict_rect.width
-                        new_width = rect.width
-                        new_height = int(pict_rect.height * factor)
-                        if new_height > rect.height:
-                            factor = rect.height / pict_rect.height
-                            new_width = int(pict_rect.width * factor)
-                            new_height = rect.height
+                        draw_cabinet_picture(picture, rect)
 
-                        picture = pygame.transform.scale(picture, (new_width, new_height))
+                        print("Open cabinet picture from ZIP file")
 
-                        pict_rect = picture.get_rect()
-                        pict_rect.center = rect.center
-
-                        lock.acquire()
-                        draw_surface.blit(picture, pict_rect)
-                        lock.release()
-
-                        return
+                        return True
                 except zipfile.error:
                     print("ZIP file corrupted")
                 except KeyError:
@@ -263,3 +254,52 @@ def print_cabinet(driver_name_list, rect):
         print("ZIP file corrupted")
     except KeyError:
         pass
+
+    return False
+
+
+def print_cabinet_from_dir(driver_name_list, rect):
+    global lock
+    global draw_surface
+
+    try:
+        for driver_name in driver_name_list:
+            try:
+                with open("/media/4To/Mame/cabinets/" + driver_name + '.png') as file:
+                    picture = pygame.image.load(file)
+
+                    draw_cabinet_picture(picture, rect)
+
+                    print("Open cabinet picture from directory")
+
+                    return True
+            except FileNotFoundError:
+                pass
+
+    except zipfile.error:
+        print("ZIP file corrupted")
+    except KeyError:
+        pass
+
+    return False
+
+
+def draw_cabinet_picture(picture, rect):
+    pict_rect = picture.get_rect()
+
+    factor = rect.width / pict_rect.width
+    new_width = rect.width
+    new_height = int(pict_rect.height * factor)
+    if new_height > rect.height:
+        factor = rect.height / pict_rect.height
+        new_width = int(pict_rect.width * factor)
+        new_height = rect.height
+
+    picture = pygame.transform.scale(picture, (new_width, new_height))
+
+    pict_rect = picture.get_rect()
+    pict_rect.center = rect.center
+
+    lock.acquire()
+    draw_surface.blit(picture, pict_rect)
+    lock.release()
