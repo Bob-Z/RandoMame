@@ -41,8 +41,11 @@ class Window:
         self.thread = threading.Thread(target=Window.manage_window, args=(self,))
         self.thread.start()
 
+        self.start_command_launched = False
+
     def manage_window(self):
-        self.get_command()
+        if self.get_command() is False:
+            return
 
         self.launch_mame()
 
@@ -128,6 +131,7 @@ class Window:
         if self.command is None:
             print("No more software for window", self.index)
             Display.print_window(" ", None, self.position, self.driver_name_list)
+            return False
         else:
             Display.print_window(self.machine_name, self.soft_name, self.position, self.driver_name_list)
 
@@ -135,6 +139,9 @@ class Window:
                 if Config.start_command is not None and self.index == 0:
                     print("Execute start command:", Config.start_command)
                     os.system(Config.start_command)
+                    self.start_command_launched = True
+
+            return True
 
     def send_keyboard(self):
         if self.auto_keyboard_timeout > 0:
@@ -202,3 +209,6 @@ class Window:
 
     def set_sound_index(self, sound_index):
         self.sound_index = sound_index
+
+    def get_start_command_launched(self):
+        return self.start_command_launched

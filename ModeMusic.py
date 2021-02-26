@@ -19,6 +19,9 @@ def get(soft_list_list):
         command_list = CommandGeneratorMusic.generate_music_list(soft_list_list)
         Display.print_text("Found " + str(len(command_list)) + " musics")
 
+    if len(command_list) == 0:
+        return None, None, None, None
+
     if Config.linear is True:
         rand = 0
     else:

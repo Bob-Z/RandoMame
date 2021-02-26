@@ -19,6 +19,9 @@ def get(machine_list):
         command_list = CommandGeneratorMachine.generate_command_list(machine_list)
         print(len(command_list), "arcade machines found")
 
+    if len(command_list) == 0:
+        return None, None, None, None
+
     if Config.linear is True:
         rand = 0
     else:

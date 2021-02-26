@@ -16,10 +16,15 @@ def get(machine_list, soft_list_list, soft_list_name_list):
             return None, None, None, None
         first_pass = False
 
-        for soft_list_name in soft_list_name_list:
-            command_list = command_list + CommandGeneratorSoftList.generate_command_list(machine_list, soft_list_list,
-                                                                                         soft_list_name)
-            Display.print_text("Found " + str(len(command_list)) + " softwares")
+        generate_full_command_list(machine_list, soft_list_list, soft_list_name_list)
+
+        if len(command_list) == 0:
+            Config.allow_all()
+
+            generate_full_command_list(machine_list, soft_list_list, soft_list_name_list)
+
+    if len(command_list) == 0:
+        return None, None, None, None
 
     if Config.linear is True:
         rand = 0
@@ -30,3 +35,12 @@ def get(machine_list, soft_list_list, soft_list_name_list):
     command_list.pop(rand)
 
     return command, machine_name, soft_name, driver_name
+
+
+def generate_full_command_list(machine_list, soft_list_list, soft_list_name_list):
+    global command_list
+
+    for soft_list_name in soft_list_name_list:
+        command_list = command_list + CommandGeneratorSoftList.generate_command_list(machine_list, soft_list_list,
+                                                                                     soft_list_name)
+        Display.print_text("Found " + str(len(command_list)) + " softwares" + Config.get_allowed_string())

@@ -40,7 +40,8 @@ def parse_command_line():
                                     "window=", "year_min=", "year_max=", "music", "selected_soft=",
                                     "allow_not_supported",
                                     "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
-                                    "exclude=", "extra=", "force_driver=", "loose_search", "start_command=", "end_command="])
+                                    "exclude=", "extra=", "force_driver=", "loose_search", "start_command=",
+                                    "end_command="])
     except getopt.GetoptError:
         usage()
 
@@ -251,3 +252,31 @@ def usage():
     print("  -h, --help : print this message")
 
     sys.exit(1)
+
+
+def allow_all():
+    global allow_preliminary
+    global allow_not_supported
+
+    allow_preliminary = True
+    allow_not_supported = True
+
+
+def get_allowed_string():
+    global allow_preliminary
+    global allow_not_supported
+
+    if allow_preliminary is True or allow_not_supported is True:
+        allowed = " ("
+        if allow_preliminary is True:
+            allowed = allowed + "Preliminary"
+
+        if allow_preliminary is True and allow_not_supported is True:
+            allowed = allowed + " and "
+
+        if allow_not_supported is True:
+            allowed = allowed + "Not Supported"
+
+        allowed = allowed + " allowed)"
+
+        return allowed

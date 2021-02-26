@@ -1,8 +1,8 @@
 import random
 
+import AutoBoot
 import FilterMachine
 import FilterSoftware
-import AutoBoot
 
 machine_by_soft_list = {}
 
@@ -59,7 +59,8 @@ def generate_soft_list(soft_list_name, soft_list_list):
         part = soft.findall("part")
         soft_interface = part[0].attrib["interface"]
 
-        found_software.append({'softlist_name': soft_list_name, 'soft_name': soft_name, 'description': description, 'interface': soft_interface})
+        found_software.append({'softlist_name': soft_list_name, 'soft_name': soft_name, 'description': description,
+                               'interface': soft_interface})
 
     if len(found_software) > 0:
         print("Found", len(found_software), "softwares in software list", soft_list_name)
@@ -69,23 +70,15 @@ def generate_soft_list(soft_list_name, soft_list_list):
 
 def pick_random_machine(machine_list, soft):
     global machine_by_soft_list
-    try:
-        found_machine_list = machine_by_soft_list[soft['softlist_name']]
-    except KeyError:
-        found_machine_list = []
-        for machine in machine_list:
-            all_machine_soft_list = machine.findall("softwarelist")
-            for machine_soft_list in all_machine_soft_list:
-                if machine_soft_list.attrib['name'] == soft['softlist_name']:
-                    # This machine support selected soft_list
 
-                    interface_command_line = get_interface_command_line(machine, soft)
-                    if interface_command_line != "":
-                        # This machine has the correct interface this software
-                        found_machine_list.append(machine)
-                        break
+    if soft['softlist_name'] not in machine_by_soft_list:
+        machine_by_soft_list[soft['softlist_name']] = generate_machine_list_for_soft_list(machine_list, soft)
 
-        machine_by_soft_list[soft['softlist_name']] = found_machine_list
+    # this can happen when this method is called more than one time since we pop out some elem
+    if len(machine_by_soft_list[soft['softlist_name']]) == 0:
+        machine_by_soft_list[soft['softlist_name']] = generate_machine_list_for_soft_list(machine_list, soft)
+
+    found_machine_list = machine_by_soft_list[soft['softlist_name']]
 
     while len(found_machine_list) > 0:
         rand = random.randrange(len(found_machine_list))
@@ -121,3 +114,20 @@ def get_interface_command_line(machine, soft):
                         break
 
     return command_line
+
+
+def generate_machine_list_for_soft_list(machine_list, soft):
+    found_machine_list = []
+    for machine in machine_list:
+        all_machine_soft_list = machine.findall("softwarelist")
+        for machine_soft_list in all_machine_soft_list:
+            if machine_soft_list.attrib['name'] == soft['softlist_name']:
+                # This machine support selected soft_list
+
+                interface_command_line = get_interface_command_line(machine, soft)
+                if interface_command_line != "":
+                    # This machine has the correct interface this software
+                    found_machine_list.append(machine)
+                    break
+
+    return found_machine_list
