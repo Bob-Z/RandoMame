@@ -1,133 +1,108 @@
 import random
 
-import AutoBoot
 import FilterMachine
 import FilterSoftware
+from Item import Item
 
-machine_by_soft_list = {}
-
-
-def generate_command_list(machine_list, soft_list_list, soft_list_name):
-    command_list = []
-    found_soft = generate_soft_list(soft_list_name, soft_list_list)
-    if found_soft is None:
-        return command_list
-
-    for soft in found_soft:
-        machine, machine_name, full_machine_name = pick_random_machine(machine_list, soft)
-        if machine_name is None:
-            continue
-
-        interface_command_line = get_interface_command_line(machine, soft)
-        command = machine_name[0] + " " + interface_command_line + " " + soft['soft_name']
-
-        autoboot_script, autoboot_delay, extra_command = AutoBoot.get_autoboot_command(soft_list_name, machine_name[0])
-        if autoboot_delay is not None:
-            command = command + " -autoboot_script autoboot_script/" + autoboot_script + " -autoboot_delay " + str(
-                autoboot_delay)
-
-        if extra_command is not None:
-            command = command + " " + extra_command
-
-        command_list.append([command, full_machine_name, soft['description'], machine_name])
-
-    return command_list
+machine_xml_by_soft_list = {}
 
 
-def generate_soft_list(soft_list_name, soft_list_list):
+def generate_command_list(machine_xml_list, softlist_xml_list, softlist_name):
+    item_list = generate_item_list(softlist_name, softlist_xml_list)
+
+    if item_list is not None:
+        for item in item_list:
+            random_machine_item = pick_random_machine(machine_xml_list, item)
+            if random_machine_item is None:
+                # TODO do not return None for the whole list when only one item has no machine
+                return None
+
+            item.set_machine_xml(random_machine_item.get_machine_xml())
+
+    return item_list
+
+
+def generate_item_list(softlist_name, softlist_xml_list):
     found_software = []
 
-    if soft_list_name == "vgmplay":
+    if softlist_name == "vgmplay":
         print("Skip vgmplay softlist")
         return None
 
-    selected_soft_list = None
-    for soft_list in soft_list_list.findall('softwarelist'):
-        if soft_list.attrib['name'] == soft_list_name:
-            selected_soft_list = soft_list
+    selected_softlist_xml = None
+
+    for softlist_xml in softlist_xml_list.findall('softwarelist'):
+        if softlist_xml.attrib['name'] == softlist_name:
+            selected_softlist_xml = softlist_xml
             break
 
-    if selected_soft_list is None:
-        print("No software list named", soft_list_name)
+    if selected_softlist_xml is None:
+        print("No software list named", softlist_name)
         return None
 
-    for soft in selected_soft_list:
-        soft_name, description = FilterSoftware.get(soft)
-        if soft_name is None:
+    for soft_xml in selected_softlist_xml:
+        item = FilterSoftware.get(soft_xml)
+        if item is None:
             continue
 
-        part = soft.findall("part")
-        soft_interface = part[0].attrib["interface"]
+        item.set_softlist_name(softlist_name)
 
-        found_software.append({'softlist_name': soft_list_name, 'soft_name': soft_name, 'description': description,
-                               'interface': soft_interface})
+        found_software.append(item)
 
     if len(found_software) > 0:
-        print("Found", len(found_software), "softwares in software list", soft_list_name)
+        print("Found", len(found_software), "softwares in software list", softlist_name)
 
     return found_software
 
 
-def pick_random_machine(machine_list, soft):
-    global machine_by_soft_list
+def pick_random_machine(machine_list, item):
+    global machine_xml_by_soft_list
 
-    if soft['softlist_name'] not in machine_by_soft_list:
-        machine_by_soft_list[soft['softlist_name']] = generate_machine_list_for_soft_list(machine_list, soft)
+    if item.get_softlist_name() not in machine_xml_by_soft_list:
+        machine_xml_by_soft_list[item.get_softlist_name()] = generate_machine_xml_list_for_soft_list(machine_list, item)
 
     # this can happen when this method is called more than one time since we pop out some elem
-    if len(machine_by_soft_list[soft['softlist_name']]) == 0:
-        machine_by_soft_list[soft['softlist_name']] = generate_machine_list_for_soft_list(machine_list, soft)
+    if len(machine_xml_by_soft_list[item.get_softlist_name()]) == 0:
+        machine_xml_by_soft_list[item.get_softlist_name()] = generate_machine_xml_list_for_soft_list(machine_list, item)
 
-    found_machine_list = machine_by_soft_list[soft['softlist_name']]
+    found_machine_xml_list = machine_xml_by_soft_list[item.get_softlist_name()]
 
-    while len(found_machine_list) > 0:
-        rand = random.randrange(len(found_machine_list))
+    machine_item = None
 
-        machine = found_machine_list[rand]
+    while len(found_machine_xml_list) > 0:
+        rand = random.randrange(len(found_machine_xml_list))
 
-        machine_name, title = FilterMachine.get(machine, check_machine_description=False)
+        machine_xml = found_machine_xml_list[rand]
 
-        if machine_name is None:
-            found_machine_list.pop(rand)
-            continue
+        machine_item = FilterMachine.get(machine_xml, check_machine_description=False)
 
-        break
+        if machine_item is None:
+            found_machine_xml_list.pop(rand)
+        else:
+            break
 
-    if len(found_machine_list) == 0:
-        print("No machine available for software list", soft['softlist_name'])
-        return None, None, None
+    if machine_item is None:
+        print("No machine available for software list", item.get_softlist_name())
+        return None
 
-    return machine, machine_name, title
-
-
-def get_interface_command_line(machine, soft):
-    device = machine.findall("device")
-    command_line = ""
-    for d in device:
-        if 'interface' in d.attrib:
-            if d.attrib['interface'] == soft.get("interface"):
-                instance = d.find("instance")
-                if instance is not None:
-                    if 'briefname' in instance.attrib:
-                        interface_name = instance.attrib["briefname"]
-                        command_line = "-" + interface_name
-                        break
-
-    return command_line
+    return machine_item
 
 
-def generate_machine_list_for_soft_list(machine_list, soft):
-    found_machine_list = []
-    for machine in machine_list:
-        all_machine_soft_list = machine.findall("softwarelist")
-        for machine_soft_list in all_machine_soft_list:
-            if machine_soft_list.attrib['name'] == soft['softlist_name']:
+def generate_machine_xml_list_for_soft_list(machine_xml_list, item):
+    found_machine_xml_list = []
+    for machine_xml in machine_xml_list:
+        machine_xml_softlist_list = machine_xml.findall("softwarelist")
+        for machine_xml_softlist in machine_xml_softlist_list:
+            if machine_xml_softlist.attrib['name'] == item.get_softlist_name():
                 # This machine support selected soft_list
 
-                interface_command_line = get_interface_command_line(machine, soft)
+                temp_item = Item()
+                temp_item.set_machine_xml(machine_xml)
+                temp_item.set_soft_xml(item.get_soft_xml())
+                interface_command_line = temp_item.get_interface_command_line()
                 if interface_command_line != "":
-                    # This machine has the correct interface this software
-                    found_machine_list.append(machine)
+                    # This machine has the correct interface for this software
+                    found_machine_xml_list.append(machine_xml)
                     break
 
-    return found_machine_list
+    return found_machine_xml_list

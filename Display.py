@@ -6,6 +6,7 @@ import zipfile
 import pygame
 
 import Desktop
+import Record
 
 init_done = False
 main_window = None
@@ -192,22 +193,29 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
     print(input_text)
 
 
-def print_window(machine_name, soft_name, position, driver_name_list):
-    rect = pygame.Rect(position['pos_x'], position['pos_y'], position['width'], position['height'])
-
+def print_window(item, position):
     do_clear = True
 
-    if driver_name_list is not None:
-        print_cabinet(driver_name_list, rect)
-        do_clear = False
+    if item is not None:
+        rect = pygame.Rect(position['pos_x'], position['pos_y'], position['width'], position['height'])
 
-    if soft_name is not None:
-        upper_rect = pygame.Rect(rect.left, rect.top, rect.width, rect.height / 2)
-        print_text(soft_name, upper_rect, False, do_clear)
-        lower_rect = pygame.Rect(rect.left, rect.top + rect.height / 2, rect.width, rect.height / 2)
-        print_text(machine_name, lower_rect, False, do_clear)
-    else:
-        print_text(machine_name, rect, False, do_clear)
+        if item.get_machine_short_name() is not None:
+            print_cabinet(item, rect)
+            do_clear = False
+
+        if item.get_soft_xml() is not None and item.get_machine_xml() is not None:
+            upper_rect = pygame.Rect(rect.left, rect.top, rect.width, rect.height / 2)
+            print_text(item.get_soft_full_description(), upper_rect, False, do_clear)
+            lower_rect = pygame.Rect(rect.left, rect.top + rect.height / 2, rect.width, rect.height / 2)
+            print_text(item.get_machine_full_description(), lower_rect, False, do_clear)
+        else:
+            if item.get_machine_xml() is not None:
+                print_text(item.get_machine_full_description(), rect, False, do_clear)
+            else:  # vgmplay
+                upper_rect = pygame.Rect(rect.left, rect.top, rect.width, rect.height / 2)
+                print_text(item.get_soft_full_description(), upper_rect, False, do_clear)
+                lower_rect = pygame.Rect(rect.left, rect.top + rect.height / 2, rect.width, rect.height / 2)
+                print_text(item.get_part_name(), lower_rect, False, do_clear)
 
 
 def wait_for_keyboard():
@@ -222,8 +230,12 @@ def wait_for_keyboard():
     return False
 
 
-def print_cabinet(driver_name_list, rect):
+def print_cabinet(item, rect):
     clear(rect)
+
+    driver_name_list = [item.get_machine_short_name()]
+    if item.get_cloneof_short_name() is not None:
+        driver_name_list.append(item.get_cloneof_short_name())
 
     if print_cabinet_from_dir(driver_name_list, rect) is False:
         print_cabinet_from_zip(driver_name_list, rect)
@@ -303,3 +315,8 @@ def draw_cabinet_picture(picture, rect):
     lock.acquire()
     draw_surface.blit(picture, pict_rect)
     lock.release()
+
+
+def record_window():
+    filename = Record.get_name() + ".png"
+    pygame.image.save(draw_surface, filename)

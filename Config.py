@@ -29,11 +29,12 @@ force_driver = None
 loose_search = False
 start_command = None
 end_command = None
+record = None
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAc:C:d:D:E:f:hi:I:lLmM:noO:pqsS:T:t:w:x:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAc:C:d:D:E:f:hi:I:lLmM:noO:pqrsS:T:t:w:x:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
@@ -41,7 +42,7 @@ def parse_command_line():
                                     "allow_not_supported",
                                     "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
                                     "exclude=", "extra=", "force_driver=", "loose_search", "start_command=",
-                                    "end_command="])
+                                    "end_command=", "record="])
     except getopt.GetoptError:
         usage()
 
@@ -72,6 +73,7 @@ def parse_command_line():
     global loose_search
     global start_command
     global end_command
+    global record
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -143,6 +145,8 @@ def parse_command_line():
             start_command = arg
         elif opt in ("-C", "--end_command"):
             end_command = arg
+        elif opt in ("-r", "--record"):
+            record = arg
         else:
             print("Unknown option " + opt)
             usage()
@@ -217,7 +221,7 @@ def usage():
     print(" - MODE")
     print("  -a, --arcade : arcade mode: run only coins operated machine (default)")
     print("  -A, --all : both arcade mode and softlist mode")
-    print("  -s, --softlist : softlist mode: run only drivers using softwares (default)")
+    print("  -s, --softlist : softlist mode: run only drivers using softwares")
     print("  -S, --selected_softlist= : comma separated list of selected softlists which will be run")
     print("  -m, --music : video game music mode")
     print("")
@@ -246,9 +250,10 @@ def usage():
         "  -O, --smart_sound_timeout : Only one window is unmuted. After smart_sound_timeout seconds of silence, another window is un-muted. Set this to 0 to deactivate smart-sound")
     print("")
     print(" - OTHER")
-    print("  -c, --start_command : command line to be executed on start (when MAME is first launched)")
-    print("  -C, --end_command : command line to be executed at end (when Randomame window is closed)")
+    print("  -c, --start_command= : command line to be executed on start (when MAME is first launched)")
+    print("  -C, --end_command= : command line to be executed at end (when Randomame window is closed)")
     print("  -l, --available_softlist : display available softlists")
+    print("  -r, --record= : directory where session is recorded")
     print("  -h, --help : print this message")
 
     sys.exit(1)
@@ -280,3 +285,6 @@ def get_allowed_string():
         allowed = allowed + " allowed)"
 
         return allowed
+
+    else:
+        return " (No preliminary, no not supported)"

@@ -3,7 +3,7 @@ import Config
 
 
 def generate_command_list(machine_list):
-    command_list = []
+    item_list = []
 
     check_machine_description = True
 
@@ -12,10 +12,10 @@ def generate_command_list(machine_list):
         check_machine_description = False
 
     for machine in machine_list:
-        command, machine_desc = FilterMachine.get(machine, check_machine_description)
-        if command is None:
+        item = FilterMachine.get(machine, check_machine_description)
+        if item is None:
             continue
 
-        command_list.append([command[0], machine_desc, None, command])
+        item_list.append(item)
 
-    return command_list
+    return item_list

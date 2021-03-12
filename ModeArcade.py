@@ -3,30 +3,30 @@ import random
 import CommandGeneratorMachine
 import Config
 
-command_list = []
+item_list = []
 first_pass = True
 
 
 def get(machine_list):
-    global command_list
+    global item_list
     global first_pass
-    if len(command_list) == 0:
+    if len(item_list) == 0:
 
         if first_pass is False and Config.auto_quit is True:
-            return None, None, None, None
+            return None
         first_pass = False
 
-        command_list = CommandGeneratorMachine.generate_command_list(machine_list)
-        print(len(command_list), "arcade machines found")
+        item_list = CommandGeneratorMachine.generate_command_list(machine_list)
+        print(len(item_list), "arcade machines found")
 
-    if len(command_list) == 0:
-        return None, None, None, None
+    if len(item_list) == 0:
+        return None
 
     if Config.linear is True:
         rand = 0
     else:
-        rand = random.randrange(len(command_list))
-    command, machine_name, soft_name, driver_name = command_list[rand]
-    command_list.pop(rand)
+        rand = random.randrange(len(item_list))
+    selected_item = item_list[rand]
+    item_list.pop(rand)
 
-    return command, machine_name, soft_name, driver_name
+    return selected_item

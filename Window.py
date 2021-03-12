@@ -3,11 +3,12 @@ import os
 import threading
 import time
 
-import Command
+import Mode
 import Config
 import Display
 import Mame
 import Sound
+import Item
 
 
 class Window:
@@ -25,10 +26,7 @@ class Window:
         self.is_muted = False
         self.out = None
 
-        self.command = None
-        self.machine_name = None
-        self.soft_name = None
-        self.driver_name_list = None
+        self.item = None
         self.title = None
 
         self.auto_keyboard_timeout = 1.0
@@ -67,7 +65,7 @@ class Window:
     def launch_mame(self):
         while self.out is None or self.out.poll() is not None:
 
-            if self.command is None:
+            if self.item is None:
                 return
 
             wait_loop = 15
@@ -77,7 +75,7 @@ class Window:
                 if self.is_running is False:
                     return
 
-            self.out = Mame.run(self.command)
+            self.out = Mame.run(self.item)
 
             self.set_title()
 
@@ -94,10 +92,7 @@ class Window:
             self.get_command()
 
     def set_title(self):
-        if self.soft_name is not None:
-            self.title = self.soft_name + " // " + self.machine_name
-        else:
-            self.title = self.machine_name
+        self.title = self.item.get_title()
 
         while self.desktop.set_title(self.out.pid, self.title) is False:
             if self.out.poll() is not None:
@@ -127,13 +122,15 @@ class Window:
             Sound.reset()
 
     def get_command(self):
-        self.command, self.machine_name, self.soft_name, self.driver_name_list = Command.get()
-        if self.command is None:
+        self.item = Mode.get()
+        if self.item is None:
             print("No more software for window", self.index)
-            Display.print_window(" ", None, self.position, self.driver_name_list)
+            Display.print_window(None, self.position)
             return False
         else:
-            Display.print_window(self.machine_name, self.soft_name, self.position, self.driver_name_list)
+            Display.print_window(self.item, self.position)
+            if Config.record is not None:
+                Display.record_window()
 
             if self.first_launch is True:
                 if Config.start_command is not None and self.index == 0:
@@ -194,7 +191,7 @@ class Window:
             self.out.kill()
             self.thread_running = False
 
-        if self.command is None:
+        if self.item is None:
             if self.out.poll() is not None:
                 self.thread_running = False
 

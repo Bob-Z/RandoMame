@@ -4,29 +4,32 @@ import CommandGeneratorSoftList
 import Config
 import Display
 
-command_list = []
+item_list = []
 first_pass = True
 
 
-def get(machine_list, soft_list_list):
-    global command_list
+def get(machine_xml_list, softlist_xml_list):
+    global item_list
     global first_pass
-    if len(command_list) == 0:
+    if len(item_list) == 0:
         if first_pass is False and Config.auto_quit is True:
-            return None, None, None, None
+            return None
         first_pass = False
 
-        for soft_list in soft_list_list.findall("softwarelist"):
-            command_list = command_list + CommandGeneratorSoftList.generate_command_list(machine_list, soft_list_list,
-                                                                                         soft_list.attrib['name'])
-            Display.print_text("Found " + str(len(command_list)) + " softwares")
+        for softlist_xml in softlist_xml_list.findall("softwarelist"):
+            new_item_list = CommandGeneratorSoftList.generate_command_list(machine_xml_list, softlist_xml_list,
+                                                                           softlist_xml.attrib['name'])
+            if new_item_list is not None:
+                item_list = item_list + new_item_list
+
+            Display.print_text("Found " + str(len(item_list)) + " softwares")
 
     if Config.linear is True:
         rand = 0
     else:
-        rand = random.randrange(len(command_list))
+        rand = random.randrange(len(item_list))
 
-    command, machine_name, soft_name, driver_name = command_list[rand]
-    command_list.pop(rand)
+    selected_item = item_list[rand]
+    item_list.pop(rand)
 
-    return command, machine_name, soft_name, driver_name
+    return selected_item

@@ -1,51 +1,50 @@
 import re
 
 import Config
+from Item import Item
 
 
-def get(soft):
-    soft_description = soft.find('description')
+def get(soft_xml):
+    item = Item()
+    item.set_soft_xml(soft_xml)
 
     if len(Config.selected_soft) > 0:
         found = False
         for driver_name in Config.selected_soft:
-            if soft.attrib['name'] == driver_name:
+            if soft_xml.attrib['name'] == driver_name:
                 found = True
                 break
 
         if found is False:
-            return None, None
+            return None
 
     if Config.description is not None:
         for desc in Config.description:
             found = False
-            if re.match(desc, soft_description.text, re.IGNORECASE) is not None:
+            if re.match(desc, item.get_soft_description(), re.IGNORECASE) is not None:
                 found = True
                 break
 
         if found is False:
-            return None, None
+            return None
 
-    year = soft.find('year').text
     if Config.year_min is not None:
         try:
-            if int(year) < Config.year_min:
-                return None, None
+            if int(item.get_soft_year()) < Config.year_min:
+                return None
         except ValueError:
-            return None, None
+            return None
 
     if Config.year_max is not None:
         try:
-            if int(year) > Config.year_max:
-                return None, None
+            if int(item.get_soft_year()) > Config.year_max:
+                return None
         except ValueError:
-            return None, None
+            return None
 
     if Config.allow_not_supported is False:
-        if soft.attrib['supported'] is not None:
-            if soft.attrib['supported'] != "yes":
-                return None, None
+        if soft_xml.attrib['supported'] is not None:
+            if soft_xml.attrib['supported'] != "yes":
+                return None
 
-    description = soft_description.text + " (" + year + ")"
-
-    return soft.attrib['name'], description
+    return item

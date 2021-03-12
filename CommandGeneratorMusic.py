@@ -14,14 +14,13 @@ def generate_music_list(soft_list_list):
     found_qty = 0
 
     for soft in selected_soft_list:
-        soft_name, description = FilterSoftware.get(soft)
-        if soft_name is None:
+        item = FilterSoftware.get(soft)
+        if item is None:
             continue
 
-        for part in soft.findall('part'):
-            feature = part.find('feature')
-            found_music.append(
-                ["vgmplay -quik " + soft_name + ":" + part.attrib['name'], feature.attrib['value'], description, None])
+        for part in item.get_soft_xml().findall('part'):
+            item.set_part_xml(part)
+            found_music.append(item)
 
         if len(found_music) > found_qty + 1000:
             found_qty = len(found_music)

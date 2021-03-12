@@ -3,13 +3,15 @@ import os
 
 import Config
 import Sound
+import Record
 
 
-def run(command):
-    if command is None:
+def run(item):
+    if item is None:
         return
 
     args = [Config.mame_binary]
+    command = item.get_command_line()
     for c in command.split(' '):
         args.append(c)
     args += ['-nomouse', '-nohttp', '-window',
@@ -17,6 +19,11 @@ def run(command):
 
     if Config.mode != 'music':
         args.append('-artwork_crop')
+
+    if Config.record is not None:
+        filename = Record.get_name() + ".avi"
+        args.append('-aviwrite')
+        args.append(filename)
 
     if Config.extra is not None:
         args.append(Config.extra)

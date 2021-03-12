@@ -1,6 +1,6 @@
 import sys
 
-import Command
+import Mode
 import Config
 import Desktop
 import Display
@@ -45,7 +45,7 @@ def start():
     if soft_list is not None:
         print(len(soft_list), " softwares lists")
 
-    Command.init(machine_list, soft_list)
+    Mode.init(machine_list, soft_list)
 
     desktop = DesktopClass()
 

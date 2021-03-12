@@ -3,11 +3,12 @@ import re
 
 import Config
 import Display
+from Item import Item
 
 ini_data = None
 
 
-def get(machine, check_machine_description):
+def get(machine_xml, check_machine_description):
     global ini_data
     if Config.ini_file is not None:
         if ini_data is None:
@@ -18,58 +19,58 @@ def get(machine, check_machine_description):
         found = False
         drivers = Config.force_driver.split(',')
         for d in drivers:
-            if machine.attrib['name'] == d:
+            if machine_xml.attrib['name'] == d:
                 found = True
 
         if found is False:
-            return None, None
+            return None
 
-    if "isdevice" in machine.attrib:
-        if machine.attrib["isdevice"] == "yes":
+    if "isdevice" in machine_xml.attrib:
+        if machine_xml.attrib["isdevice"] == "yes":
             # print("Skip device ", machine.attrib["name"])
-            return None, None
-    if "isbios" in machine.attrib:
-        if machine.attrib["isbios"] == "yes":
+            return None
+    if "isbios" in machine_xml.attrib:
+        if machine_xml.attrib["isbios"] == "yes":
             # print("Skip bios ", machine.attrib["name"])
-            return None, None
-    if "runnable" in machine.attrib:
-        if machine.attrib["runnable"] == "no":
+            return None
+    if "runnable" in machine_xml.attrib:
+        if machine_xml.attrib["runnable"] == "no":
             # print("Skip non runnable ", machine.attrib["name"])
-            return None, None
+            return None
     #if "ismechanical" in machine.attrib:
     #    if machine.attrib["ismechanical"] == "yes":
             # print("Skip mechanical ", machine.attrib["name"])
-    #        return None, None
+    #        return None
 
     if Config.allow_preliminary is False:
-        machine_driver = machine.find("driver")
+        machine_driver = machine_xml.find("driver")
         if machine_driver is not None:
             if "status" in machine_driver.attrib:
                 if machine_driver.attrib["status"] == "preliminary":
                     # print("Skip preliminary driver machine ", machine.attrib["name"])
-                    return None, None
+                    return None
 
-    year = machine.find("year").text
+    year = machine_xml.find("year").text
     if Config.year_min is not None:
         try:
             if int(year) < Config.year_min:
-                return None, None
+                return None
         except ValueError:
-            return None, None
+            return None
 
     if Config.year_max is not None:
         try:
             if int(year) > Config.year_max:
-                return None, None
+                return None
         except ValueError:
-            return None, None
+            return None
 
     if Config.description is not None and check_machine_description is True:
-        if strict_search_machine(machine) is False:
-            return None, None
+        if strict_search_machine(machine_xml) is False:
+            return None
 
     if Config.manufacturer is not None:
-        current_manuf = machine.find("manufacturer").text
+        current_manuf = machine_xml.find("manufacturer").text
         manuf_list = Config.manufacturer.split(',')
         is_found = False
         for manuf in manuf_list:
@@ -78,43 +79,40 @@ def get(machine, check_machine_description):
                 break
 
         if is_found is False:
-            return None, None
+            return None
 
     if Config.ini_file is not None:
         if Config.include is not None:
             found = False
             for i in Config.include.split(','):
-                if machine.attrib['name'] in ini_data[i]:
+                if machine_xml.attrib['name'] in ini_data[i]:
                     found = True
                     break
             if found is False:
-                return None, None
+                return None
         if Config.exclude is not None:
             try:
                 for e in Config.exclude.split(','):
-                    if machine.attrib['name'] in ini_data[e]:
-                        return None, None
+                    if machine_xml.attrib['name'] in ini_data[e]:
+                        return None
             except KeyError:
                 pass
 
     if Config.mode == 'arcade':
-        machine_input = machine.find("input")
+        machine_input = machine_xml.find("input")
         if machine_input is not None:
             if "coins" not in machine_input.attrib:
                 # print("Skip non arcade machine ", machine.attrib['name'], "-", title)
-                return None, None
+                return None
         else:
             # print("Skip no input machine ", machine.attrib['name'], "-", title)
-            return None, None
+            return None
 
-    description = machine.find("description").text
-    full_name = description + " (" + year + ")"
+    item = Item()
 
-    if 'cloneof' in machine.attrib:
-        machine_list = [machine.attrib['name'], machine.attrib['cloneof']]
-    else:
-        machine_list = [machine.attrib['name']]
-    return machine_list, full_name
+    item.set_machine_xml(machine_xml)
+
+    return item
 
 
 def loose_search_machine_list(machine_list):
