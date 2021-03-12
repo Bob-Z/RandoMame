@@ -1,4 +1,5 @@
 import random
+import time
 
 import CommandGeneratorSoftList
 import Config
@@ -43,4 +44,6 @@ def generate_full_command_list(machine_list, soft_list_list, soft_list_name_list
     for soft_list_name in soft_list_name_list:
         command_list = command_list + CommandGeneratorSoftList.generate_command_list(machine_list, soft_list_list,
                                                                                      soft_list_name)
+
         Display.print_text("Found " + str(len(command_list)) + " softwares" + Config.get_allowed_string())
+        time.sleep(1.5)
