@@ -1,26 +1,29 @@
 import Display
 import FilterSoftware
+from Item import Item
 
 
-def generate_music_list(soft_list_list):
+def generate_music_list(softlist_xml_list):
     found_music = []
 
-    selected_soft_list = None
-    for soft_list in soft_list_list.findall('softwarelist'):
-        if soft_list.attrib['name'] == "vgmplay":
-            selected_soft_list = soft_list
+    selected_softlist_xml = None
+    for softlist_xml in softlist_xml_list.findall('softwarelist'):
+        if softlist_xml.attrib['name'] == "vgmplay":
+            selected_softlist_xml = softlist_xml
             break
 
     found_qty = 0
 
-    for soft in selected_soft_list:
-        item = FilterSoftware.get(soft)
+    for soft_xml in selected_softlist_xml:
+        item = FilterSoftware.get(soft_xml)
         if item is None:
             continue
 
-        for part in item.get_soft_xml().findall('part'):
-            item.set_part_xml(part)
-            found_music.append(item)
+        for part_xml in item.get_soft_xml().findall('part'):
+            part_item = Item()
+            part_item.set_soft_xml(item.get_soft_xml())
+            part_item.set_part_xml(part_xml)
+            found_music.append(part_item)
 
         if len(found_music) > found_qty + 1000:
             found_qty = len(found_music)
