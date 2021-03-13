@@ -25,6 +25,10 @@ def run(item):
         args.append('-aviwrite')
         args.append(filename)
 
+        additional_command = Record.create_aspect_ratio_file(item)
+        if additional_command is not None:
+            args.extend(additional_command)
+
     if Config.extra is not None:
         args.append(Config.extra)
 

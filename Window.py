@@ -129,14 +129,15 @@ class Window:
             return False
         else:
             Display.print_window(self.item, self.position)
-            if Config.record is not None:
-                Display.record_window()
 
             if self.first_launch is True:
                 if Config.start_command is not None and self.index == 0:
                     print("Execute start command:", Config.start_command)
                     os.system(Config.start_command)
                     self.start_command_launched = True
+
+            if Config.record is not None:
+                Display.record_window()
 
             return True
 
