@@ -77,8 +77,8 @@ class Xfce:
         split1 = txt.split(": ")
         self.decoration_size = split1[1].split(", ")
 
-    def send_keyboard(self, pid):
-        command = "xdotool search --all --pid " + str(pid) + " --class mame key super > /dev/null 2>&1"
+    def send_keyboard(self, pid, key_name):
+        command = "xdotool search --all --pid " + str(pid) + " --class mame key " + key_name + " > /dev/null 2>&1"
         return_value = os.system(command)
 
         if return_value == 0:

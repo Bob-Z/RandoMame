@@ -8,7 +8,6 @@ import Config
 import Display
 import Mame
 import Sound
-import Item
 
 
 class Window:
@@ -34,6 +33,9 @@ class Window:
         self.end_date = None
 
         self.is_sound_started = False
+
+        self.send_keyboard_skip = True
+        self.send_keyboard_end = False
 
         self.thread_running = True
         self.thread = threading.Thread(target=Window.manage_window, args=(self,))
@@ -91,6 +93,9 @@ class Window:
 
             self.get_command()
 
+            self.send_keyboard_skip = True
+            self.send_keyboard_end = False
+
     def set_title(self):
         self.title = self.item.get_title()
 
@@ -113,12 +118,14 @@ class Window:
 
         self.end_date = datetime.datetime.now() + datetime.timedelta(seconds=Config.timeout) + datetime.timedelta(
             seconds=(self.index * delay_start))
-        self.auto_keyboard_date = 1.0
+
         self.auto_keyboard_date = datetime.datetime.now()
 
     def manage_date(self):
         if self.end_date < datetime.datetime.now():
-            self.out.kill()
+            #self.out.kill()
+            self.send_keyboard_end = True
+
             Sound.reset()
 
     def get_command(self):
@@ -142,16 +149,16 @@ class Window:
             return True
 
     def send_keyboard(self):
-        if self.auto_keyboard_timeout > 0:
-            if datetime.datetime.now() > self.auto_keyboard_date + datetime.timedelta(
-                    seconds=self.auto_keyboard_timeout):
-                self.desktop.send_keyboard(self.out.pid)
-                auto_keyboard_timeout = self.auto_keyboard_timeout + 1
-                if auto_keyboard_timeout > 15:
-                    self.auto_keyboard_timeout = 0
-            return True
+        if self.send_keyboard_end is True:
+            self.desktop.send_keyboard(self.out.pid, "Escape")
         else:
-            return False
+            if self.send_keyboard_skip is True:
+                if datetime.datetime.now() > self.auto_keyboard_date + datetime.timedelta(
+                        seconds=self.auto_keyboard_timeout):
+                    self.desktop.send_keyboard(self.out.pid, "Hyper_L")
+                    self.auto_keyboard_timeout = self.auto_keyboard_timeout + 1
+                    if self.auto_keyboard_timeout > 15:
+                        self.send_keyboard_skip = False
 
     def init_silence(self):
         self.is_sound_started = False
@@ -162,7 +169,9 @@ class Window:
                 self.is_sound_started = True
 
             if self.is_sound_started is True and Sound.get_silence_duration_sec() > 5.0:
-                self.out.kill()
+                #self.out.kill()
+                self.send_keyboard_end = True
+
                 self.is_sound_started = False
 
     def init_smart_sound(self):
@@ -190,6 +199,7 @@ class Window:
     def manage_stop(self):
         if self.is_running is False:
             self.out.kill()
+
             self.thread_running = False
 
         if self.item is None:

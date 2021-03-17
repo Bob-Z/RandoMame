@@ -15,8 +15,8 @@ class DesktopClass:
     def set_position(self, pid, pos_x, pos_y, width, height):
         return self.desktop.set_position(pid, pos_x, pos_y, width, height)
 
-    def send_keyboard(self, pid):
-        return self.desktop.send_keyboard(pid)
+    def send_keyboard(self, pid, key_name):
+        return self.desktop.send_keyboard(pid, key_name)
 
     def set_title(self, pid, title):
         return self.desktop.set_title(pid, title)
