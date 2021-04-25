@@ -170,6 +170,14 @@ lib = {
         "yc64": ('msx1_cass.lua', 4, None),
         "yis604": ('msx1_cass.lua', 4, None),
         "y503iir2": ('msx1_cass.lua', 4, None),
+    },
+
+    "specpls3_flop": {
+        "sp3e8bit": ('specpls3_flop.lua', 3, None),
+        "sp3eata": ('specpls3_flop.lua', 3, None),
+        "sp3ezcf": ('specpls3_flop.lua', 3, None),
+        "specpl3e": ('specpls3_flop.lua', 3, None),
+        "specpls3": ('specpls3_flop.lua', 3, None),
     }
 }
 
