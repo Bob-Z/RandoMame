@@ -3,10 +3,10 @@ import os
 import threading
 import time
 
-import Mode
 import Config
 import Display
 import Mame
+import Mode
 import Sound
 
 
@@ -28,14 +28,12 @@ class Window:
         self.item = None
         self.title = None
 
-        self.auto_keyboard_timeout = 1.0
         self.auto_keyboard_date = None
         self.end_date = None
 
         self.is_sound_started = False
 
         self.send_keyboard_skip = True
-        self.send_keyboard_end = False
 
         self.thread_running = True
         self.thread = threading.Thread(target=Window.manage_window, args=(self,))
@@ -94,7 +92,6 @@ class Window:
             self.get_command()
 
             self.send_keyboard_skip = True
-            self.send_keyboard_end = False
 
     def set_title(self):
         self.title = self.item.get_title()
@@ -123,8 +120,7 @@ class Window:
 
     def manage_date(self):
         if self.end_date < datetime.datetime.now():
-            #self.out.kill()
-            self.send_keyboard_end = True
+            self.out.kill()
 
             Sound.reset()
 
@@ -149,16 +145,11 @@ class Window:
             return True
 
     def send_keyboard(self):
-        if self.send_keyboard_end is True:
-            self.desktop.send_keyboard(self.out.pid, "Escape")
-        else:
-            if self.send_keyboard_skip is True:
-                if datetime.datetime.now() > self.auto_keyboard_date + datetime.timedelta(
-                        seconds=self.auto_keyboard_timeout):
-                    self.desktop.send_keyboard(self.out.pid, "Hyper_L")
-                    self.auto_keyboard_timeout = self.auto_keyboard_timeout + 1
-                    if self.auto_keyboard_timeout > 15:
-                        self.send_keyboard_skip = False
+        if self.send_keyboard_skip is True:
+            self.desktop.send_keyboard(self.out.pid, "Hyper_L")
+            if datetime.datetime.now() > self.auto_keyboard_date + datetime.timedelta(
+                    seconds=15):
+                self.send_keyboard_skip = False
 
     def init_silence(self):
         self.is_sound_started = False
@@ -169,8 +160,7 @@ class Window:
                 self.is_sound_started = True
 
             if self.is_sound_started is True and Sound.get_silence_duration_sec() > 5.0:
-                #self.out.kill()
-                self.send_keyboard_end = True
+                self.out.kill()
 
                 self.is_sound_started = False
 
