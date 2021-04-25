@@ -26,7 +26,7 @@ def create_aspect_ratio_file(item):
 
     if machine_xml is None: # vgmplay
         ratio_string = ""
-        additional_command = ["-snapsize", "1280x720"]
+        additional_command = ["-snapsize", "1024x576"]
     else:
         display = item.get_machine_xml().find("display")
 
