@@ -1,4 +1,19 @@
 lib = {
+    "a800_flop": {
+        "a130xe": ('a800_flop.lua', 0, None),
+        "a400": ('a800_flop.lua', 0, None),
+        "a400pal": ('a800_flop.lua', 0, None),
+        "a600xl": ('a800_flop.lua', 0, None),
+        "a65xe": ('a800_flop.lua', 0, None),
+        "a65xea": ('a800_flop.lua', 0, None),
+        "a800": ('a800_flop.lua', 0, None),
+        "a800pal": ('a800_flop.lua', 0, None),
+        "a800xe": ('a800_flop.lua', 0, None),
+        "a800xl": ('a800_flop.lua', 0, None),
+        "a800xlp": ('a800_flop.lua', 0, None),
+        "a1200xl": ('a800_flop.lua', 0, None),
+    },
+
     "pcecd": {
         "pce": ('pcecd.lua', 1, None),
         "tg16": ('pcecd.lua', 1, None),
@@ -138,8 +153,8 @@ lib = {
     },
 
     "msx1_cass": {
-        #typed character are wrong "canonv20g": ('msx1_cass.lua', 4, None),
-        #typed character are wrong "canonv8": ('msx1_cass.lua', 4, None),
+        # typed character are wrong "canonv20g": ('msx1_cass.lua', 4, None),
+        # typed character are wrong "canonv8": ('msx1_cass.lua', 4, None),
         "cf3000": ('msx1_cass.lua', 4, None),
         "cpc330k": ('msx1_cass.lua', 4, None),
         "cpc51": ('msx1_cass.lua', 4, None),
@@ -153,9 +168,9 @@ lib = {
         "fsa1wsx": ('msx1_cass_fsa1wsx.lua', 15, None),
         "fs4000": ('msx1_cass_fs4000.lua', 4, None),
         "fs5000": ('msx1_cass.lua', 10, None),
-        #typed character are wrong hbf700f": ('msx1_cass.lua', 13, None),
+        # typed character are wrong hbf700f": ('msx1_cass.lua', 13, None),
         "hbf700p": ('msx1_cass.lua', 15, None),
-        #typed character are wrong "hbf9s": ('msx1_cass.lua', 15, None),
+        # typed character are wrong "hbf9s": ('msx1_cass.lua', 15, None),
 
         "hbg900p": ('msx1_cass.lua', 4, None),
         "hb101p": ('msx1_cass.lua', 4, None),
