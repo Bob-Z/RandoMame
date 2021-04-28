@@ -193,6 +193,10 @@ lib = {
         "sp3ezcf": ('specpls3_flop.lua', 3, None),
         "specpl3e": ('specpls3_flop.lua', 3, None),
         "specpls3": ('specpls3_flop.lua', 3, None),
+    },
+
+    "trs80_cass": {
+        "trs80": ('trs80_cass.lua', 1, None),
     }
 }
 
