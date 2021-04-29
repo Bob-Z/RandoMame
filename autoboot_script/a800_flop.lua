@@ -14,8 +14,8 @@ local function process_frame()
 		    button["CONS.2: Option"]:set_value(1)
 		end
 
-        if frame_num == 400 then
-		    button["CONS.2: Option"]:set_value(1)
+        if frame_num == 300 then
+		    button["CONS.2: Option"]:set_value(0)
 		end
 
 end
