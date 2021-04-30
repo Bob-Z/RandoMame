@@ -236,7 +236,6 @@ def usage():
     print("  -o, --loose_search : Enable loose description search for machine name. Default is strict search")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
     print("  -T, --selected_soft= : Coma separated list of allowed driver names (use with selected_softlist mode)")
-    print("  -x, --extra= : extra command passed to MAME binary")
     print("  -y, --year_min= : Machines/softwares can't be earlier than this")
     print("  -Y, --year_max= : Machines/softwares can't be older than this")
     print("")
@@ -254,6 +253,7 @@ def usage():
     print("  -C, --end_command= : command line to be executed at end (when Randomame window is closed)")
     print("  -l, --available_softlist : display available softlists")
     print("  -r, --record= : directory where session is recorded")
+    print("  -x, --extra= : extra command passed to MAME binary")
     print("  -h, --help : print this message")
 
     sys.exit(1)
