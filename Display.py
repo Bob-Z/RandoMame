@@ -193,7 +193,7 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
     print(input_text)
 
 
-def print_window(item, position):
+def print_machine_and_soft(item, position):
     do_clear = True
 
     if item is not None:
@@ -203,19 +203,30 @@ def print_window(item, position):
             print_cabinet(item, rect)
             do_clear = False
 
+        text_array = []
         if item.get_soft_xml() is not None and item.get_machine_xml() is not None:
-            upper_rect = pygame.Rect(rect.left, rect.top, rect.width, rect.height / 2)
-            print_text(item.get_soft_full_description(), upper_rect, False, do_clear)
-            lower_rect = pygame.Rect(rect.left, rect.top + rect.height / 2, rect.width, rect.height / 2)
-            print_text(item.get_machine_full_description(), lower_rect, False, do_clear)
+            text_array.append(item.get_soft_full_description())
+            text_array.append(item.get_machine_full_description())
         else:
             if item.get_machine_xml() is not None:
-                print_text(item.get_machine_full_description(), rect, False, do_clear)
+                text_array.append(item.get_machine_full_description())
             else:  # vgmplay
-                upper_rect = pygame.Rect(rect.left, rect.top, rect.width, rect.height / 2)
-                print_text(item.get_soft_full_description(), upper_rect, False, do_clear)
-                lower_rect = pygame.Rect(rect.left, rect.top + rect.height / 2, rect.width, rect.height / 2)
-                print_text(item.get_part_name(), lower_rect, False, do_clear)
+                text_array.append(item.get_soft_full_description())
+                text_array.append(item.get_part_name())
+
+        print_on_display(position, text_array, do_clear)
+
+
+def print_on_display(position, text_array, do_clear):
+    screen_rect = pygame.Rect(position['pos_x'], position['pos_y'], position['width'], position['height'])
+
+    height_in_window = 0
+
+    for text in text_array:
+        rect = pygame.Rect(screen_rect.left, screen_rect.top + height_in_window, screen_rect.width,
+                           screen_rect.height / len(text_array))
+        print_text(text, rect, False, do_clear)
+        height_in_window = height_in_window + (screen_rect.height / len(text_array))
 
 
 def wait_for_keyboard():

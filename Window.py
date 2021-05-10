@@ -128,10 +128,10 @@ class Window:
         self.item = Mode.get()
         if self.item is None:
             print("No more software for window", self.index)
-            Display.print_window(None, self.position)
+            Display.print_machine_and_soft(None, self.position)
             return False
         else:
-            Display.print_window(self.item, self.position)
+            Display.print_machine_and_soft(self.item, self.position)
 
             if self.first_launch is True:
                 if Config.start_command is not None and self.index == 0:
