@@ -21,9 +21,17 @@ def get(soft_xml):
     if Config.description is not None:
         for desc in Config.description:
             found = False
-            if re.match(desc, item.get_soft_description(), re.IGNORECASE) is not None:
+
+            # Exact match
+            s = "^" + desc + "$"
+            if re.search(s, item.get_soft_description(), re.IGNORECASE) is not None:
                 found = True
                 break
+
+            # Loose match
+            # if re.match(desc, item.get_soft_description(), re.IGNORECASE) is not None:
+            #    found = True
+            #    break
 
         if found is False:
             return None
