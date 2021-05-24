@@ -131,13 +131,18 @@ class Window:
             Display.print_machine_and_soft(None, self.position)
             return False
         else:
-            Display.print_machine_and_soft(self.item, self.position)
-
             if self.first_launch is True:
-                if Config.start_command is not None and self.index == 0:
-                    print("Execute start command:", Config.start_command)
-                    os.system(Config.start_command)
-                    self.start_command_launched = True
+                if Config.title_text is not None or Config.title_background is not None:
+                    display_title()
+                    self.execute_start_command()
+                    time.sleep(4.0)
+
+                Display.print_machine_and_soft(self.item, self.position)
+
+                if Config.title_text is None and Config.title_background is None:
+                    self.execute_start_command()
+            else:
+                Display.print_machine_and_soft(self.item, self.position)
 
             if Config.record is not None:
                 Display.record_window()
@@ -210,3 +215,15 @@ class Window:
 
     def get_start_command_launched(self):
         return self.start_command_launched
+
+    def execute_start_command(self):
+        if Config.start_command is not None and self.index == 0:
+            print("Execute start command:", Config.start_command)
+            os.system(Config.start_command)
+            self.start_command_launched = True
+
+def display_title():
+    if Config.title_background is not None:
+        Display.display_picture_file_name(Config.title_background, None)
+
+    Display.print_text_array(None, Config.title_text, False)
