@@ -214,18 +214,21 @@ def print_machine_and_soft(item, position):
                 text_array.append(item.get_soft_full_description())
                 text_array.append(item.get_part_name())
 
-        print_on_display(position, text_array, do_clear)
+        print_text_array(position, text_array, do_clear)
 
 
-def print_on_display(position, text_array, do_clear):
-    screen_rect = pygame.Rect(position['pos_x'], position['pos_y'], position['width'], position['height'])
+def print_text_array(position, text_array, do_clear):
+    if position is None:
+        screen_rect = pygame.Rect(0, 0, width, height)
+    else:
+        screen_rect = pygame.Rect(position['pos_x'], position['pos_y'], position['width'], position['height'])
 
     height_in_window = 0
 
     for text in text_array:
         rect = pygame.Rect(screen_rect.left, screen_rect.top + height_in_window, screen_rect.width,
                            screen_rect.height / len(text_array))
-        print_text(text, rect, False, do_clear)
+        print_text(text, rect, True, do_clear)
         height_in_window = height_in_window + (screen_rect.height / len(text_array))
 
 
@@ -248,11 +251,11 @@ def print_cabinet(item, rect):
     if item.get_cloneof_short_name() is not None:
         driver_name_list.append(item.get_cloneof_short_name())
 
-    if print_cabinet_from_dir(driver_name_list, rect) is False:
-        print_cabinet_from_zip(driver_name_list, rect)
+    if display_cabinet_picture_from_dir(driver_name_list, rect) is False:
+        display_cabinet_picture_from_zip(driver_name_list, rect)
 
 
-def print_cabinet_from_zip(driver_name_list, rect):
+def display_cabinet_picture_from_zip(driver_name_list, rect):
     global lock
     global draw_surface
 
@@ -261,9 +264,7 @@ def print_cabinet_from_zip(driver_name_list, rect):
             for driver_name in driver_name_list:
                 try:
                     with zip_file.open(driver_name + '.png') as file:
-                        picture = pygame.image.load(file)
-
-                        draw_cabinet_picture(picture, rect)
+                        display_picture_file(file, rect)
 
                         print("Open cabinet picture from ZIP file")
 
@@ -281,7 +282,7 @@ def print_cabinet_from_zip(driver_name_list, rect):
     return False
 
 
-def print_cabinet_from_dir(driver_name_list, rect):
+def display_cabinet_picture_from_dir(driver_name_list, rect):
     global lock
     global draw_surface
 
@@ -289,9 +290,7 @@ def print_cabinet_from_dir(driver_name_list, rect):
         for driver_name in driver_name_list:
             try:
                 with open("/media/4To/Mame/cabinets/" + driver_name + '.png') as file:
-                    picture = pygame.image.load(file)
-
-                    draw_cabinet_picture(picture, rect)
+                    display_picture_file(file, rect)
 
                     print("Open cabinet picture from directory")
 
@@ -307,7 +306,17 @@ def print_cabinet_from_dir(driver_name_list, rect):
     return False
 
 
-def draw_cabinet_picture(picture, rect):
+def display_picture_file_name(file_name, rect):
+    with open(file_name) as file:
+        display_picture_file(file, rect)
+
+
+def display_picture_file(file, rect):
+    if rect is None:
+        rect = pygame.Rect(0, 0, width, height)
+
+    picture = pygame.image.load(file)
+
     pict_rect = picture.get_rect()
 
     factor = rect.width / pict_rect.width

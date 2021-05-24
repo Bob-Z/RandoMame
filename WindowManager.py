@@ -1,4 +1,5 @@
 import sys
+import time
 
 import Mode
 import Config
@@ -48,6 +49,13 @@ def start():
     Mode.init(machine_list, soft_list)
 
     desktop = DesktopClass()
+
+    if Config.title_background is not None:
+        Display.display_picture_file_name(Config.title_background, None)
+
+    Display.print_text_array(None, Config.title_text, False)
+
+    time.sleep(4.0)
 
     for index in range(Config.windows_quantity):
         window.append(Window.Window(desktop, index, desktop_info[0], desktop_info[1], position[index]))
