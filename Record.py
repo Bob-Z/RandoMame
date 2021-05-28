@@ -32,7 +32,7 @@ def create_aspect_ratio_file(item):
 
         if display is None: # layout based machine
             ratio_string = ""
-            additional_command = ["-snapsize", "1440x1080"]
+            additional_command = ["-snapsize", "1920x1440"]
         else:
             width = float(display.attrib["width"])
             height = float(display.attrib["height"])
@@ -41,12 +41,12 @@ def create_aspect_ratio_file(item):
                 # assume raster display is 4/3 ?
 
                 if width > height:  # 4/3
-                    ratio_string = "1440:1080"
+                    ratio_string = "1920x1440"
                 else:  # 3/4
-                    ratio_string = "810:1080"
+                    ratio_string = "1080:1440"
             else:
-                ratio1 = 1920.0 / width
-                ratio2 = 1080.0 / height
+                ratio1 = 2560.0 / width
+                ratio2 = 1440.0 / height
 
                 ratio = min(ratio1, ratio2)
                 output_width = width * ratio
