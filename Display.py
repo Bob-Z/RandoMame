@@ -7,6 +7,7 @@ import pygame
 
 import Desktop
 import Record
+import Config
 
 init_done = False
 main_window = None
@@ -339,4 +340,9 @@ def display_picture_file(file, rect):
 
 def record_window():
     filename = Record.get_name() + ".png"
+    pygame.image.save(draw_surface, filename)
+
+
+def record_title():
+    filename = Config.record + "/0.png"
     pygame.image.save(draw_surface, filename)

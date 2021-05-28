@@ -134,6 +134,10 @@ class Window:
             if self.first_launch is True:
                 if Config.title_text is not None or Config.title_background is not None:
                     display_title()
+
+                    if Config.record is not None:
+                        Display.record_title()
+
                     self.execute_start_command()
                     time.sleep(4.0)
 
