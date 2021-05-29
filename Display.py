@@ -344,5 +344,5 @@ def record_window():
 
 
 def record_title():
-    filename = Config.record + "/0.png"
+    filename = Config.record + "/000.png"
     pygame.image.save(draw_surface, filename)

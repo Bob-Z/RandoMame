@@ -14,7 +14,7 @@ def get_name():
     index = index + 1
     lock.release()
 
-    name = Config.record + "/" + str(index)
+    name = Config.record + "/" + '{:03d}'.format(index)
 
     return name
 
