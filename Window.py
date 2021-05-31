@@ -75,11 +75,12 @@ class Window:
                 if self.is_running is False:
                     return
 
-            self.out = Mame.run(self.item)
+            if Config.dry_run is False:
+                self.out = Mame.run(self.item)
 
-            self.set_title()
+                self.set_title()
 
-            self.set_position()
+                self.set_position()
 
             self.init_smart_sound()
 
@@ -225,6 +226,7 @@ class Window:
             print("Execute start command:", Config.start_command)
             os.system(Config.start_command)
             self.start_command_launched = True
+
 
 def display_title():
     if Config.title_background is not None:

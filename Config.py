@@ -32,11 +32,12 @@ end_command = None
 record = None
 title_text = None
 title_background = None
+dry_run = False
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAc:C:d:D:E:f:g:G:hi:I:lLmM:noO:pqrsS:T:t:w:x:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAc:C:d:D:E:f:g:G:hi:I:lLmM:noO:pqrRsS:T:t:w:x:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
@@ -44,7 +45,7 @@ def parse_command_line():
                                     "allow_not_supported",
                                     "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
                                     "exclude=", "extra=", "force_driver=", "loose_search", "start_command=",
-                                    "end_command=", "record=", "title_text=", "title_bg="])
+                                    "end_command=", "record=", "title_text=", "title_bg=", "dry_run"])
     except getopt.GetoptError:
         usage()
 
@@ -78,6 +79,7 @@ def parse_command_line():
     global record
     global title_text
     global title_background
+    global dry_run
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -151,6 +153,8 @@ def parse_command_line():
             end_command = arg
         elif opt in ("-r", "--record"):
             record = arg
+        elif opt in ("-R", "--dry_run"):
+            dry_run = True
         elif opt in ("-g", "--title_text"):
             title_text = arg.split(':::')
         elif opt in ("-G", "--title_bg"):
@@ -257,6 +261,7 @@ def usage():
         "  -O, --smart_sound_timeout : Only one window is unmuted. After smart_sound_timeout seconds of silence, another window is un-muted. Set this to 0 to deactivate smart-sound")
     print("  -g, --title_text= : Display test at start (may be ':::' separated texts")
     print("  -G, --title_bg= : Display given image file")
+    print("  -R, --dry_run= : Do not launch MAME (testing purpose only)")
     print("")
     print(" - OTHER")
     print("  -c, --start_command= : command line to be executed on start (when MAME is first launched)")
