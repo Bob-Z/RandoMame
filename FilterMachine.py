@@ -98,6 +98,16 @@ def get(machine_xml, check_machine_description):
             except KeyError:
                 pass
 
+    if Config.source_file is not None:
+        source_file_list = Config.source_file.split(',')
+        is_found = False
+        for source_file in source_file_list:
+            if machine_xml.attrib['sourcefile'] == source_file:
+                is_found = True
+                break
+        if is_found is False:
+            return None
+
     if Config.mode == 'arcade':
         machine_input = machine_xml.find("input")
         if machine_input is not None:

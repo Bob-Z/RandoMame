@@ -33,11 +33,12 @@ record = None
 title_text = None
 title_background = None
 dry_run = False
+source_file = None
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAc:C:d:D:E:f:g:G:hi:I:lLmM:noO:pqrRsS:T:t:w:x:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAc:C:d:D:E:f:F:g:G:hi:I:lLmM:noO:pqrRsS:T:t:w:x:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
@@ -45,7 +46,7 @@ def parse_command_line():
                                     "allow_not_supported",
                                     "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
                                     "exclude=", "extra=", "force_driver=", "loose_search", "start_command=",
-                                    "end_command=", "record=", "title_text=", "title_bg=", "dry_run"])
+                                    "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file="])
     except getopt.GetoptError:
         usage()
 
@@ -80,6 +81,7 @@ def parse_command_line():
     global title_text
     global title_background
     global dry_run
+    global source_file
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -159,6 +161,8 @@ def parse_command_line():
             title_text = arg.split(':::')
         elif opt in ("-G", "--title_bg"):
             title_background = arg
+        elif opt in ("-F", "--source_file"):
+            source_file = arg
         else:
             print("Unknown option " + opt)
             usage()
@@ -241,6 +245,7 @@ def usage():
     print("  -d, --description : coma separated regex expression filtering machines and softwares description")
     print("  -E, --exclude= : coma separated sections from ini file excluded")
     print("  -f, --force_driver= : coma separated list of drivers used")
+    print("  -F, --source_file= : coma separated list of source file allowed")
     print("  -i, --ini_file= : ini file from where sections will be included or excluded")
     print("  -I, --include= : coma separated sections from ini file included ")
     print("  -M, --manufacturer : coma separated list of manufacturer allowed")
