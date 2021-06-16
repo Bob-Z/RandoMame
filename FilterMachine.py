@@ -108,6 +108,9 @@ def get(machine_xml, check_machine_description):
         if is_found is False:
             return None
 
+    if Config.no_clone is True and "cloneof" in machine_xml.attrib:
+            return None
+
     if Config.mode == 'arcade':
         machine_input = machine_xml.find("input")
         if machine_input is not None:

@@ -34,11 +34,12 @@ title_text = None
 title_background = None
 dry_run = False
 source_file = None
+no_clone = False
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAc:C:d:D:E:f:F:g:G:hi:I:lLmM:noO:pqrRsS:T:t:w:x:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAc:C:d:D:E:f:F:g:G:hi:I:lLmM:NnoO:pqrRsS:T:t:w:x:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
@@ -46,7 +47,7 @@ def parse_command_line():
                                     "allow_not_supported",
                                     "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
                                     "exclude=", "extra=", "force_driver=", "loose_search", "start_command=",
-                                    "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file="])
+                                    "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file=", "no_clone"])
     except getopt.GetoptError:
         usage()
 
@@ -82,6 +83,7 @@ def parse_command_line():
     global title_background
     global dry_run
     global source_file
+    global no_clone
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -163,6 +165,8 @@ def parse_command_line():
             title_background = arg
         elif opt in ("-F", "--source_file"):
             source_file = arg
+        elif opt in ("-N", "--no_clone"):
+            no_clone = True
         else:
             print("Unknown option " + opt)
             usage()
@@ -223,6 +227,12 @@ def parse_command_line():
     else:
         print("Smart sound disabled")
 
+    if source_file is not None:
+        print("source files allowed: ", source_file)
+
+    if no_clone is True:
+        print("No clones allowed")
+
     print("")
 
 
@@ -249,6 +259,7 @@ def usage():
     print("  -i, --ini_file= : ini file from where sections will be included or excluded")
     print("  -I, --include= : coma separated sections from ini file included ")
     print("  -M, --manufacturer : coma separated list of manufacturer allowed")
+    print("  -N, --no_clone : do not allow clone drivers")
     print("  -n, --allow_not_supported : Allow not supported softwares")
     print("  -o, --loose_search : Enable loose description search for machine name. Default is strict search")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
