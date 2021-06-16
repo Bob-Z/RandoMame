@@ -35,11 +35,12 @@ title_background = None
 dry_run = False
 source_file = None
 no_clone = False
+device = None
 
 
 def parse_command_line():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAc:C:d:D:E:f:F:g:G:hi:I:lLmM:NnoO:pqrRsS:T:t:w:x:y:Y:",
+        opts, args = getopt.getopt(sys.argv[1:], "aAb:c:C:d:D:E:f:F:g:G:hi:I:lLmM:NnoO:pqrRsS:T:t:w:x:y:Y:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
@@ -47,7 +48,8 @@ def parse_command_line():
                                     "allow_not_supported",
                                     "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
                                     "exclude=", "extra=", "force_driver=", "loose_search", "start_command=",
-                                    "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file=", "no_clone"])
+                                    "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file=",
+                                    "no_clone", "device="])
     except getopt.GetoptError:
         usage()
 
@@ -84,6 +86,7 @@ def parse_command_line():
     global dry_run
     global source_file
     global no_clone
+    global device
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -167,6 +170,8 @@ def parse_command_line():
             source_file = arg
         elif opt in ("-N", "--no_clone"):
             no_clone = True
+        elif opt in ("-b", "--device"):
+            device = arg
         else:
             print("Unknown option " + opt)
             usage()
@@ -233,6 +238,9 @@ def parse_command_line():
     if no_clone is True:
         print("No clones allowed")
 
+    if device is not None:
+        print("device allowed: ", device)
+
     print("")
 
 
@@ -252,7 +260,8 @@ def usage():
     print("  -m, --music : video game music mode")
     print("")
     print(" - FILTER")
-    print("  -d, --description : coma separated regex expression filtering machines and softwares description")
+    print("  -b, --device= : coma separated names of allowed devices")
+    print("  -d, --description= : coma separated regex expression filtering machines and softwares description")
     print("  -E, --exclude= : coma separated sections from ini file excluded")
     print("  -f, --force_driver= : coma separated list of drivers used")
     print("  -F, --source_file= : coma separated list of source file allowed")
