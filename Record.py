@@ -54,7 +54,7 @@ def create_aspect_ratio_file(item):
 
                 ratio_string = str(int(output_width)) + ":" + str(int(output_height))
 
-    with open(Config.record + "/" + str(index) + ".aspect", "w") as f:
+    with open(Config.record + "/" + '{:03d}'.format(index) + ".aspect", "w") as f:
         f.write(ratio_string)
 
     return additional_command
