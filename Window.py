@@ -102,11 +102,12 @@ class Window:
                 break
 
     def set_position(self):
-        while self.desktop.set_position(self.out.pid, self.desktop_offset_x + self.position['pos_x'],
+        if Config.windows_quantity != 1 :
+            while self.desktop.set_position(self.out.pid, self.desktop_offset_x + self.position['pos_x'],
                                         self.desktop_offset_y + self.position['pos_y'],
                                         self.position['width'], self.position['height']) is False:
-            if self.out.poll() is not None:
-                break
+                if self.out.poll() is not None:
+                    break
 
     def init_date(self):
         if self.first_launch is True:

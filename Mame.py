@@ -14,8 +14,13 @@ def run(item):
     command = item.get_command_line()
     for c in command.split(' '):
         args.append(c)
-    args += ['-nomouse', '-nohttp', '-window',
-             '-ui_active', '-skip_gameinfo', '-resolution', '1x1']
+    args += ['-nohttp',
+             '-ui_active', '-skip_gameinfo', ]
+
+    if Config.windows_quantity != 1:
+        args.append('-nomouse')
+        args.append('-window')
+        args.append('-resolution', '1x1')
 
     if Config.mode != 'music':
         args.append('-artwork_crop')
