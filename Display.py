@@ -127,7 +127,7 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
         print(input_text)
         return
 
-    input_font_size = 32
+    input_font_size = 100
 
     if dest_rect is None:
         dest_rect = pygame.Rect(0, 0, width, height)
