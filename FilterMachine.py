@@ -156,13 +156,21 @@ def loose_search_machine_list(machine_list):
                 found_qty = 1
                 break
 
+        # Trying to find a single machine matching the most word in Config.description
+        desc_list = desc.split(' ')
         word_qty = 0
 
         while found_qty > 1:
+            # Build a search string from words in Config.description starting from last word and adding the previous one by one.
             word_qty += 1
+
+            if word_qty > len(desc_list):
+                # Unable to find a single machine corresponding to all words in Config.description
+                found_qty = 0
+                break
+
             # s = ".*"
             s = ""
-            desc_list = desc.split(' ')
             for j in range(-word_qty, 0):
                 s += desc_list[j]
                 s += ' '
