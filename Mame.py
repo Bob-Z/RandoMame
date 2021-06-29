@@ -20,7 +20,8 @@ def run(item):
     if Config.windows_quantity != 1:
         args.append('-nomouse')
         args.append('-window')
-        args.append('-resolution', '1x1')
+        args.append('-resolution')
+        args.append('1x1')
 
     if Config.mode != 'music':
         args.append('-artwork_crop')
