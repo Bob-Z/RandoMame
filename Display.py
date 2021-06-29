@@ -86,7 +86,16 @@ def print_compute_parameters(input_text, input_font_size, dest_rect, first=True)
         # if we've wrapped the text, then adjust the wrap to the last word
         if i < len(text):
             wrapped = True
-            j = text.rfind(" ", 0, i) + 1
+
+            # Keep parenthesis on 1 line
+            a = text.rfind("(", 0, i)
+            b = text.rfind(")", 0, i)
+
+            if b > a:
+                j = text.rfind(" ", 0, i) + 1
+            else:
+                j = a
+
             if j > 0:
                 i = j
             else:
@@ -160,7 +169,16 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
 
         # if we've wrapped the text, then adjust the wrap to the last word
         if i < len(text):
-            j = text.rfind(" ", 0, i) + 1
+
+            # Keep parenthesis on 1 line
+            a = text.rfind("(", 0, i)
+            b = text.rfind(")", 0, i)
+
+            if b > a:
+                j = text.rfind(" ", 0, i) + 1
+            else:
+                j = a
+
             if j > 0:
                 i = j
             else:
