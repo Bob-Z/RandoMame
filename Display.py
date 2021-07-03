@@ -91,7 +91,7 @@ def print_compute_parameters(input_text, input_font_size, dest_rect, first=True)
             a = text.rfind("(", 0, i)
             b = text.rfind(")", 0, i)
 
-            if b > a:
+            if b >= a:
                 j = text.rfind(" ", 0, i) + 1
             else:
                 j = a
@@ -174,7 +174,7 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
             a = text.rfind("(", 0, i)
             b = text.rfind(")", 0, i)
 
-            if b > a:
+            if b >= a:
                 j = text.rfind(" ", 0, i) + 1
             else:
                 j = a
