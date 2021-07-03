@@ -36,7 +36,8 @@ def run(item):
             args.extend(additional_command)
 
     if Config.extra is not None:
-        args.append(Config.extra)
+        for e in Config.extra.split(' '):
+            args.append(e)
 
     full_command = ""
     for a in args:
