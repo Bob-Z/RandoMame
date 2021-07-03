@@ -159,7 +159,7 @@ class Window:
         if self.send_keyboard_skip is True:
             self.desktop.send_keyboard(self.out.pid, "Hyper_L")
             if datetime.datetime.now() > self.auto_keyboard_date + datetime.timedelta(
-                    seconds=15):
+                    seconds=10):
                 self.send_keyboard_skip = False
 
     def init_silence(self):
