@@ -58,3 +58,9 @@ def create_aspect_ratio_file(item):
         f.write(ratio_string)
 
     return additional_command
+
+
+def create_time_file():
+    if Config.end_duration:
+        with open(Config.record + "/" + '{:03d}'.format(index) + ".time", "w") as f:
+            f.write(str(Config.end_duration))

@@ -357,10 +357,12 @@ def display_picture_file(file, rect):
 
 
 def record_window():
-    filename = Record.get_name() + ".png"
-    pygame.image.save(draw_surface, filename)
+    if Config.record is not None:
+        filename = Record.get_name() + ".png"
+        pygame.image.save(draw_surface, filename)
 
 
 def record_title():
-    filename = Config.record + "/000.png"
-    pygame.image.save(draw_surface, filename)
+    if Config.record is not None:
+        filename = Config.record + "/000.png"
+        pygame.image.save(draw_surface, filename)

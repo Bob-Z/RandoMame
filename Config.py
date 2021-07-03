@@ -36,22 +36,22 @@ dry_run = False
 source_file = None
 no_clone = False
 device = None
+end_text = None
+end_background = None
+end_duration = None
 
 
 def parse_command_line():
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "aAb:c:C:d:D:E:f:F:g:G:hi:I:lLmM:NnoO:pqrRsS:T:t:w:x:y:Y:",
-                                   ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
-                                    "available_softlist", "timeout=", "desktop=",
-                                    "allow_preliminary",
-                                    "window=", "year_min=", "year_max=", "music", "selected_soft=",
-                                    "allow_not_supported",
-                                    "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
-                                    "exclude=", "extra=", "force_driver=", "loose_search", "start_command=",
-                                    "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file=",
-                                    "no_clone", "device="])
-    except getopt.GetoptError:
-        usage()
+    opts, args = getopt.getopt(sys.argv[1:], "aAb:c:C:d:d:D:E:f:F:g:G:hi:I:lLmM:NnoO:pqrRsS:T:t:w:x:y:Y:z:Z:",
+                               ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
+                                "available_softlist", "timeout=", "desktop=",
+                                "allow_preliminary",
+                                "window=", "year_min=", "year_max=", "music", "selected_soft=",
+                                "allow_not_supported",
+                                "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
+                                "exclude=", "extra=", "force_driver=", "loose_search", "start_command=",
+                                "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file=",
+                                "no_clone", "device=", "end_text=", "end_bg=", "end_duration="])
 
     global mode
     global selected_softlist
@@ -87,6 +87,9 @@ def parse_command_line():
     global source_file
     global no_clone
     global device
+    global end_text
+    global end_background
+    global end_duration
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -172,8 +175,14 @@ def parse_command_line():
             no_clone = True
         elif opt in ("-b", "--device"):
             device = arg
+        elif opt in ("-z", "--end_text"):
+            end_text = arg.split(':::')
+        elif opt in ("-Z", "--end_bg"):
+            end_background = arg
+        elif opt in ("-d", "--end_duration"):
+            end_duration = int(arg)
         else:
-            print("Unknown option " + opt)
+            print("Unknown option ", opt)
             usage()
 
     if windows_quantity == 1:
@@ -284,8 +293,11 @@ def usage():
     print("  -q, --quit : Quit when all selected machines/softwares have been shown (default never quit)")
     print(
         "  -O, --smart_sound_timeout : Only one window is unmuted. After smart_sound_timeout seconds of silence, another window is un-muted. Set this to 0 to deactivate smart-sound")
-    print("  -g, --title_text= : Display test at start (may be ':::' separated texts")
-    print("  -G, --title_bg= : Display given image file")
+    print("  -g, --title_text= : Display text at start (may be ':::' separated texts")
+    print("  -G, --title_bg= : Display given image file at start")
+    print("  -z, --end_text= : Display text at end (may be ':::' separated texts")
+    print("  -Z, --end_bg= : Display given image file at end")
+    print("  -d, --end_duration= : Display end duration in seconds")
     print("  -R, --dry_run= : Do not launch MAME (testing purpose only)")
     print("")
     print(" - OTHER")

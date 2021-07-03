@@ -7,6 +7,7 @@ import Config
 import Display
 import Mame
 import Mode
+import Record
 import Sound
 
 
@@ -102,10 +103,10 @@ class Window:
                 break
 
     def set_position(self):
-        if Config.windows_quantity != 1 :
+        if Config.windows_quantity != 1:
             while self.desktop.set_position(self.out.pid, self.desktop_offset_x + self.position['pos_x'],
-                                        self.desktop_offset_y + self.position['pos_y'],
-                                        self.position['width'], self.position['height']) is False:
+                                            self.desktop_offset_y + self.position['pos_y'],
+                                            self.position['width'], self.position['height']) is False:
                 if self.out.poll() is not None:
                     break
 
@@ -129,6 +130,15 @@ class Window:
     def get_command(self):
         self.item = Mode.get()
         if self.item is None:
+            if Config.end_text is not None or Config.end_background is not None:
+                display_end()
+
+                if Config.end_duration is not None:
+                    if Config.record is None:
+                        time.sleep(Config.end_duration)
+                    else:
+                        Record.create_time_file()
+
             print("No more software for window", self.index)
             Display.print_machine_and_soft(None, self.position)
             return False
@@ -234,3 +244,13 @@ def display_title():
         Display.display_picture_file_name(Config.title_background, None)
 
     Display.print_text_array(None, Config.title_text, False)
+
+
+def display_end():
+    if Config.end_background is not None:
+        Display.display_picture_file_name(Config.end_background, None)
+
+    Display.print_text_array(None, Config.end_text, False)
+
+    if Config.record is not None:
+        Display.record_window()
