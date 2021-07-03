@@ -39,6 +39,10 @@ lib = {
         "al520ex": ('cpc_flop.lua', 1.5, None),
     },
 
+    "juicebox": {
+                  "juicebox": ('juicebox.lua', 15, None),
+              },
+
     "megacd": {
         "megacd": ('megacd.lua', 3, None),
         "32x_mcd": ('megacd.lua', 3, None),
