@@ -23,9 +23,6 @@ def run(item):
         args.append('-resolution')
         args.append('1x1')
 
-    if Config.mode != 'music':
-        args.append('-artwork_crop')
-
     if Config.record is not None:
         filename = Record.get_name() + ".avi"
         args.append('-aviwrite')
@@ -38,6 +35,10 @@ def run(item):
     if Config.extra is not None:
         for e in Config.extra.split(' '):
             args.append(e)
+
+    display = item.get_machine_xml().find("display")
+    if display is not None and display.attrib["type"] == "raster":
+        args.append('-artwork_crop')
 
     full_command = ""
     for a in args:
