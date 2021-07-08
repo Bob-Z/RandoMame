@@ -210,6 +210,10 @@ lib = {
 
     "trs80_cass": {
         "trs80": ('trs80_cass.lua', 1, None),
+    },
+
+    "vg5k": {
+        "vg5k": ('vg5k.lua', 3, None),
     }
 }
 
