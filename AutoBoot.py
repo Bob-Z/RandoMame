@@ -123,9 +123,9 @@ lib = {
     },
 
     "pcecd": {
-        "pce": ('pcecd.lua', 1, None),
-        "tg16": ('pcecd.lua', 1, None),
-        "sgx": ('pcecd.lua', 1, None)
+        "pce": ('pcecd.lua', 1, '-cart scdsys'),
+        "tg16": ('pcecd.lua', 1, '-cart scdsys'),
+        "sgx": ('pcecd.lua', 1, '-cart scdsys')
     },
 
     "segacd": {
