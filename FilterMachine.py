@@ -122,7 +122,7 @@ def get(machine_xml, check_machine_description):
                         break
 
                 if is_found is True:
-                    break;
+                    break
 
         if is_found is False:
             return None

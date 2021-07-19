@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import Check
 import Config
 import DisplaySoftList
 import WindowManager
@@ -10,4 +11,7 @@ if Config.available_softlist is True:
     DisplaySoftList.display_soft_list()
     exit(0)
 
-WindowManager.start()
+if Config.check is not None:
+    Check.start()
+else:
+    WindowManager.start()

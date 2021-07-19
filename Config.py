@@ -39,10 +39,11 @@ device = None
 end_text = None
 end_background = None
 end_duration = None
+check = None
 
 
 def parse_command_line():
-    opts, args = getopt.getopt(sys.argv[1:], "aAb:c:C:d:d:D:E:f:F:g:G:hi:I:lLmM:NnoO:pqrRsS:T:t:w:x:y:Y:z:Z:",
+    opts, args = getopt.getopt(sys.argv[1:], "aAb:c:C:d:d:D:E:f:F:g:G:hi:I:k:lLmM:NnoO:pqrRsS:T:t:w:x:y:Y:z:Z:",
                                ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                 "available_softlist", "timeout=", "desktop=",
                                 "allow_preliminary",
@@ -51,7 +52,7 @@ def parse_command_line():
                                 "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
                                 "exclude=", "extra=", "force_driver=", "loose_search", "start_command=",
                                 "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file=",
-                                "no_clone", "device=", "end_text=", "end_bg=", "end_duration="])
+                                "no_clone", "device=", "end_text=", "end_bg=", "end_duration=", "check="])
 
     global mode
     global selected_softlist
@@ -90,6 +91,7 @@ def parse_command_line():
     global end_text
     global end_background
     global end_duration
+    global check
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -181,6 +183,9 @@ def parse_command_line():
             end_background = arg
         elif opt in ("-d", "--end_duration"):
             end_duration = int(arg)
+        elif opt in ("-k", "--check"):
+            check = arg
+            need_softlist = True
         else:
             print("Unknown option ", opt)
             usage()
@@ -191,64 +196,69 @@ def parse_command_line():
     global mame_binary
     mame_binary = args[0]
 
+    print("")
+    print("")
     print("Configuration:")
-    mode_str = "Mode: " + mode
-    if len(selected_softlist) > 0:
-        mode_str += " with "
-        for s in selected_softlist:
-            mode_str += s + " "
-    print(mode_str)
     print("MAME binary:", mame_binary)
-    print("Simultaneous windows :", windows_quantity)
-    print("Individual machine's run timeout:", str(timeout), "seconds")
-    print("Desktop geometry", desktop)
-    if allow_preliminary is True:
-        print("Preliminary drivers allowed")
+    if check is not None:
+        print("Check path:", check)
     else:
-        print("Preliminary drivers disallowed")
+        mode_str = "Mode: " + mode
+        if len(selected_softlist) > 0:
+            mode_str += " with "
+            for s in selected_softlist:
+                mode_str += s + " "
+        print(mode_str)
+        print("Simultaneous windows :", windows_quantity)
+        print("Individual machine's run timeout:", str(timeout), "seconds")
+        print("Desktop geometry", desktop)
+        if allow_preliminary is True:
+            print("Preliminary drivers allowed")
+        else:
+            print("Preliminary drivers disallowed")
 
-    if allow_not_supported is True:
-        print("Not supported softwares allowed")
-    else:
-        print("Not supported softwares disallowed")
+        if allow_not_supported is True:
+            print("Not supported softwares allowed")
+        else:
+            print("Not supported softwares disallowed")
 
-    if year_min is not None:
-        print("No machines/softwares earlier than", year_min)
-    if year_max is not None:
-        print("No machines/softwares later than", year_max)
+        if year_min is not None:
+            print("No machines/softwares earlier than", year_min)
+        if year_max is not None:
+            print("No machines/softwares later than", year_max)
 
-    if manufacturer is not None:
-        print("Manufacturer: ", manufacturer)
+        if manufacturer is not None:
+            print("Manufacturer: ", manufacturer)
 
-    if ini_file is not None:
-        print("ini file: ", ini_file)
-    if include is not None:
-        print("included sections: ", include)
-    if exclude is not None:
-        print("excluded sections: ", exclude)
+        if ini_file is not None:
+            print("ini file: ", ini_file)
+        if include is not None:
+            print("included sections: ", include)
+        if exclude is not None:
+            print("excluded sections: ", exclude)
 
-    if extra is not None:
-        print("extra command: ", extra)
+        if extra is not None:
+            print("extra command: ", extra)
 
-    if force_driver is not None:
-        print("forced driver: ", force_driver)
+        if force_driver is not None:
+            print("forced driver: ", force_driver)
 
-    if loose_search is True:
-        print("Loose description search enabled")
+        if loose_search is True:
+            print("Loose description search enabled")
 
-    if smart_sound_timeout_sec > 0:
-        print("Smart sound timeout =", smart_sound_timeout_sec, "seconds")
-    else:
-        print("Smart sound disabled")
+        if smart_sound_timeout_sec > 0:
+            print("Smart sound timeout =", smart_sound_timeout_sec, "seconds")
+        else:
+            print("Smart sound disabled")
 
-    if source_file is not None:
-        print("source files allowed: ", source_file)
+        if source_file is not None:
+            print("source files allowed: ", source_file)
 
-    if no_clone is True:
-        print("No clones allowed")
+        if no_clone is True:
+            print("No clones allowed")
 
-    if device is not None:
-        print("device allowed: ", device)
+        if device is not None:
+            print("device allowed: ", device)
 
     print("")
 
@@ -267,6 +277,7 @@ def usage():
     print("  -s, --softlist : softlist mode: run only drivers using softwares")
     print("  -S, --selected_softlist= : comma separated list of selected softlists which will be run")
     print("  -m, --music : video game music mode")
+    print("  -c, --check= : check files in given path")
     print("")
     print(" - FILTER")
     print("  -b, --device= : coma separated names of allowed devices")
