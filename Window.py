@@ -134,9 +134,7 @@ class Window:
                 display_end()
 
                 if Config.end_duration is not None:
-                    if Config.record is None:
-                        time.sleep(Config.end_duration)
-                    else:
+                    if Config.record is not None:
                         Record.create_time_file()
 
             print("No more software for window", self.index)
@@ -163,6 +161,7 @@ class Window:
             if Config.record is not None:
                 Display.record_window()
 
+            print("Next for window", self.index, ": ", self.item.get_soft_description(), self.item.get_soft_info())
             return True
 
     def send_keyboard(self):

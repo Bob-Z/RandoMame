@@ -7,6 +7,7 @@ import Desktop
 import Display
 import Window
 import Sound
+import Record
 import XmlGetter
 import os
 
@@ -74,6 +75,10 @@ def start():
 
         if is_alive is False:
             break
+
+    if Config.end_duration is not None:
+        if Config.record is None:
+            time.sleep(float(Config.end_duration))
 
     if Config.end_command is not None and window[0].get_start_command_launched() is True:
         print("Execute end command:", Config.end_command)
