@@ -216,6 +216,10 @@ lib = {
         "trs80": ('trs80_cass.lua', 1, None),
     },
 
+    "vector06_flop": {
+        "vector06": ('vector06_flop.lua', 3, None),
+    },
+
     "vg5k": {
         "vg5k": ('vg5k.lua', 3, None),
     }
