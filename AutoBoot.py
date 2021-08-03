@@ -128,6 +128,10 @@ lib = {
         "sgx": ('pcecd.lua', 1, '-cart scdsys')
     },
 
+    "samcoupe_flop": {
+        "samcoupe": ('samcoupe_flop.lua', 3, None),
+    },
+
     "segacd": {
         "32x_scd": ('megacd.lua', 3, None),
         "cdx": ('megacd.lua', 3, None),
