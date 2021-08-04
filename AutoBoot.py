@@ -222,6 +222,12 @@ lib = {
 
     "vg5k": {
         "vg5k": ('vg5k.lua', 2, None),
+    },
+
+    "vtech2_cass": {
+        "laser350": ('vtech2_cass.lua', 1, None),
+        "laser500": ('vtech2_cass.lua', 1, None),
+        "laser700": ('vtech2_cass.lua', 1, None),
     }
 }
 
