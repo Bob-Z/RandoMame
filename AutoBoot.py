@@ -221,7 +221,7 @@ lib = {
     },
 
     "vg5k": {
-        "vg5k": ('vg5k.lua', 3, None),
+        "vg5k": ('vg5k.lua', 2, None),
     }
 }
 
