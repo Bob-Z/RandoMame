@@ -58,6 +58,8 @@ class Item:
         return part[0].attrib["interface"]
 
     def get_soft_description(self):
+        if self.soft_xml is None:
+            return ""
         return self.soft_xml.find('description').text
 
     def get_soft_year(self):
@@ -121,6 +123,9 @@ class Item:
                 return self.get_part_name() + " // " + self.get_soft_description()
 
     def get_soft_info(self):
+        if self.soft_xml is None:
+            return ""
+        
         info_string = ""
         all_info = self.soft_xml.findall('info')
         if all_info is not None:
