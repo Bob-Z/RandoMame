@@ -125,15 +125,14 @@ class Item:
     def get_soft_info(self):
         if self.soft_xml is None:
             return ""
-        
+
         info_string = ""
         all_info = self.soft_xml.findall('info')
         if all_info is not None:
 
             for info in all_info:
-                info_string = info_string + "\n"
                 name = info.attrib['name']
                 value = info.attrib['value']
-                info_string = info_string + "info - " + name + ": " + value
+                info_string = info_string + " ,info - " + name + ": " + value
 
         return info_string
