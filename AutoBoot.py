@@ -39,9 +39,18 @@ lib = {
         "al520ex": ('cpc_flop.lua', 1.5, None),
     },
 
+    "fm7_cass": {
+        "fm7": ('fm7_cass.lua', 3, None),
+        "fm11": ('fm7_cass.lua', 3, None),
+        "fm7740sx": ('fm7_cass.lua', 3, None),
+        "fm77av": ('fm7_cass.lua', 3, None),
+        "fm8": ('fm7_cass.lua', 3, None),
+        "fmnew7": ('fm7_cass.lua', 3, None),
+    },
+
     "juicebox": {
-                  "juicebox": ('juicebox.lua', 15, None),
-              },
+        "juicebox": ('juicebox.lua', 15, None),
+    },
 
     "megacd": {
         "megacd": ('megacd.lua', 3, None),
@@ -150,7 +159,7 @@ lib = {
     },
 
     "spectrum_cass": {
-        "blitzs": ('spectrum_cass.lua',3,  None),
+        "blitzs": ('spectrum_cass.lua', 3, None),
         "byte": ('spectrum_cass.lua', 3, None),
         "cip03": ('spectrum_cass.lua', 3, None),
         "compani1": ('spectrum_cass.lua', 3, None),
