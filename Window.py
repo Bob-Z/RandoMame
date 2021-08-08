@@ -142,7 +142,7 @@ class Window:
             return False
         else:
             if self.first_launch is True:
-                if Config.title_text is not None or Config.title_background is not None:
+                if Config.title_text is not None:
                     display_title()
 
                     if Config.record is not None:

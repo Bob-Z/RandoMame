@@ -219,8 +219,13 @@ def print_machine_and_soft(item, position):
         rect = pygame.Rect(position['pos_x'], position['pos_y'], position['width'], position['height'])
 
         if item.get_machine_short_name() is not None:
-            print_cabinet(item, rect)
-            do_clear = False
+            if print_cabinet(item, rect) is True:
+                do_clear = False
+
+        if do_clear is True:
+            if Config.title_background is not None:
+                display_picture_file_name(Config.title_background, None)
+                do_clear = False
 
         text_array = []
         if item.get_soft_xml() is not None and item.get_machine_xml() is not None:
@@ -270,8 +275,10 @@ def print_cabinet(item, rect):
     if item.get_cloneof_short_name() is not None:
         driver_name_list.append(item.get_cloneof_short_name())
 
-    if display_cabinet_picture_from_dir(driver_name_list, rect) is False:
-        display_cabinet_picture_from_zip(driver_name_list, rect)
+    if display_cabinet_picture_from_dir(driver_name_list, rect) is True:
+        return True
+
+    return display_cabinet_picture_from_zip(driver_name_list, rect)
 
 
 def display_cabinet_picture_from_zip(driver_name_list, rect):
