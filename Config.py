@@ -260,6 +260,12 @@ def parse_command_line():
         if device is not None:
             print("device allowed: ", device)
 
+        if start_command is not None:
+            print("Start command: ", start_command)
+
+        if end_command is not None:
+            print("End command: ", end_command)
+
     print("")
 
 
