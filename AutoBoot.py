@@ -39,6 +39,18 @@ lib = {
         "al520ex": ('cpc_flop.lua', 1.5, None),
     },
 
+    "dragon_cass": {
+        "d64plus": ('dragon_cass.lua', 4, None),
+        "dgnalpha": ('dragon_cass_dgnalpha.lua', 1, None),
+        "dragon200": ('dragon_cass.lua', 4, None),
+        "dragon200e": ('dragon_cass.lua', 4, None),
+        "dragon32": ('dragon_cass.lua', 4, None),
+        "dragon64": ('dragon_cass.lua', 4, None),
+        "dragon64h": ('dragon_cass.lua', 4, None),
+        "tanodr64": ('dragon_cass.lua', 4, None),
+        "tanodr64h": ('dragon_cass.lua', 4, None),
+    },
+
     "fm7_cass": {
         "fm7": ('fm7_cass.lua', 3, None),
         "fm11": ('fm7_cass.lua', 3, None),
