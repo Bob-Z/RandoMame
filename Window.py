@@ -153,7 +153,7 @@ class Window:
 
                 Display.print_machine_and_soft(self.item, self.position)
 
-                if Config.title_text is None and Config.title_background is None:
+                if Config.title_text is None:
                     self.execute_start_command()
             else:
                 Display.print_machine_and_soft(self.item, self.position)
