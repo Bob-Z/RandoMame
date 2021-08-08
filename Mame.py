@@ -36,9 +36,10 @@ def run(item):
         for e in Config.extra.split(' '):
             args.append(e)
 
-    display = item.get_machine_xml().find("display")
-    if display is not None and display.attrib["type"] == "raster":
-        args.append('-artwork_crop')
+    if item.get_machine_xml() is not None:
+        display = item.get_machine_xml().find("display")
+        if display is not None and display.attrib["type"] == "raster":
+            args.append('-artwork_crop')
 
     full_command = ""
     for a in args:
