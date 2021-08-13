@@ -32,6 +32,8 @@ def run(item):
         if additional_command is not None:
             args.extend(additional_command)
 
+        Record.create_srt_file(item)
+
     if Config.extra is not None:
         for e in Config.extra.split(' '):
             args.append(e)

@@ -64,3 +64,14 @@ def create_time_file():
     if Config.end_duration:
         with open(Config.record + "/" + '{:03d}'.format(index) + ".time", "w") as f:
             f.write(str(Config.end_duration))
+
+
+def create_srt_file(item):
+    machine_xml = item.get_machine_xml()
+
+    if machine_xml is None: # vgmplay
+        with open(Config.record + "/" + '{:03d}'.format(index) + ".srt", "w") as f:
+            f.write("1\n00:00:00,000 --> 20:00:00,000\n")
+            f.write(item.get_soft_full_description())
+            f.write("\n")
+            f.write(item.get_part_name())
