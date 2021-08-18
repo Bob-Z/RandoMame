@@ -132,6 +132,8 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
     global height
     global init_done
 
+    Record.log(input_text)
+
     if init_done is False:
         print(input_text)
         return

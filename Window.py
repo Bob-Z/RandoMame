@@ -151,10 +151,11 @@ class Window:
                     self.execute_start_command()
                     time.sleep(4.0)
 
-                Display.print_machine_and_soft(self.item, self.position)
-
                 if Config.title_text is None:
                     self.execute_start_command()
+
+                Display.print_machine_and_soft(self.item, self.position)
+
             else:
                 Display.print_machine_and_soft(self.item, self.position)
 

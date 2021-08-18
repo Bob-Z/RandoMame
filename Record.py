@@ -24,13 +24,13 @@ def create_aspect_ratio_file(item):
 
     additional_command = None
 
-    if machine_xml is None: # vgmplay
+    if machine_xml is None:  # vgmplay
         ratio_string = ""
         additional_command = ["-snapsize", "1024x576"]
     else:
         display = item.get_machine_xml().find("display")
 
-        if display is None: # layout based machine
+        if display is None:  # layout based machine
             ratio_string = ""
             additional_command = ["-snapsize", "1920x1440"]
         else:
@@ -69,9 +69,15 @@ def create_time_file():
 def create_srt_file(item):
     machine_xml = item.get_machine_xml()
 
-    if machine_xml is None: # vgmplay
+    if machine_xml is None:  # vgmplay
         with open(Config.record + "/" + '{:03d}'.format(index) + ".srt", "w") as f:
             f.write("1\n00:00:00,000 --> 20:00:00,000\n")
             f.write(item.get_soft_full_description())
             f.write("\n")
             f.write(item.get_part_name())
+
+
+def log(input_log):
+    if Config.record is not None:
+        with open(Config.record + "/" + "log.txt", "a") as f:
+            f.write(input_log+"\n")
