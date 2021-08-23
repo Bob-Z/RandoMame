@@ -142,6 +142,8 @@ class Window:
             return False
         else:
             if self.first_launch is True:
+                Record.reset_log_time()
+
                 if Config.title_text is not None:
                     display_title()
 
@@ -160,7 +162,7 @@ class Window:
                 Display.print_machine_and_soft(self.item, self.position)
 
             if Config.record is not None:
-                Display.record_window()
+                Display.record_marquee()
 
             print("Next for window", self.index, ": ", self.item.get_soft_description(), self.item.get_soft_info())
             return True
@@ -253,4 +255,4 @@ def display_end():
     Display.print_text_array(None, Config.end_text, False)
 
     if Config.record is not None:
-        Display.record_window()
+        Display.record_marquee()

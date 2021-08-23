@@ -1,9 +1,11 @@
 import threading
+from datetime import datetime
 
 import Config
 
 lock = threading.Lock()
 index = 0
+time_from_first_print = datetime.now()
 
 
 def get_name():
@@ -80,4 +82,20 @@ def create_srt_file(item):
 def log(input_log):
     if Config.record is not None:
         with open(Config.record + "/" + "log.txt", "a") as f:
-            f.write(input_log+"\n")
+            f.write(input_log + "\n")
+    else:
+        global time_from_first_print
+
+        with open("randomame.log", "a") as f:
+            delta = datetime.now() - time_from_first_print
+            minutes = int(delta.seconds / 60)
+            minutes_in_seconds = minutes * 60
+            seconds = delta.seconds - minutes_in_seconds
+            time_log = '{:}:{:02}'.format(minutes, seconds)
+            f.write(time_log + " " + input_log + "\n")
+
+
+def reset_log_time():
+    global time_from_first_print
+
+    time_from_first_print = datetime.now()

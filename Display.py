@@ -365,7 +365,7 @@ def display_picture_file(file, rect):
     lock.release()
 
 
-def record_window():
+def record_marquee():
     if Config.record is not None:
         filename = Record.get_name() + ".png"
         pygame.image.save(draw_surface, filename)
