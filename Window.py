@@ -69,6 +69,8 @@ class Window:
             if self.item is None:
                 return
 
+            Record.timed_log(self.item.get_title())
+
             wait_loop = 15
             while wait_loop > 0:
                 time.sleep(0.1)

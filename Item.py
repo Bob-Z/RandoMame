@@ -63,10 +63,16 @@ class Item:
         return self.soft_xml.find('description').text
 
     def get_soft_year(self):
-        return self.soft_xml.find('year').text
+        if self.soft_xml is not None:
+            return self.soft_xml.find('year').text
+        return None
 
     def get_soft_full_description(self):
-        return self.get_soft_description() + " (" + self.get_soft_year() + ")"
+        if self.get_soft_description() is not None and self.get_soft_year() is not None:
+            return self.get_soft_description() + " (" + self.get_soft_year() + ")"
+        if self.get_soft_description() is not None:
+            return self.get_soft_description()
+        return None
 
     def get_command_line(self):
         if self.soft_xml is None:
@@ -110,8 +116,11 @@ class Item:
         return command_line
 
     def get_part_name(self):
-        feature = self.part_xml.find('feature')
-        return feature.attrib['value']
+        if self.part_xml is not None:
+            feature = self.part_xml.find('feature')
+            return feature.attrib['value']
+
+        return None
 
     def get_title(self):
         if self.soft_xml is None:

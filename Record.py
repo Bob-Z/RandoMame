@@ -83,16 +83,18 @@ def log(input_log):
     if Config.record is not None:
         with open(Config.record + "/" + "log.txt", "a") as f:
             f.write(input_log + "\n")
-    else:
-        global time_from_first_print
 
-        with open("randomame.log", "a") as f:
-            delta = datetime.now() - time_from_first_print
-            minutes = int(delta.seconds / 60)
-            minutes_in_seconds = minutes * 60
-            seconds = delta.seconds - minutes_in_seconds
-            time_log = '{:}:{:02}'.format(minutes, seconds)
-            f.write(time_log + " " + input_log + "\n")
+
+def timed_log(log_str):
+    global time_from_first_print
+
+    with open("timed.log", "a") as f:
+        delta = datetime.now() - time_from_first_print
+        minutes = int(delta.seconds / 60)
+        minutes_in_seconds = minutes * 60
+        seconds = delta.seconds - minutes_in_seconds
+        time_log = '{:}:{:02}'.format(minutes, seconds)
+        f.write(time_log + " " + log_str + "\n")
 
 
 def reset_log_time():
