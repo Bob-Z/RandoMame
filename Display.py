@@ -226,7 +226,7 @@ def print_machine_and_soft(item, position):
 
         if do_clear is True:
             if Config.title_background is not None:
-                display_picture_file_name(Config.title_background, None)
+                display_picture_file_name(Config.title_background, rect)
                 do_clear = False
 
         text_array = []
