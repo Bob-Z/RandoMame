@@ -1,7 +1,9 @@
 local button = {}
-local ports = manager.machine.ioport.ports[":JOY_P.0"]
-for field_name, field in pairs(ports.fields) do
-    button[field_name] = field
+
+for key, ports in pairs(manager.machine.ioport.ports) do
+	for field_name, field in pairs(ports.fields) do
+	    button[field_name] = field
+	end
 end
 
 local frame_num = 0
@@ -9,9 +11,9 @@ local function process_frame()
 	frame_num = frame_num + 1
 
 	if frame_num == 25 then
-		button["P1 Run"]:set_value(1)
+		button["Run"]:set_value(1)
 	elseif frame_num == 30 then
-		button["P1 Run"]:set_value(0)
+		button["Run"]:set_value(0)
 	end
 end
 
