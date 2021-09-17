@@ -116,10 +116,29 @@ def get(machine_xml, check_machine_description):
         machine_device = machine_xml.findall("device_ref")
         if machine_device is not None:
             for md in machine_device:
-                for d in Config.device.split(','):
+                for d in Config.device:
                     if md.attrib["name"] == d:
                         is_found = True
                         break
+
+                if is_found is True:
+                    break
+
+        if is_found is False:
+            return None
+
+    if Config.slot_option is not None:
+        is_found = False
+        all_slots = machine_xml.findall("slot")
+        if all_slots is not None:
+            for slot in all_slots:
+                all_slotoptions = slot.findall("slotoption")
+                if all_slotoptions is not None:
+                    for slotoption in all_slotoptions:
+                        for s in Config.slot_option:
+                            if slotoption.attrib["devname"] == s:
+                                is_found = True
+                                break
 
                 if is_found is True:
                     break

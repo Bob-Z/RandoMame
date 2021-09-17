@@ -36,6 +36,7 @@ dry_run = False
 source_file = None
 no_clone = False
 device = None
+slot_option = None
 end_text = None
 end_background = None
 end_duration = None
@@ -43,7 +44,7 @@ check = None
 
 
 def parse_command_line():
-    opts, args = getopt.getopt(sys.argv[1:], "aAb:c:C:d:d:D:E:f:F:g:G:hi:I:k:lLmM:NnoO:pqrRsS:T:t:w:x:y:Y:z:Z:",
+    opts, args = getopt.getopt(sys.argv[1:], "aAb:B:c:C:d:d:D:E:f:F:g:G:hi:I:k:lLmM:NnoO:pqrRsS:T:t:w:x:y:Y:z:Z:",
                                ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                 "available_softlist", "timeout=", "desktop=",
                                 "allow_preliminary",
@@ -52,7 +53,7 @@ def parse_command_line():
                                 "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
                                 "exclude=", "extra=", "force_driver=", "loose_search", "start_command=",
                                 "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file=",
-                                "no_clone", "device=", "end_text=", "end_bg=", "end_duration=", "check="])
+                                "no_clone", "device=", "slot_option=", "end_text=", "end_bg=", "end_duration=", "check="])
 
     global mode
     global selected_softlist
@@ -88,6 +89,7 @@ def parse_command_line():
     global source_file
     global no_clone
     global device
+    global slot_option
     global end_text
     global end_background
     global end_duration
@@ -176,7 +178,9 @@ def parse_command_line():
         elif opt in ("-N", "--no_clone"):
             no_clone = True
         elif opt in ("-b", "--device"):
-            device = arg
+            device = arg.split(',')
+        elif opt in ("-B", "--slot_option"):
+            slot_option = arg.split(',')
         elif opt in ("-z", "--end_text"):
             end_text = arg.split(':::')
         elif opt in ("-Z", "--end_bg"):
@@ -260,6 +264,9 @@ def parse_command_line():
         if device is not None:
             print("device allowed: ", device)
 
+        if slot_option is not None:
+            print("slot option allowed: ", slot_option)
+
         if start_command is not None:
             print("Start command: ", start_command)
 
@@ -287,6 +294,7 @@ def usage():
     print("")
     print(" - FILTER")
     print("  -b, --device= : coma separated names of allowed devices")
+    print("  -B, --slot_option= : coma separated names of allowed slot_option")
     print("  -d, --description= : coma separated regex expression filtering machines and softwares description")
     print("  -E, --exclude= : coma separated sections from ini file excluded")
     print("  -f, --force_driver= : coma separated list of drivers used")
