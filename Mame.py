@@ -66,8 +66,5 @@ def get_version():
     args = [Config.mame_binary]
     args += ['-version']
 
-    my_env = os.environ.copy()
-    my_env["XDG_RUNTIME_DIR"] = "/run/user/" + str(os.getuid())
-
-    out = subprocess.run(args, capture_output=True, env=my_env)
+    out = subprocess.run(args, capture_output=True)
     return out.stdout.decode('utf-8')

@@ -3,58 +3,73 @@ import subprocess
 import threading
 import Display
 import xml.etree.ElementTree as ElementTree
+import os.path
 
 import Config
+import Mame
 
 soft_list = None
+temp_dir = "/tmp/"
 
 
-# from XmlMachineFilter import XmlMachineFilter
+def get_listxml_file_name():
+    mame_version = Mame.get_version()
+    return temp_dir + "listxml_" + mame_version + ".txt"
+
+
+def get_softlist_file_name():
+    mame_version = Mame.get_version()
+    return temp_dir + "softlist_" + mame_version + ".txt"
 
 
 def load_machine_list():
-    print("Reading MAME's machines list")
-    Display.print_text("Reading MAME's machines list")
-    out = subprocess.Popen([Config.mame_binary, '-listxml'],
-                           stdout=subprocess.PIPE,
-                           stderr=subprocess.STDOUT)
+    Display.print_text("Reading machines list")
 
-    return out.communicate()
+    file_name = get_listxml_file_name()
+
+    if os.path.isfile(file_name) is False:
+        print("Creating", file_name)
+        fd = open(file_name, "w")
+        subprocess.run([Config.mame_binary, '-listxml'],
+                       stdout=fd)
+    else:
+        print(file_name, "already exists")
 
 
 def load_soft_list():
-    print("Reading MAME's softwares list")
-    Display.print_text("Reading MAME's softwares list")
-    out = subprocess.Popen([Config.mame_binary, '-getsoftlist'],
-                           stdout=subprocess.PIPE,
-                           stderr=subprocess.STDOUT)
+    Display.print_text("Reading software list")
 
-    return out.communicate()
+    file_name = get_softlist_file_name()
 
-
-def parse_machine_list(stdout):
-    print("Parsing MAME's machines list")
-    Display.print_text("Parsing MAME's machines list")
-    # target = XmlMachineFilter()
-    # parser = ElementTree.XMLParser(target=target)
-    # return ElementTree.fromstring(stdout, parser=parser)
-    return ElementTree.fromstring(stdout)
+    if os.path.isfile(file_name) is False:
+        print("Creating", file_name)
+        fd = open(file_name, "w")
+        subprocess.run([Config.mame_binary, '-getsoftlist'],
+                       stdout=fd)
+    else:
+        print(file_name, "already exists")
 
 
-def parse_soft_list(stdout):
-    print("Parsing MAME's softwares lists")
-    Display.print_text("Parsing MAME's softwares lists")
-    return ElementTree.fromstring(stdout)
+def parse_machine_list():
+    Display.print_text("Parsing machines list")
+    tree = ElementTree.parse(get_listxml_file_name())
+    return tree.getroot()
+
+
+def parse_soft_list():
+    Display.print_text("Parsing softwares lists")
+    tree = ElementTree.parse(get_softlist_file_name())
+    return tree.getroot()
 
 
 def get_soft_list():
     a = datetime.datetime.now()
-    stdout, stderr = load_soft_list()
+    load_soft_list()
     b = datetime.datetime.now()
     print(b - a)
     a = datetime.datetime.now()
     global soft_list
-    soft_list = parse_soft_list(stdout)
+    soft_list = parse_soft_list()
     b = datetime.datetime.now()
     print(b - a)
 
@@ -70,11 +85,11 @@ def get():
     machine_list = None
     if Config.need_machine is True:
         a = datetime.datetime.now()
-        stdout, stderr = load_machine_list()
+        load_machine_list()
         b = datetime.datetime.now()
         print(b - a)
         a = datetime.datetime.now()
-        machine_list = parse_machine_list(stdout)
+        machine_list = parse_machine_list()
         b = datetime.datetime.now()
         print(b - a)
 
