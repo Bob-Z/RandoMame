@@ -1,14 +1,11 @@
 import datetime
 import subprocess
-import threading
 import Display
 import xml.etree.ElementTree as ElementTree
 import os.path
-
 import Config
 import Mame
 
-soft_list = None
 temp_dir = "/tmp/"
 
 
@@ -23,7 +20,7 @@ def get_softlist_file_name():
 
 
 def load_machine_list():
-    Display.print_text("Reading machines list")
+    Display.print_text("Get machines XML")
 
     file_name = get_listxml_file_name()
 
@@ -37,7 +34,7 @@ def load_machine_list():
 
 
 def load_soft_list():
-    Display.print_text("Reading software list")
+    Display.print_text("Get software list XML")
 
     file_name = get_softlist_file_name()
 
@@ -57,46 +54,30 @@ def parse_machine_list():
 
 
 def parse_soft_list():
-    Display.print_text("Parsing softwares lists")
+    Display.print_text("Parsing software list XML")
     tree = ElementTree.parse(get_softlist_file_name())
     return tree.getroot()
 
 
-def get_soft_list():
-    a = datetime.datetime.now()
-    load_soft_list()
-    b = datetime.datetime.now()
-    print(b - a)
-    a = datetime.datetime.now()
-    global soft_list
-    soft_list = parse_soft_list()
-    b = datetime.datetime.now()
-    print(b - a)
-
-
 def get():
-    total_start = datetime.datetime.now()
-    get_soft_list_thread = None
-
-    if Config.need_softlist:
-        get_soft_list_thread = threading.Thread(target=get_soft_list)
-        get_soft_list_thread.start()
-
     machine_list = None
+    soft_list = None
+
+    total_start = datetime.datetime.now()
+
+    if Config.need_softlist is True:
+        load_soft_list()
+        soft_list = parse_soft_list()
+
+    soft_list_end = datetime.datetime.now()
+    print("Soft list parsing:", soft_list_end - total_start)
+
     if Config.need_machine is True:
-        a = datetime.datetime.now()
         load_machine_list()
-        b = datetime.datetime.now()
-        print(b - a)
-        a = datetime.datetime.now()
         machine_list = parse_machine_list()
-        b = datetime.datetime.now()
-        print(b - a)
 
-    if get_soft_list_thread is not None:
-        get_soft_list_thread.join()
-
+    print("Machine parsing:", datetime.datetime.now() - soft_list_end)
     total_end = datetime.datetime.now()
-    print("Total XML data loading:", total_end - total_start)
+    print("Total XML parsing:", total_end - total_start)
 
     return machine_list, soft_list
