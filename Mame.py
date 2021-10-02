@@ -60,3 +60,14 @@ def run(item):
     Sound.reset()
 
     return out
+
+
+def get_version():
+    args = [Config.mame_binary]
+    args += ['-version']
+
+    my_env = os.environ.copy()
+    my_env["XDG_RUNTIME_DIR"] = "/run/user/" + str(os.getuid())
+
+    out = subprocess.run(args, capture_output=True, env=my_env)
+    return out.stdout.decode('utf-8')
