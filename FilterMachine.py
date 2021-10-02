@@ -37,9 +37,9 @@ def get(machine_xml, check_machine_description):
         if machine_xml.attrib["runnable"] == "no":
             # print("Skip non runnable ", machine.attrib["name"])
             return None
-    #if "ismechanical" in machine.attrib:
+    # if "ismechanical" in machine.attrib:
     #    if machine.attrib["ismechanical"] == "yes":
-            # print("Skip mechanical ", machine.attrib["name"])
+    # print("Skip mechanical ", machine.attrib["name"])
     #        return None
 
     if Config.allow_preliminary is False:
@@ -144,6 +144,11 @@ def get(machine_xml, check_machine_description):
                     break
 
         if is_found is False:
+            return None
+
+    if Config.display_min is not None:
+        all_displays = machine_xml.findall("display")
+        if len(all_displays) < Config.display_min:
             return None
 
     if Config.mode == 'arcade':
