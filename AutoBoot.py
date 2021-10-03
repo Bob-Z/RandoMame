@@ -42,6 +42,22 @@ lib = {
         "vip64": ('c64_cass.lua', 3, None),
     },
 
+    "coco_flop": {
+        "cd6809": ('coco_flop.lua', 0, None),
+        "coco2": ('coco_flop.lua', 0, None),
+        "coco2b": ('coco_flop.lua', 0, None),
+        "coco2bh": ('coco_flop.lua', 0, None),
+        "coco2h": ('coco_flop.lua', 0, None),
+        "coco3": ('coco_flop.lua', 0, None),
+        "coco3dw1": ('coco_flop.lua', 0, None),
+        "coco3h": ('coco_flop.lua', 0, None),
+        "coco3p": ('coco_flop.lua', 0, None),
+        "cocoe": ('coco_flop.lua', 0, None),
+        "cocoeh": ('coco_flop.lua', 0, None),
+        "cp400": ('coco_flop.lua', 0, None),
+        "cp400c2": ('coco_flop.lua', 0, None),
+    },
+
     "cpc_cass": {
         "cpc464": ('cpc_cass.lua', 2, None),
         "cpc664": ('cpc_cass.lua', 2, None),
