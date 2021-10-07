@@ -124,10 +124,11 @@ class Window:
         self.auto_keyboard_date = datetime.datetime.now()
 
     def manage_date(self):
-        if self.end_date < datetime.datetime.now():
-            self.out.kill()
+        if Config.emulation_time is False:
+            if self.end_date < datetime.datetime.now():
+                self.out.kill()
 
-            Sound.reset()
+                Sound.reset()
 
     def get_command(self):
         self.item = Mode.get()

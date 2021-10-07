@@ -34,6 +34,10 @@ def run(item):
 
         Record.create_srt_file(item)
 
+    if Config.emulation_time is True:
+        args.append('-str')
+        args.append(str(Config.timeout))
+
     if Config.extra is not None:
         for e in Config.extra.split(' '):
             args.append(e)

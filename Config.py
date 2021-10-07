@@ -45,10 +45,10 @@ check = None
 sort_by_name = False
 sort_by_year = False
 sort_reverse = False
-
+emulation_time = False
 
 def parse_command_line():
-    opts, args = getopt.getopt(sys.argv[1:], "aAb:B:c:C:d:D:E:f:F:g:G:hi:I:jJk:lLmM:NnoO:pqQ:rRsS:T:t:vw:x:y:Y:z:Z:",
+    opts, args = getopt.getopt(sys.argv[1:], "aAb:B:c:C:d:D:eE:f:F:g:G:hi:I:jJk:lLmM:NnoO:pqQ:rRsS:T:t:vw:x:y:Y:z:Z:",
                                ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                 "available_softlist", "timeout=", "desktop=",
                                 "allow_preliminary",
@@ -59,7 +59,8 @@ def parse_command_line():
                                 "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file=",
                                 "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=",
                                 "end_duration=", "check=",
-                                "sort_by_name", "sort_by_year", "sort_reverse"])
+                                "sort_by_name", "sort_by_year", "sort_reverse",
+                                "emulation_time"])
 
     global mode
     global selected_softlist
@@ -104,6 +105,7 @@ def parse_command_line():
     global sort_by_name
     global sort_by_year
     global sort_reverse
+    global emulation_time
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -208,6 +210,8 @@ def parse_command_line():
             sort_by_year = True
         elif opt in ("-v", "--sort_reverse"):
             sort_reverse = True
+        elif opt in ("-e", "--emulation_time"):
+            emulation_time = True
         else:
             print("Unknown option ", opt)
             usage()
@@ -297,6 +301,9 @@ def parse_command_line():
         if sort_reverse is True:
             print("Sort reverse")
 
+        if emulation_time is True:
+            print("Using emulation time for timeout")
+
         if start_command is not None:
             print("Start command: ", start_command)
 
@@ -344,6 +351,7 @@ def usage():
     print("")
     print(" - APPEARANCE")
     print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
+    print("  -e, --emulation_time : Use emulation time rather than real life time for timeout")
     print("  -L, --linear= : choose selected machines/softwares in MAME's list order (default is random)")
     print("  -j, --sort_by_name : Sort machines/software by name")
     print("  -J, --sort_by_year : Sort machines/software by year")
