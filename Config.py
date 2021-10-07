@@ -314,7 +314,7 @@ def usage():
     print("  -o, --loose_search : Enable loose description search for machine name. Default is strict search")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
     print("  -Q, --display_min= : Minimum displays quantity allowed")
-    print("  -T, --selected_soft= : Coma separated list of allowed driver names (use with selected_softlist mode)")
+    print("  -T, --selected_soft= : Coma separated list of allowed software (short) names (use with selected_softlist mode)")
     print("  -y, --year_min= : Machines/softwares can't be earlier than this")
     print("  -Y, --year_max= : Machines/softwares can't be older than this")
     print("")

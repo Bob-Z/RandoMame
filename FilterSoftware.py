@@ -10,8 +10,8 @@ def get(soft_xml):
 
     if len(Config.selected_soft) > 0:
         found = False
-        for driver_name in Config.selected_soft:
-            if soft_xml.attrib['name'] == driver_name:
+        for soft_name in Config.selected_soft:
+            if soft_xml.attrib['name'] == soft_name:
                 found = True
                 break
 
