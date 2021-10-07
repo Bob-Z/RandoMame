@@ -93,7 +93,7 @@ class Item:
         if Config.sort_by_year is True:
             return self.get_machine_year() + " " + self.get_machine_description()
 
-        return None
+        return ""
 
     def get_command_line(self):
         if self.soft_xml is None:
