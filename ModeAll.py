@@ -26,6 +26,9 @@ def get(machine_list, soft_list_list):
 
             generate_full_command_list(machine_list, soft_list_list)
 
+        if len(item_list) != 0:
+            item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)
+
     if len(item_list) == 0:
         return None
 

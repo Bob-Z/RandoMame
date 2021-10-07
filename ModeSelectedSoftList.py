@@ -47,5 +47,8 @@ def generate_full_command_list(machine_xml_list, softlist_xml_list, softlist_nam
         if new_item_list is not None:
             item_list = item_list + new_item_list
 
+        if len(item_list) != 0:
+            item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)
+
         Display.print_text("Found " + str(len(item_list)) + " softwares" + Config.get_allowed_string())
         time.sleep(1.5)

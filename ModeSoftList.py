@@ -22,6 +22,9 @@ def get(machine_xml_list, softlist_xml_list):
             if new_item_list is not None:
                 item_list = item_list + new_item_list
 
+            if len(item_list) != 0:
+                item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)
+
             Display.print_text("Found " + str(len(item_list)) + " softwares")
 
     if Config.linear is True:

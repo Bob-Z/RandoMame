@@ -1,4 +1,5 @@
 import AutoBoot
+import Config
 
 
 class Item:
@@ -74,11 +75,24 @@ class Item:
             return self.get_soft_description()
         return None
 
-    def get_soft_full_description_year_first(self):
-        if self.get_soft_description() is not None and self.get_soft_year() is not None:
-            return self.get_soft_year() + " " + self.get_soft_description()
-        if self.get_soft_description() is not None:
-            return "0000 " + self.get_soft_description()
+    def get_sort_criteria(self):
+        if self.get_soft_description() is not None and self.get_soft_description() != "" and self.get_soft_year() is not None:
+            if Config.sort_by_year is True:
+                return self.get_soft_year() + " " + self.get_soft_description()
+            if Config.sort_by_name is True:
+                return self.get_soft_description() + " " + self.get_soft_year()
+        if self.get_soft_description() is not None and self.get_soft_description() != "":
+            if Config.sort_by_year is True:
+                return "0000 " + self.get_soft_description()
+            if Config.sort_by_name is True:
+                return self.get_soft_description()
+
+        if Config.sort_by_name is True:
+            return self.get_machine_full_description()
+
+        if Config.sort_by_year is True:
+            return self.get_machine_year() + " " + self.get_machine_description()
+
         return None
 
     def get_command_line(self):

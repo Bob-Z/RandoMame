@@ -18,11 +18,4 @@ def generate_command_list(machine_list):
 
         item_list.append(item)
 
-    if Config.sort_by_name is True:
-        item_list.sort(key=lambda x: x.get_machine_full_description(), reverse=Config.sort_reverse)
-
-    if Config.sort_by_year is True:
-        item_list.sort(key=lambda x: x.get_machine_year() + " " + x.get_machine_description(),
-                       reverse=Config.sort_reverse)
-
     return item_list
