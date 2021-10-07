@@ -42,10 +42,13 @@ end_text = None
 end_background = None
 end_duration = None
 check = None
+sort_by_name = False
+sort_by_year = False
+sort_reverse = False
 
 
 def parse_command_line():
-    opts, args = getopt.getopt(sys.argv[1:], "aAb:B:c:C:d:D:E:f:F:g:G:hi:I:k:lLmM:NnoO:pqQ:rRsS:T:t:w:x:y:Y:z:Z:",
+    opts, args = getopt.getopt(sys.argv[1:], "aAb:B:c:C:d:D:E:f:F:g:G:hi:I:jJk:lLmM:NnoO:pqQ:rRsS:T:t:vw:x:y:Y:z:Z:",
                                ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                 "available_softlist", "timeout=", "desktop=",
                                 "allow_preliminary",
@@ -54,7 +57,8 @@ def parse_command_line():
                                 "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
                                 "exclude=", "extra=", "force_driver=", "loose_search", "start_command=",
                                 "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file=",
-                                "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=", "end_duration=", "check="])
+                                "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=", "end_duration=", "check=",
+                                "sort_by_name", "sort_by_year", "sort_reverse"])
 
     global mode
     global selected_softlist
@@ -96,6 +100,9 @@ def parse_command_line():
     global end_background
     global end_duration
     global check
+    global sort_by_name
+    global sort_by_year
+    global sort_reverse
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -194,6 +201,12 @@ def parse_command_line():
         elif opt in ("-k", "--check"):
             check = arg
             need_softlist = True
+        elif opt in ("-j", "--sort_by_name"):
+            sort_by_name = True
+        elif opt in ("-J", "--sort_by_year"):
+            sort_by_year = True
+        elif opt in ("-v", "--sort_reverse"):
+            sort_reverse = True
         else:
             print("Unknown option ", opt)
             usage()
@@ -273,6 +286,15 @@ def parse_command_line():
 
         if display_min is not None:
             print("Minimum display quantity allowed: ", display_min)
+
+        if sort_by_name is True:
+            print("Sort by name")
+
+        if sort_by_year is True:
+            print("Sort by year")
+
+        if sort_reverse is True:
+            print("Sort reverse")
 
         if start_command is not None:
             print("Start command: ", start_command)

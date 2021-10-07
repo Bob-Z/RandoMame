@@ -11,6 +11,13 @@ machine_xml_by_soft_list = {}
 def generate_command_list(machine_xml_list, softlist_xml_list, softlist_name):
     item_list = generate_item_list(softlist_name, softlist_xml_list)
 
+    if Config.sort_by_name is True:
+        item_list.sort(key=lambda x: x.get_soft_full_description(), reverse=Config.sort_reverse)
+
+    if Config.sort_by_year is True:
+        item_list.sort(key=lambda x: x.get_soft_full_description_year_first(),
+                       reverse=Config.sort_reverse)
+
     if item_list is not None:
         for item in item_list:
             random_machine_item = pick_random_machine(machine_xml_list, item)
