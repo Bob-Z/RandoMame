@@ -57,7 +57,8 @@ def parse_command_line():
                                 "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
                                 "exclude=", "extra=", "force_driver=", "loose_search", "start_command=",
                                 "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file=",
-                                "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=", "end_duration=", "check=",
+                                "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=",
+                                "end_duration=", "check=",
                                 "sort_by_name", "sort_by_year", "sort_reverse"])
 
     global mode
@@ -336,16 +337,20 @@ def usage():
     print("  -o, --loose_search : Enable loose description search for machine name. Default is strict search")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
     print("  -Q, --display_min= : Minimum displays quantity allowed")
-    print("  -T, --selected_soft= : Coma separated list of allowed software (short) names (use with selected_softlist mode)")
+    print(
+        "  -T, --selected_soft= : Coma separated list of allowed software (short) names (use with selected_softlist mode)")
     print("  -y, --year_min= : Machines/softwares can't be earlier than this")
     print("  -Y, --year_max= : Machines/softwares can't be older than this")
     print("")
     print(" - APPEARANCE")
-    print("  -w, --window= : simultaneous windows quantity")
     print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
-    print("  -t, --timeout= : individual run timeout in seconds")
     print("  -L, --linear= : choose selected machines/softwares in MAME's list order (default is random)")
+    print("  -j, --sort_by_name : Sort machines/software by name")
+    print("  -J, --sort_by_year : Sort machines/software by year")
     print("  -q, --quit : Quit when all selected machines/softwares have been shown (default never quit)")
+    print("  -t, --timeout= : individual run timeout in seconds")
+    print("  -v, --sort_reverse : Reverse sorting")
+    print("  -w, --window= : simultaneous windows quantity")
     print(
         "  -O, --smart_sound_timeout : Only one window is unmuted. After smart_sound_timeout seconds of silence, another window is un-muted. Set this to 0 to deactivate smart-sound")
     print("  -g, --title_text= : Display text at start (may be ':::' separated texts")
