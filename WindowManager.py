@@ -94,6 +94,10 @@ def start():
     for w in window:
         w.join()
 
+    if Config.final_command is not None:
+        print("Execute final command:", Config.final_command)
+        os.system(Config.final_command)
+
     sys.exit(0)
 
 

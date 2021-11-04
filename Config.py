@@ -29,6 +29,7 @@ force_driver = None
 loose_search = False
 start_command = None
 end_command = None
+final_command = None
 record = None
 title_text = None
 title_background = None
@@ -48,7 +49,7 @@ sort_reverse = False
 emulation_time = False
 
 def parse_command_line():
-    opts, args = getopt.getopt(sys.argv[1:], "aAb:B:c:C:d:D:eE:f:F:g:G:hi:I:jJk:lLmM:NnoO:pqQ:rRsS:T:t:vw:x:y:Y:z:Z:",
+    opts, args = getopt.getopt(sys.argv[1:], "aAb:B:c:C:d:D:eE:f:F:g:G:hi:I:jJk:lLmM:NnoO:pqQ:rRsS:T:t:vw:X:x:y:Y:z:Z:",
                                ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                 "available_softlist", "timeout=", "desktop=",
                                 "allow_preliminary",
@@ -60,7 +61,7 @@ def parse_command_line():
                                 "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=",
                                 "end_duration=", "check=",
                                 "sort_by_name", "sort_by_year", "sort_reverse",
-                                "emulation_time"])
+                                "emulation_time", "final_command"])
 
     global mode
     global selected_softlist
@@ -89,6 +90,7 @@ def parse_command_line():
     global loose_search
     global start_command
     global end_command
+    global final_command
     global record
     global title_text
     global title_background
@@ -177,6 +179,8 @@ def parse_command_line():
             start_command = arg
         elif opt in ("-C", "--end_command"):
             end_command = arg
+        elif opt in ("-X", "--final_command"):
+            final_command = arg
         elif opt in ("-r", "--record"):
             record = arg
         elif opt in ("-R", "--dry_run"):
@@ -310,6 +314,9 @@ def parse_command_line():
         if end_command is not None:
             print("End command: ", end_command)
 
+        if final_command is not None:
+            print("Final command: ", final_command)
+
     print("")
 
 
@@ -370,7 +377,8 @@ def usage():
     print("")
     print(" - OTHER")
     print("  -c, --start_command= : command line to be executed on start (when MAME is first launched)")
-    print("  -C, --end_command= : command line to be executed at end (when Randomame window is closed)")
+    print("  -C, --end_command= : command line to be executed at end (when there is nothing more to be displayed)")
+    print("  -X, --final_command= : command line to be executed at end (just before RandoMame exits)")
     print("  -l, --available_softlist : display available softlists")
     print("  -r, --record= : directory where session is recorded")
     print("  -x, --extra= : extra command passed to MAME binary")
