@@ -61,7 +61,7 @@ def parse_command_line():
                                 "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=",
                                 "end_duration=", "check=",
                                 "sort_by_name", "sort_by_year", "sort_reverse",
-                                "emulation_time", "final_command"])
+                                "emulation_time", "final_command="])
 
     global mode
     global selected_softlist

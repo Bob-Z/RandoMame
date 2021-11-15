@@ -52,6 +52,9 @@ def run(item):
         full_command += a + " "
     print("Running full command: " + full_command)
 
+    if Config.record is not None:
+        Record.create_command_file(full_command)
+
     # Linux PulseAudio specific
     my_env = os.environ.copy()
     my_env["XDG_RUNTIME_DIR"] = "/run/user/" + str(os.getuid())

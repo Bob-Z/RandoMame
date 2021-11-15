@@ -83,6 +83,12 @@ def create_srt_file(item):
             f.write(item.get_part_name())
 
 
+def create_command_file(command):
+    if Config.end_duration:
+        with open(Config.record + "/" + '{:03d}'.format(index) + ".cmd.txt", "w") as f:
+            f.write(command)
+
+
 def log(input_log):
     if Config.record is not None:
         with open(Config.record + "/" + "log.txt", "a") as f:
