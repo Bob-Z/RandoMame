@@ -47,7 +47,7 @@ def generate_full_command_list(machine_list, soft_list_list):
     item_list = CommandGeneratorMachine.generate_command_list(machine_list)
 
     found_qty = len(item_list)
-    Display.print_text("Found " + str(found_qty) + " softwares" + Config.get_allowed_string())
+    Display.print_text("Found " + str(found_qty) + " machines" + Config.get_allowed_string())
 
     for soft_list in soft_list_list.findall("softwarelist"):
         new_item_list = CommandGeneratorSoftList.generate_command_list(machine_list, soft_list_list,
