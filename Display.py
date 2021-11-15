@@ -231,11 +231,11 @@ def print_machine_and_soft(item, position):
 
         text_array = []
         if item.get_soft_xml() is not None and item.get_machine_xml() is not None:
-            text_array.append(item.get_soft_full_description())
-            text_array.append(item.get_machine_full_description())
+            text_array.append(item.get_soft_full_description() + "[" + item.get_soft_short_name() + "]")
+            text_array.append(item.get_machine_full_description() + "[" + item.get_machine_short_name() + "]")
         else:
             if item.get_machine_xml() is not None:
-                text_array.append(item.get_machine_full_description())
+                text_array.append(item.get_machine_full_description() + "[" + item.get_machine_short_name() + "]")
             else:  # vgmplay
                 text_array.append(item.get_soft_full_description())
                 text_array.append(item.get_part_name())
