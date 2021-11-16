@@ -84,9 +84,8 @@ def create_srt_file(item):
 
 
 def create_command_file(command):
-    if Config.end_duration:
-        with open(Config.record + "/" + '{:03d}'.format(index) + ".cmd.txt", "w") as f:
-            f.write(command)
+    with open(Config.record + "/" + '{:03d}'.format(index) + ".cmd.txt", "w") as f:
+        f.write(command)
 
 
 def log(input_log):
