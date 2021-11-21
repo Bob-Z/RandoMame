@@ -163,14 +163,36 @@ def get(machine_xml, check_machine_description):
         if len(all_displays) < Config.display_min:
             return None
 
+    # Search for coinage
+    coinage = False
+
+    machine_input = machine_xml.find("input")
+    if machine_input is not None:
+        if "coins" in machine_input.attrib:
+            coinage = True
+
+    if coinage is False:
+        machine_dipswitch = machine_xml.find("dipswitch")
+        if machine_dipswitch is not None:
+            for ds in machine_dipswitch:
+                if "name" in ds:
+                    if ds.attrib["name"] == "Coinage":
+                        coinage = True
+                        break
+
     if Config.mode == 'arcade':
-        machine_input = machine_xml.find("input")
-        if machine_input is not None:
-            if "coins" not in machine_input.attrib:
-                # print("Skip non arcade machine ", machine.attrib['name'], "-", title)
-                return None
-        else:
-            # print("Skip no input machine ", machine.attrib['name'], "-", title)
+        if coinage is False:
+            # Skip machines without coins
+            return None
+
+    if Config.mode == 'standalone':
+        if coinage is True:
+            # Skip machines with coins
+            return None
+
+        softlist = machine_xml.find("softwarelist")
+        if softlist is not None:
+            # Skip software based machines
             return None
 
     item = Item()

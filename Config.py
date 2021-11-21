@@ -50,7 +50,7 @@ sort_reverse = False
 emulation_time = False
 
 def parse_command_line():
-    opts, args = getopt.getopt(sys.argv[1:], "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:lLmM:NnoO:pqQ:rRsS:T:t:vw:X:x:y:Y:z:Z:",
+    opts, args = getopt.getopt(sys.argv[1:], "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:lLmM:NnoO:pqQ:rRsS:T:t:uvw:X:x:y:Y:z:Z:",
                                ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                 "available_softlist", "timeout=", "desktop=",
                                 "allow_preliminary",
@@ -62,7 +62,7 @@ def parse_command_line():
                                 "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=",
                                 "end_duration=", "check=",
                                 "sort_by_name", "sort_by_year", "sort_reverse",
-                                "emulation_time", "final_command=", "no_manufacturer="])
+                                "emulation_time", "final_command=", "no_manufacturer=", "standalone"])
 
     global mode
     global selected_softlist
@@ -114,6 +114,8 @@ def parse_command_line():
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
             mode = "arcade"
+        elif opt in ("-u", "--standalone"):
+            mode = "standalone"
         elif opt in ("-A", "--all"):
             mode = "all"
             need_softlist = True
