@@ -81,6 +81,18 @@ def get(machine_xml, check_machine_description):
         if is_found is False:
             return None
 
+    if Config.no_manufacturer is not None:
+        current_manuf = machine_xml.find("manufacturer").text
+        manuf_list = Config.no_manufacturer.split(',')
+        is_found = True
+        for manuf in manuf_list:
+            if re.match(manuf, current_manuf, re.IGNORECASE) is not None:
+                is_found = False
+                break
+
+        if is_found is False:
+            return None
+
     if Config.ini_file is not None:
         if Config.include is not None:
             found = False
