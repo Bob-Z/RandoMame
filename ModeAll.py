@@ -49,15 +49,21 @@ def generate_full_command_list(machine_list, soft_list_list):
     found_qty = len(item_list)
     Display.print_text("Found " + str(found_qty) + " machines" + Config.get_allowed_string())
 
+    softlist_qty = 0
     for soft_list in soft_list_list.findall("softwarelist"):
+        softlist_qty = softlist_qty + 1
         new_item_list = CommandGeneratorSoftList.generate_command_list(machine_list, soft_list_list,
                                                                        soft_list.attrib['name'])
 
         if new_item_list is not None:
             item_list = item_list + new_item_list
 
-        if len(item_list) > found_qty + 1000:
+        if softlist_qty % 10 == 0:
             found_qty = len(item_list)
-            Display.print_text("Found " + str(found_qty) + " softwares" + Config.get_allowed_string())
+
+            Display.print_text_array(None, ["Found " + str(
+                found_qty) + " software " + Config.get_allowed_string(), "       " + str(softlist_qty) + "/" + str(
+                len(
+                    soft_list_list)) + " software lists analyzed         "], True)
 
     print(len(item_list), "machines or softwares found" + Config.get_allowed_string())
