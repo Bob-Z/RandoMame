@@ -49,8 +49,10 @@ sort_by_year = False
 sort_reverse = False
 emulation_time = False
 
+
 def parse_command_line():
-    opts, args = getopt.getopt(sys.argv[1:], "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:lLmM:NnoO:pqQ:rRsS:T:t:uUvw:X:x:y:Y:z:Z:",
+    opts, args = getopt.getopt(sys.argv[1:],
+                               "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:lLmM:NnoO:pqQ:rRsS:T:t:uUvw:X:x:y:Y:z:Z:",
                                ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                 "available_softlist", "timeout=", "desktop=",
                                 "allow_preliminary",
@@ -350,10 +352,11 @@ def usage():
     print("  -c, --check= : check files in given path")
     print("")
     print(" - FILTER")
-    print("  -b, --device= : coma separated names of allowed devices")
-    print("  -B, --slot_option= : coma separated names of allowed slot_option")
-    print("  -d, --description= : coma separated regex expression filtering machines and softwares description")
-    print("  -E, --exclude= : coma separated sections from ini file excluded")
+    print("  -b, --device= : coma separated list of names of allowed devices")
+    print("  -B, --slot_option= : coma separated list of names of allowed slot_option")
+    print(
+        "  -d, --description= : coma separated list of regex expression filtering machines and softwares description. Use ^desc$ for exact match")
+    print("  -E, --exclude= : coma separated list of sections from ini file excluded")
     print("  -f, --force_driver= : coma separated list of drivers used")
     print("  -F, --source_file= : coma separated list of source file allowed")
     print("  -H, --no_manufacturer : coma separated list of forbidden manufacturers")

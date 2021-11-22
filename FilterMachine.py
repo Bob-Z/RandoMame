@@ -74,7 +74,7 @@ def get(machine_xml, check_machine_description):
         manuf_list = Config.manufacturer.split(',')
         is_found = False
         for manuf in manuf_list:
-            if re.match(manuf, current_manuf, re.IGNORECASE) is not None:
+            if re.search(manuf, current_manuf, re.IGNORECASE) is not None:
                 is_found = True
                 break
 
@@ -86,7 +86,7 @@ def get(machine_xml, check_machine_description):
         manuf_list = Config.no_manufacturer.split(',')
         is_found = True
         for manuf in manuf_list:
-            if re.match(manuf, current_manuf, re.IGNORECASE) is not None:
+            if re.search(manuf, current_manuf, re.IGNORECASE) is not None:
                 is_found = False
                 break
 
@@ -316,7 +316,7 @@ def loose_search_machine(machine, search_string):
 def strict_search_machine(machine):
     description = machine.find("description").text
     for desc in Config.description:
-        if re.match(desc, description, re.IGNORECASE) is not None:
+        if re.search(desc, description, re.IGNORECASE) is not None:
             return True
 
     return False

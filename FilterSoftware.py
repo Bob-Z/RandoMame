@@ -23,13 +23,13 @@ def get(soft_xml):
             found = False
 
             if Config.loose_search is False:
-                # Exact match
-                s = "^" + desc + "$"
-                if re.search(s, item.get_soft_description(), re.IGNORECASE) is not None:
+                # For exact match (no more no less) : s = "^" + desc + "$"
+                if re.search(desc, item.get_soft_description(), re.IGNORECASE) is not None:
                     found = True
                     break
             else:
                 # Loose match
+                # re.match start at string beginning
                 if re.match(desc, item.get_soft_description(), re.IGNORECASE) is not None:
                     found = True
                     break
