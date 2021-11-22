@@ -50,7 +50,7 @@ sort_reverse = False
 emulation_time = False
 
 def parse_command_line():
-    opts, args = getopt.getopt(sys.argv[1:], "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:lLmM:NnoO:pqQ:rRsS:T:t:uvw:X:x:y:Y:z:Z:",
+    opts, args = getopt.getopt(sys.argv[1:], "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:lLmM:NnoO:pqQ:rRsS:T:t:uUvw:X:x:y:Y:z:Z:",
                                ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                 "available_softlist", "timeout=", "desktop=",
                                 "allow_preliminary",
@@ -62,7 +62,7 @@ def parse_command_line():
                                 "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=",
                                 "end_duration=", "check=",
                                 "sort_by_name", "sort_by_year", "sort_reverse",
-                                "emulation_time", "final_command=", "no_manufacturer=", "standalone"])
+                                "emulation_time", "final_command=", "no_manufacturer=", "standalone", "slotmachine"])
 
     global mode
     global selected_softlist
@@ -116,6 +116,8 @@ def parse_command_line():
             mode = "arcade"
         elif opt in ("-u", "--standalone"):
             mode = "standalone"
+        elif opt in ("-U", "--slotmachine"):
+            mode = "slotmachine"
         elif opt in ("-A", "--all"):
             mode = "all"
             need_softlist = True
@@ -338,8 +340,10 @@ def usage():
     print("=========")
     print("")
     print(" - MODE")
-    print("  -a, --arcade : arcade mode: run only coins operated machine (default)")
-    print("  -A, --all : both arcade mode and softlist mode")
+    print("  -a, --arcade : Run only coins operated machine without slot machines (default)")
+    print("  -A, --all : all machines")
+    print("  -u, --standalone : Run stand alone machines (no coins, no payout, no additional software)")
+    print("  -U, --slotmachine : Run slot machines")
     print("  -s, --softlist : softlist mode: run only drivers using softwares")
     print("  -S, --selected_softlist= : comma separated list of selected softlists which will be run")
     print("  -m, --music : video game music mode")

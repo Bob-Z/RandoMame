@@ -172,27 +172,68 @@ def get(machine_xml, check_machine_description):
             coinage = True
 
     if coinage is False:
-        machine_dipswitch = machine_xml.find("dipswitch")
+        machine_dipswitch = machine_xml.findall("dipswitch")
         if machine_dipswitch is not None:
             for ds in machine_dipswitch:
-                if "name" in ds:
+                if "name" in ds.attrib:
                     if ds.attrib["name"] == "Coinage":
                         coinage = True
                         break
 
+    # Search for payout
+    payout = False
+
+    machine_dipswitch = machine_xml.findall("dipswitch")
+    if machine_dipswitch is not None:
+        for ds in machine_dipswitch:
+            if "name" in ds.attrib:
+                if re.search("payout", ds.attrib["name"], re.IGNORECASE) is not None:
+                    payout = True
+                    break
+                if re.search("antifraud", ds.attrib["name"], re.IGNORECASE) is not None:
+                    payout = True
+                    break
+
+    # Search for gambling
+    gambling = False
+    machine_input = machine_xml.find("input")
+    if machine_input is not None:
+        input_control = machine_input.findall("control")
+        if input_control is not None:
+            for ctrl in input_control:
+                if "type" in ctrl.attrib:
+                    if ctrl.attrib["type"] == "gambling":
+                        gambling = True
+                        break
+
+    # Filter by mode
     if Config.mode == 'arcade':
         if coinage is False:
-            # Skip machines without coins
             return None
 
-    if Config.mode == 'standalone':
+        if payout is True:
+            return None
+
+        if gambling is True:
+            return None
+
+    elif Config.mode == 'standalone':
         if coinage is True:
-            # Skip machines with coins
+            return None
+
+        if payout is True:
+            return None
+
+        if gambling is True:
             return None
 
         softlist = machine_xml.find("softwarelist")
         if softlist is not None:
             # Skip software based machines
+            return None
+
+    elif Config.mode == 'slotmachine':
+        if payout is False and gambling is False:
             return None
 
     item = Item()

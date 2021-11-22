@@ -19,8 +19,11 @@ def get(machine_list):
         item_list = CommandGeneratorMachine.generate_command_list(machine_list)
         if Config.mode == "arcade":
             print(len(item_list), "arcade machines found")
-        else:
+        elif Config.mode == "standalone":
             print(len(item_list), "standalone machines found")
+        else:
+            print(len(item_list), "slot machines found")
+
     if len(item_list) != 0:
         item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)
 

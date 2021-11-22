@@ -29,6 +29,9 @@ def get():
         elif Config.mode == "standalone":
             # Standalone is the same as Arcade mode with different machine filter
             return ModeArcade.get(my_machine_list)
+        elif Config.mode == "slotmachine":
+            # Slotmachine is the same as Arcade mode with different machine filter
+            return ModeArcade.get(my_machine_list)
         elif Config.mode == "softlist":
             return ModeSoftList.get(my_machine_list, my_soft_list)
         elif Config.mode == "all":
