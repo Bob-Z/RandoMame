@@ -277,6 +277,13 @@ lib = {
         "super80v": ('super80_cass.lua', 0, None),
     },
 
+    "svi318_cass": {
+        "svi318": ('svi318_cass.lua', 3, None),
+        "svi318n": ('svi318_cass.lua', 3, None),
+        "svi328": ('svi318_cass.lua', 3, None),
+        "svi328n": ('svi318_cass.lua', 3, None),
+    },
+
     "trs80_cass": {
         "trs80": ('trs80_cass.lua', 1, None),
     },
