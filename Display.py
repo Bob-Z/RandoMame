@@ -132,8 +132,6 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
     global height
     global init_done
 
-    Record.log(input_text)
-
     if init_done is False:
         print(input_text)
         return
@@ -231,11 +229,15 @@ def print_machine_and_soft(item, position):
 
         text_array = []
         if item.get_soft_xml() is not None and item.get_machine_xml() is not None:
-            text_array.append(item.get_soft_full_description() + "[" + item.get_soft_short_name() + "]")
+            soft_name = item.get_soft_full_description() + "[" + item.get_soft_short_name() + "]"
+            text_array.append(soft_name)
+            Record.log(soft_name)
             text_array.append(item.get_machine_full_description() + "[" + item.get_machine_short_name() + "]")
         else:
             if item.get_machine_xml() is not None:
-                text_array.append(item.get_machine_full_description() + "[" + item.get_machine_short_name() + "]")
+                machine_name = item.get_machine_full_description() + "[" + item.get_machine_short_name() + "]"
+                text_array.append(machine_name)
+                Record.log(machine_name)
             else:  # vgmplay
                 text_array.append(item.get_soft_full_description())
                 text_array.append(item.get_part_name())
