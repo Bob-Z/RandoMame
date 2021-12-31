@@ -8,7 +8,7 @@ from Item import Item
 ini_data = None
 
 
-def get(machine_xml, check_machine_description):
+def get(machine_xml, check_machine_description, softlist_used):
     global ini_data
     if Config.ini_file is not None:
         if ini_data is None:
@@ -50,20 +50,21 @@ def get(machine_xml, check_machine_description):
                     # print("Skip preliminary driver machine ", machine.attrib["name"])
                     return None
 
-    year = machine_xml.find("year").text
-    if Config.year_min is not None:
-        try:
-            if int(year) < Config.year_min:
+    if softlist_used is False:
+        year = machine_xml.find("year").text
+        if Config.year_min is not None:
+            try:
+                if int(year) < Config.year_min:
+                    return None
+            except ValueError:
                 return None
-        except ValueError:
-            return None
-
-    if Config.year_max is not None:
-        try:
-            if int(year) > Config.year_max:
+    
+        if Config.year_max is not None:
+            try:
+                if int(year) > Config.year_max:
+                    return None
+            except ValueError:
                 return None
-        except ValueError:
-            return None
 
     if Config.description is not None and check_machine_description is True:
         if strict_search_machine(machine_xml) is False:

@@ -80,7 +80,7 @@ def pick_random_machine(machine_list, item):
 
         machine_xml = found_machine_xml_list[rand]
 
-        machine_item = FilterMachine.get(machine_xml, check_machine_description=False)
+        machine_item = FilterMachine.get(machine_xml, check_machine_description=False, softlist_used=True)
 
         if machine_item is None:
             found_machine_xml_list.pop(rand)
