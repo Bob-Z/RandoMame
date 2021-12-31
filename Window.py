@@ -247,8 +247,8 @@ class Window:
 def display_title():
     if Config.title_background is not None:
         Display.display_picture_file_name(Config.title_background, None)
-
-    Display.print_text_array(None, Config.title_text, False)
+    if Config.title_text is not None:
+        Display.print_text_array(None, Config.title_text, False)
 
 
 def display_end():

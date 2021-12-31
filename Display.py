@@ -241,6 +241,7 @@ def print_machine_and_soft(item, position):
             else:  # vgmplay
                 text_array.append(item.get_soft_full_description())
                 text_array.append(item.get_part_name())
+                Record.log(item.get_part_name())
 
         print_text_array(position, text_array, do_clear)
 
