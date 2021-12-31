@@ -42,6 +42,10 @@ lib = {
         "vip64": ('c64_cass.lua', 3, None),
     },
 
+    "cdi": {
+        "cdimono1": ('cdi.lua', 0, None),
+    },
+
     "coco_flop": {
         "cd6809": ('coco_flop.lua', 0, None),
         "coco2": ('coco_flop.lua', 0, None),
