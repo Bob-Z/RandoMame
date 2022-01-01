@@ -15,6 +15,22 @@ def get(machine_xml, check_machine_description, softlist_used):
             ini_data = configparser.ConfigParser(allow_no_value=True)
             ini_data.read(Config.ini_file)
 
+        if Config.include is not None:
+            found = False
+            for i in Config.include.split(','):
+                if machine_xml.attrib['name'] in ini_data[i]:
+                    found = True
+                    break
+            if found is False:
+                return None
+        if Config.exclude is not None:
+            try:
+                for e in Config.exclude.split(','):
+                    if machine_xml.attrib['name'] in ini_data[e]:
+                        return None
+            except KeyError:
+                pass
+
     if Config.force_driver is not None:
         found = False
         drivers = Config.force_driver.split(',')
@@ -58,7 +74,7 @@ def get(machine_xml, check_machine_description, softlist_used):
                     return None
             except ValueError:
                 return None
-    
+
         if Config.year_max is not None:
             try:
                 if int(year) > Config.year_max:
@@ -93,23 +109,6 @@ def get(machine_xml, check_machine_description, softlist_used):
 
         if is_found is False:
             return None
-
-    if Config.ini_file is not None:
-        if Config.include is not None:
-            found = False
-            for i in Config.include.split(','):
-                if machine_xml.attrib['name'] in ini_data[i]:
-                    found = True
-                    break
-            if found is False:
-                return None
-        if Config.exclude is not None:
-            try:
-                for e in Config.exclude.split(','):
-                    if machine_xml.attrib['name'] in ini_data[e]:
-                        return None
-            except KeyError:
-                pass
 
     if Config.source_file is not None:
         source_file_list = Config.source_file.split(',')
