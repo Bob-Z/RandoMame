@@ -4,6 +4,7 @@ import CommandGeneratorMachine
 import CommandGeneratorSoftList
 import Config
 import Display
+import time
 
 item_list = []
 first_pass = True
@@ -50,20 +51,33 @@ def generate_full_command_list(machine_list, soft_list_list):
     Display.print_text("Found " + str(found_qty) + " machines" + Config.get_allowed_string())
 
     softlist_qty = 0
+    total_soft_with_compatible_machine_qty = 0
+    total_soft_without_compatible_machine_qty = 0
+
     for soft_list in soft_list_list.findall("softwarelist"):
-        softlist_qty = softlist_qty + 1
-        new_item_list = CommandGeneratorSoftList.generate_command_list(machine_list, soft_list_list,
-                                                                       soft_list.attrib['name'])
+        new_item_list, soft_with_compatible_machine_qty, soft_without_compatible_machine_qty = CommandGeneratorSoftList.generate_command_list(
+            machine_list, soft_list_list,
+            soft_list.attrib['name'])
 
         if new_item_list is not None:
             item_list = item_list + new_item_list
 
-        if softlist_qty % 10 == 0:
-            found_qty = len(item_list)
+            total_soft_with_compatible_machine_qty = total_soft_with_compatible_machine_qty + soft_with_compatible_machine_qty
+            total_soft_without_compatible_machine_qty = total_soft_without_compatible_machine_qty + soft_without_compatible_machine_qty
 
-            Display.print_text_array(None, ["Found " + str(
-                found_qty) + " software " + Config.get_allowed_string(), "       " + str(softlist_qty) + "/" + str(
-                len(
-                    soft_list_list)) + " software lists analyzed         "], True)
+        found_qty = len(item_list)
 
-    print(len(item_list), "machines or softwares found" + Config.get_allowed_string())
+        softlist_qty = softlist_qty + 1
+
+        Display.print_text_array(None, ["Found " + str(
+            found_qty) + " software " + Config.get_allowed_string(), "       " + str(softlist_qty) + "/" + str(
+            len(soft_list_list)) + " software lists analyzed         ",
+                                        str(total_soft_with_compatible_machine_qty) + " have compatible machine"],
+                                 True)
+
+    if len(item_list) != 0:
+        item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)
+
+    time.sleep(1.5)
+
+    print(len(item_list), "machines or software found" + Config.get_allowed_string())

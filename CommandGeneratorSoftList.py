@@ -11,22 +11,23 @@ machine_xml_by_soft_list = {}
 def generate_command_list(machine_xml_list, softlist_xml_list, softlist_name):
     item_list = generate_item_list(softlist_name, softlist_xml_list)
 
-    soft_with_machine_qty = 0
-    soft_without_machine_qty = 0
+    soft_with_compatible_machine_qty = 0
+    soft_without_compatible_machine_qty = 0
 
     if item_list is not None:
         for item in item_list:
             random_machine_item = pick_random_machine(machine_xml_list, item)
             if random_machine_item is not None:
                 item.set_machine_xml(random_machine_item.get_machine_xml())
-                soft_with_machine_qty = soft_with_machine_qty + 1
+                soft_with_compatible_machine_qty = soft_with_compatible_machine_qty + 1
             else:
                 item.set_machine_xml(None)
-                soft_without_machine_qty = soft_without_machine_qty + 1
+                soft_without_compatible_machine_qty = soft_without_compatible_machine_qty + 1
 
-    print(soft_with_machine_qty, "soft with machine")
-    print(soft_without_machine_qty, "soft without machine")
-    return item_list
+    print(soft_with_compatible_machine_qty, "soft with machine")
+    print(soft_without_compatible_machine_qty, "soft without machine")
+
+    return item_list, soft_with_compatible_machine_qty, soft_without_compatible_machine_qty
 
 
 def generate_item_list(softlist_name, softlist_xml_list):

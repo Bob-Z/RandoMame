@@ -17,23 +17,27 @@ def get(machine_xml_list, softlist_xml_list):
             return None
         first_pass = False
 
+        total_soft_with_compatible_machine_qty = 0
+        total_soft_without_compatible_machine_qty = 0
+
         for softlist_xml in softlist_xml_list.findall("softwarelist"):
-            new_item_list = CommandGeneratorSoftList.generate_command_list(machine_xml_list, softlist_xml_list,
-                                                                           softlist_xml.attrib['name'])
+            new_item_list, soft_with_compatible_machine_qty, soft_without_compatible_machine_qty = CommandGeneratorSoftList.generate_command_list(
+                machine_xml_list, softlist_xml_list,
+                softlist_xml.attrib['name'])
             if new_item_list is not None:
                 item_list = item_list + new_item_list
 
-            if len(item_list) != 0:
-                item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)
-
-            soft_with_machine = 0
-            for i in item_list:
-                if i.get_machine_xml() is not None:
-                    soft_with_machine = soft_with_machine + 1
+                total_soft_with_compatible_machine_qty = total_soft_with_compatible_machine_qty + soft_with_compatible_machine_qty
+                total_soft_without_compatible_machine_qty = total_soft_without_compatible_machine_qty + soft_without_compatible_machine_qty
 
             Display.print_text_array(None, ["Found " + str(len(item_list)) + " software" + Config.get_allowed_string(),
-                                            soft_with_machine + " have compatible machine"], True)
-            time.sleep(1.5)
+                                            str(total_soft_with_compatible_machine_qty) + " have compatible machine"],
+                                     True)
+
+        if len(item_list) != 0:
+            item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)
+
+        time.sleep(1.5)
 
     if Config.linear is True:
         rand = 0
