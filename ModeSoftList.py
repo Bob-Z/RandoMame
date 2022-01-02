@@ -3,6 +3,7 @@ import random
 import CommandGeneratorSoftList
 import Config
 import Display
+import time
 
 item_list = []
 first_pass = True
@@ -25,7 +26,14 @@ def get(machine_xml_list, softlist_xml_list):
             if len(item_list) != 0:
                 item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)
 
-            Display.print_text("Found " + str(len(item_list)) + " softwares")
+            soft_with_machine = 0
+            for i in item_list:
+                if i.get_machine_xml() is not None:
+                    soft_with_machine = soft_with_machine + 1
+
+            Display.print_text_array(None, ["Found " + str(len(item_list)) + " software" + Config.get_allowed_string(),
+                                            soft_with_machine + " have compatible machine"], True)
+            time.sleep(1.5)
 
     if Config.linear is True:
         rand = 0

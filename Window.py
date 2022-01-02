@@ -132,6 +132,9 @@ class Window:
 
     def get_command(self):
         self.item = Mode.get()
+        while self.item is not None and self.item.get_machine_xml() is None:
+            self.item = Mode.get()
+
         if self.item is None:
             if Config.end_text is not None or Config.end_background is not None:
                 display_end()

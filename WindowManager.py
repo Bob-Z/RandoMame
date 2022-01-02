@@ -45,7 +45,7 @@ def start():
         print(len(machine_list), " unique machines")
 
     if soft_list is not None:
-        print(len(soft_list), " softwares lists")
+        print(len(soft_list), "software lists")
 
     Mode.init(machine_list, soft_list)
 

@@ -3,6 +3,7 @@ import random
 import CommandGeneratorMusic
 import Config
 import Display
+import time
 
 item_list = []
 first_pass = True
@@ -18,6 +19,7 @@ def get(soft_list_list):
 
         item_list = CommandGeneratorMusic.generate_music_list(soft_list_list)
         Display.print_text("Found " + str(len(item_list)) + " musics")
+        time.sleep(1.5)
 
     if len(item_list) == 0:
         return None

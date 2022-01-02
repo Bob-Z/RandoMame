@@ -209,7 +209,7 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
 
     lock.release()
 
-    print(input_text)
+    print("Display:", input_text)
 
 
 def print_machine_and_soft(item, position):

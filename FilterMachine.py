@@ -8,7 +8,7 @@ from Item import Item
 ini_data = None
 
 
-def get(machine_xml, check_machine_description, softlist_used):
+def get(machine_xml, check_machine_description, soft_item):
     global ini_data
     if Config.ini_file is not None:
         if ini_data is None:
@@ -66,7 +66,7 @@ def get(machine_xml, check_machine_description, softlist_used):
                     # print("Skip preliminary driver machine ", machine.attrib["name"])
                     return None
 
-    if softlist_used is False:
+    if soft_item is None:
         year = machine_xml.find("year").text
         if Config.year_min is not None:
             try:
@@ -234,6 +234,37 @@ def get(machine_xml, check_machine_description, softlist_used):
 
     elif Config.mode == 'slotmachine':
         if payout is False and gambling is False:
+            return None
+
+    # compatibility filter
+    if soft_item is not None:
+        is_compatible = True
+        soft_xml = soft_item.get_soft_xml()
+        shared_feat = soft_xml.findall('sharedfeat')
+        for s in shared_feat:
+            if s.attrib['name'] == 'compatibility':
+                is_compatible = False
+                all_machine_softlist = machine_xml.findall('softwarelist')
+                for machine_softlist in all_machine_softlist:
+                    if machine_softlist.attrib['name'] == soft_item.get_softlist_name():
+                        filter_machine_softlist = machine_softlist.attrib['filter']
+                        all_filter_soft = s.attrib['value'].split(',')
+                        for filter_soft in all_filter_soft:
+                            if filter_machine_softlist[0] == '!':
+                                if filter_soft != filter_machine_softlist[1:]:
+                                    is_compatible = True
+                                    break
+                            else:
+                                if filter_soft == filter_machine_softlist:
+                                    is_compatible = True
+                                    break
+
+                    if is_compatible is True:
+                        break
+            if is_compatible is True:
+                break
+
+        if is_compatible is False:
             return None
 
     item = Item()

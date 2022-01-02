@@ -12,7 +12,7 @@ def generate_command_list(machine_list):
         check_machine_description = False
 
     for machine in machine_list:
-        item = FilterMachine.get(machine, check_machine_description, softlist_used=False)
+        item = FilterMachine.get(machine, check_machine_description, None)
         if item is None:
             continue
 

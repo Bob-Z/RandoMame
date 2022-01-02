@@ -2,6 +2,7 @@ import random
 
 import CommandGeneratorMachine
 import Config
+import time
 
 item_list = []
 first_pass = True
@@ -23,6 +24,8 @@ def get(machine_list):
             print(len(item_list), "standalone machines found")
         else:
             print(len(item_list), "slot machines found")
+
+        time.sleep(1.5)
 
     if len(item_list) != 0:
         item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)

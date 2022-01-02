@@ -11,15 +11,21 @@ machine_xml_by_soft_list = {}
 def generate_command_list(machine_xml_list, softlist_xml_list, softlist_name):
     item_list = generate_item_list(softlist_name, softlist_xml_list)
 
+    soft_with_machine_qty = 0
+    soft_without_machine_qty = 0
+
     if item_list is not None:
         for item in item_list:
             random_machine_item = pick_random_machine(machine_xml_list, item)
-            if random_machine_item is None:
-                # TODO do not return None for the whole list when only one item has no machine
-                return None
+            if random_machine_item is not None:
+                item.set_machine_xml(random_machine_item.get_machine_xml())
+                soft_with_machine_qty = soft_with_machine_qty + 1
+            else:
+                item.set_machine_xml(None)
+                soft_without_machine_qty = soft_without_machine_qty + 1
 
-            item.set_machine_xml(random_machine_item.get_machine_xml())
-
+    print(soft_with_machine_qty, "soft with machine")
+    print(soft_without_machine_qty, "soft without machine")
     return item_list
 
 
@@ -51,7 +57,7 @@ def generate_item_list(softlist_name, softlist_xml_list):
         found_software.append(item)
 
     if len(found_software) > 0:
-        print("Found", len(found_software), "softwares in software list", softlist_name)
+        print("Found", len(found_software), "software in", softlist_name, "software list")
 
     return found_software
 
@@ -80,16 +86,12 @@ def pick_random_machine(machine_list, item):
 
         machine_xml = found_machine_xml_list[rand]
 
-        machine_item = FilterMachine.get(machine_xml, check_machine_description=False, softlist_used=True)
+        machine_item = FilterMachine.get(machine_xml, False, item)
 
         if machine_item is None:
             found_machine_xml_list.pop(rand)
         else:
             break
-
-    if machine_item is None:
-        print("No machine available for software list", item.get_softlist_name())
-        return None
 
     return machine_item
 
