@@ -247,17 +247,18 @@ def get(machine_xml, check_machine_description, soft_item):
                 all_machine_softlist = machine_xml.findall('softwarelist')
                 for machine_softlist in all_machine_softlist:
                     if machine_softlist.attrib['name'] == soft_item.get_softlist_name():
-                        filter_machine_softlist = machine_softlist.attrib['filter']
-                        all_filter_soft = s.attrib['value'].split(',')
-                        for filter_soft in all_filter_soft:
-                            if filter_machine_softlist[0] == '!':
-                                if filter_soft != filter_machine_softlist[1:]:
-                                    is_compatible = True
-                                    break
-                            else:
-                                if filter_soft == filter_machine_softlist:
-                                    is_compatible = True
-                                    break
+                        if 'filter' in machine_softlist.attrib:
+                            filter_machine_softlist = machine_softlist.attrib['filter']
+                            all_filter_soft = s.attrib['value'].split(',')
+                            for filter_soft in all_filter_soft:
+                                if filter_machine_softlist[0] == '!':
+                                    if filter_soft != filter_machine_softlist[1:]:
+                                        is_compatible = True
+                                        break
+                                else:
+                                    if filter_soft == filter_machine_softlist:
+                                        is_compatible = True
+                                        break
 
                     if is_compatible is True:
                         break
