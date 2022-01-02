@@ -73,11 +73,7 @@ def pick_random_machine(machine_list, item):
             machine_xml_by_soft_list[item.get_softlist_name()] = generate_machine_xml_list_from_forced_driver(
                 machine_list)
 
-    # this can happen when this method is called more than one time since we pop out some elem
-    if len(machine_xml_by_soft_list[item.get_softlist_name()]) == 0:
-        machine_xml_by_soft_list[item.get_softlist_name()] = generate_machine_xml_list_for_soft_list(machine_list, item)
-
-    found_machine_xml_list = machine_xml_by_soft_list[item.get_softlist_name()]
+    found_machine_xml_list = list(machine_xml_by_soft_list[item.get_softlist_name()])
 
     machine_item = None
 
