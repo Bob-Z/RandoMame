@@ -56,4 +56,7 @@ def get(soft_xml):
             if soft_xml.attrib['supported'] != "yes":
                 return None
 
+    if Config.no_soft_clone is True and "cloneof" in soft_xml.attrib:
+        return None
+
     return item

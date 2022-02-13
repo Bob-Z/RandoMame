@@ -37,6 +37,7 @@ title_background = None
 dry_run = False
 source_file = None
 no_clone = False
+no_soft_clone = False
 device = None
 slot_option = None
 display_min = None
@@ -52,7 +53,7 @@ emulation_time = False
 
 def parse_command_line():
     opts, args = getopt.getopt(sys.argv[1:],
-                               "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:lLmM:NnoO:pqQ:rRsS:T:t:uUvw:X:x:y:Y:z:Z:",
+                               "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:KlLmM:NnoO:pqQ:rRsS:T:t:uUvw:X:x:y:Y:z:Z:",
                                ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                 "available_softlist", "timeout=", "desktop=",
                                 "allow_preliminary",
@@ -64,7 +65,8 @@ def parse_command_line():
                                 "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=",
                                 "end_duration=", "check=",
                                 "sort_by_name", "sort_by_year", "sort_reverse",
-                                "emulation_time", "final_command=", "no_manufacturer=", "standalone", "slotmachine"])
+                                "emulation_time", "final_command=", "no_manufacturer=", "standalone", "slotmachine",
+                                "no_soft_clone"])
 
     global mode
     global selected_softlist
@@ -101,6 +103,7 @@ def parse_command_line():
     global dry_run
     global source_file
     global no_clone
+    global no_soft_clone
     global device
     global slot_option
     global display_min
@@ -203,6 +206,8 @@ def parse_command_line():
             source_file = arg
         elif opt in ("-N", "--no_clone"):
             no_clone = True
+        elif opt in ("-K", "--no_soft_clone"):
+            no_soft_clone = True
         elif opt in ("-b", "--device"):
             device = arg.split(',')
         elif opt in ("-B", "--slot_option"):
@@ -300,6 +305,9 @@ def parse_command_line():
         if no_clone is True:
             print("No clones allowed")
 
+        if no_soft_clone is True:
+            print("No software clones allowed")
+
         if device is not None:
             print("device allowed: ", device)
 
@@ -362,8 +370,9 @@ def usage():
     print("  -H, --no_manufacturer : coma separated list of forbidden manufacturers")
     print("  -i, --ini_file= : ini file from where sections will be included or excluded")
     print("  -I, --include= : coma separated sections from ini file included ")
+    print("  -K, --no_soft_clone : do not allow clone software")
     print("  -M, --manufacturer : coma separated list of allowed manufacturers")
-    print("  -N, --no_clone : do not allow clone drivers")
+    print("  -N, --no_clone : do not allow clone machines")
     print("  -n, --allow_not_supported : Allow not supported softwares")
     print("  -o, --loose_search : Enable loose description search for machine name. Default is strict search")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
