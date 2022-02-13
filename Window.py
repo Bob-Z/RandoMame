@@ -22,6 +22,10 @@ class Window:
         self.position = position
         self.sound_index = 0
 
+        self.marquee_display_time_s = 1.5
+        self.marquee_display_loop_time_s = 0.1
+        self.marquee_display_loop_qty = self.marquee_display_time_s / self.marquee_display_loop_time_s
+
         self.is_running = True
         self.is_muted = False
         self.out = None
@@ -71,9 +75,9 @@ class Window:
 
             Record.timed_log(self.item.get_title())
 
-            wait_loop = 15
+            wait_loop = self.marquee_display_loop_qty
             while wait_loop > 0:
-                time.sleep(0.1)
+                time.sleep(self.marquee_display_loop_time_s)
                 wait_loop = wait_loop - 1
                 if self.is_running is False:
                     return
@@ -132,8 +136,10 @@ class Window:
 
     def get_command(self):
         self.item = Mode.get()
-        while self.item is not None and self.item.get_machine_xml() is None:
-            self.item = Mode.get()
+
+        if Config.mode != "music":
+            while self.item is not None and self.item.get_machine_xml() is None:
+                self.item = Mode.get()
 
         if self.item is None:
             if Config.end_text is not None or Config.end_background is not None:
@@ -159,13 +165,14 @@ class Window:
                     self.execute_start_command()
 
                     time.sleep(4.0)
+
+                    Display.print_machine_and_soft(self.item, self.position)
                 else:
+                    Display.print_machine_and_soft(self.item, self.position)
+
                     self.execute_start_command()
 
-                Display.print_machine_and_soft(self.item, self.position)
-
-            else:
-                Display.print_machine_and_soft(self.item, self.position)
+            Display.print_machine_and_soft(self.item, self.position)
 
             if Config.record is not None:
                 Display.record_marquee()
