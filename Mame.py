@@ -11,7 +11,7 @@ def run(item):
         return
 
     args = [Config.mame_binary]
-    command = item.get_command_line()
+    command, my_env = item.get_command_line()
     for c in command.split(' '):
         args.append(c)
     args += ['-nohttp',
@@ -56,7 +56,6 @@ def run(item):
         Record.create_command_file(full_command)
 
     # Linux PulseAudio specific
-    my_env = os.environ.copy()
     my_env["XDG_RUNTIME_DIR"] = "/run/user/" + str(os.getuid())
 
     out = subprocess.Popen(args,

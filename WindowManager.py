@@ -53,6 +53,7 @@ def start():
 
     for index in range(Config.windows_quantity):
         window.append(Window.Window(desktop, index, desktop_info[0], desktop_info[1], position[index]))
+        time.sleep(1.0)
 
     global sound_index
     while Display.wait_for_keyboard() is False:

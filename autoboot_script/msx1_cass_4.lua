@@ -9,7 +9,12 @@ local is_run_required = false
 local function process_frame()
     frame_num = frame_num + 1
 
-    msx1_cass_base.post_command(frame_num, command)
+    if frame_num == 1 then
+        print('4')
+        emu.keypost('4')
+    elseif frame_num > 800 then
+        msx1_cass_base.post_command(frame_num, command)
+    end
 
     msx1_cass_base.manage_frame(frame_num, is_run_required)
 end

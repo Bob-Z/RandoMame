@@ -1,5 +1,6 @@
 import AutoBoot
 import Config
+import os
 
 
 class Item:
@@ -96,9 +97,18 @@ class Item:
         return ""
 
     def get_command_line(self):
+        my_env = os.environ.copy()
+
         if self.soft_xml is None:
-            return self.get_machine_short_name()
+            return self.get_machine_short_name(), my_env
         else:
+            info_usage = self.get_soft_info_named("usage")
+
+            if info_usage is not None:
+                my_env["RANDOMAME_INFO_USAGE"] = info_usage
+            else:
+                my_env["RANDOMAME_INFO_USAGE"] = ""
+
             if self.part_xml is None:
                 interface_command_line = self.get_interface_command_line()
                 command = self.get_machine_short_name() + " " + interface_command_line + " " + self.soft_xml.attrib[
@@ -113,9 +123,9 @@ class Item:
                 if extra_command is not None:
                     command = command + " " + extra_command
 
-                return command
+                return command, my_env
             else:
-                return "vgmplay -quik " + self.get_soft_short_name() + ":" + self.part_xml.attrib['name']
+                return "vgmplay -quik " + self.get_soft_short_name() + ":" + self.part_xml.attrib['name'], my_env
 
     def get_interface_command_line(self):
         device = self.machine_xml.findall("device")
@@ -166,3 +176,18 @@ class Item:
                 info_string = info_string + " ,info - " + name + ": " + value
 
         return info_string
+
+    def get_soft_info_named(self, name):
+        if self.soft_xml is None:
+            return ""
+
+        info_string = ""
+        all_info = self.soft_xml.findall('info')
+        if all_info is not None:
+
+            for info in all_info:
+                if info.attrib['name'] == name:
+                    value = info.attrib['value']
+                    return value
+
+        return None
