@@ -46,6 +46,11 @@ lib = {
         "cdimono1": ('cdi.lua', 0, None),
     },
 
+    "cgenie_cass": {
+        "cgenie": ('cgenie_cass.lua', 1, "-ramsize 32k"),
+        "cgenienz": ('cgenie_cass.lua', 1, "-ramsize 32k"),
+    },
+
     "coco_flop": {
         "cd6809": ('coco_flop.lua', 0, None),
         "coco2": ('coco_flop.lua', 0, None),
