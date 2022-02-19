@@ -24,6 +24,9 @@ def generate_command_list(machine_xml_list, softlist_xml_list, softlist_name):
                 item.set_machine_xml(None)
                 soft_without_compatible_machine_qty = soft_without_compatible_machine_qty + 1
 
+        # Remove item with empty machine_xml
+        item_list = [item for item in item_list if item.get_machine_xml()]
+
     print(soft_with_compatible_machine_qty, "soft with machine")
     print(soft_without_compatible_machine_qty, "soft without machine")
 
