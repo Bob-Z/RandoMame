@@ -27,11 +27,10 @@ def get(machine_list, soft_list_list):
 
             generate_full_command_list(machine_list, soft_list_list)
 
-        if len(item_list) != 0:
-            item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)
+        if len(item_list) == 0:
+            return None
 
-    if len(item_list) == 0:
-        return None
+        item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)
 
     if Config.linear is True:
         rand = 0
@@ -74,9 +73,6 @@ def generate_full_command_list(machine_list, soft_list_list):
             len(soft_list_list)) + " software lists analyzed         ",
                                         str(total_soft_with_compatible_machine_qty) + " have compatible machine"],
                                  True)
-
-    if len(item_list) != 0:
-        item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)
 
     time.sleep(1.5)
 

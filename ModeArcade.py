@@ -27,11 +27,10 @@ def get(machine_list):
 
         time.sleep(1.5)
 
-    if len(item_list) != 0:
-        item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)
+        if len(item_list) == 0:
+            return None
 
-    if len(item_list) == 0:
-        return None
+        item_list.sort(key=lambda x: x.get_sort_criteria(), reverse=Config.sort_reverse)
 
     if Config.linear is True:
         rand = 0
