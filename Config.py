@@ -242,6 +242,9 @@ def parse_command_line():
     if windows_quantity == 1:
         smart_sound_timeout_sec = 0
 
+    if sort_by_year is True or sort_by_name is True:
+        linear = True
+
     global mame_binary
     mame_binary = args[0]
 
