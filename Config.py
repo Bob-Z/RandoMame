@@ -49,11 +49,12 @@ sort_by_name = False
 sort_by_year = False
 sort_reverse = False
 emulation_time = False
+prefer_parent = False
 
 
 def parse_command_line():
     opts, args = getopt.getopt(sys.argv[1:],
-                               "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:KlLmM:NnoO:pqQ:rRsS:T:t:uUvw:X:x:y:Y:z:Z:",
+                               "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:KlLmM:NnoO:pPqQ:rRsS:T:t:uUvw:X:x:y:Y:z:Z:",
                                ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                 "available_softlist", "timeout=", "desktop=",
                                 "allow_preliminary",
@@ -66,7 +67,7 @@ def parse_command_line():
                                 "end_duration=", "check=",
                                 "sort_by_name", "sort_by_year", "sort_reverse",
                                 "emulation_time", "final_command=", "no_manufacturer=", "standalone", "slotmachine",
-                                "no_soft_clone"])
+                                "no_soft_clone", "prefer_parent"])
 
     global mode
     global selected_softlist
@@ -115,6 +116,7 @@ def parse_command_line():
     global sort_by_year
     global sort_reverse
     global emulation_time
+    global prefer_parent
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -231,6 +233,8 @@ def parse_command_line():
             sort_reverse = True
         elif opt in ("-e", "--emulation_time"):
             emulation_time = True
+        elif opt in ("-P", "--prefer_parent"):
+            prefer_parent = True
         else:
             print("Unknown option ", opt)
             usage()
@@ -308,6 +312,9 @@ def parse_command_line():
         if no_soft_clone is True:
             print("No software clones allowed")
 
+        if prefer_parent is True:
+            print("Prefer parent")
+
         if device is not None:
             print("device allowed: ", device)
 
@@ -376,6 +383,7 @@ def usage():
     print("  -n, --allow_not_supported : Allow not supported softwares")
     print("  -o, --loose_search : Enable loose description search for machine name. Default is strict search")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
+    print("  -P, --prefer_parent : When selecting a machine for a software, prefer parent rather than clones")
     print("  -Q, --display_min= : Minimum displays quantity allowed")
     print(
         "  -T, --selected_soft= : Coma separated list of allowed software (short) names (use with selected_softlist mode)")

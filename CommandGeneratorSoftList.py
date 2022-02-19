@@ -95,22 +95,35 @@ def pick_random_machine(machine_list, item):
 
 def generate_machine_xml_list_for_soft_list(machine_xml_list, item):
     found_machine_xml_list = []
-    for machine_xml in machine_xml_list:
-        machine_xml_softlist_list = machine_xml.findall("softwarelist")
-        for machine_xml_softlist in machine_xml_softlist_list:
-            if machine_xml_softlist.attrib['name'] == item.get_softlist_name():
-                # This machine support selected soft_list
+    is_parent_first = Config.prefer_parent
 
-                temp_item = Item()
-                temp_item.set_machine_xml(machine_xml)
-                temp_item.set_soft_xml(item.get_soft_xml())
-                interface_command_line = temp_item.get_interface_command_line()
-                if interface_command_line != "":
-                    # This machine has the correct interface for this software
-                    found_machine_xml_list.append(machine_xml)
-                    break
+    while True:
+        for machine_xml in machine_xml_list:
+            if is_parent_first is True:
+                if 'cloneof' in machine_xml.attrib:
+                    continue
 
-    return found_machine_xml_list
+            machine_xml_softlist_list = machine_xml.findall("softwarelist")
+            for machine_xml_softlist in machine_xml_softlist_list:
+                if machine_xml_softlist.attrib['name'] == item.get_softlist_name():
+                    # This machine support selected soft_list
+
+                    temp_item = Item()
+                    temp_item.set_machine_xml(machine_xml)
+                    temp_item.set_soft_xml(item.get_soft_xml())
+                    interface_command_line = temp_item.get_interface_command_line()
+                    if interface_command_line != "":
+                        # This machine has the correct interface for this software
+                        found_machine_xml_list.append(machine_xml)
+                        break
+
+        if found_machine_xml_list:
+            return found_machine_xml_list
+
+        if is_parent_first is False:
+            return found_machine_xml_list
+
+        is_parent_first = False
 
 
 def generate_machine_xml_list_from_forced_driver(machine_xml_list):
