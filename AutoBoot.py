@@ -114,6 +114,13 @@ lib = {
         "tanodr64h": ('dragon_cass.lua', 4, None),
     },
 
+    "electron_flop": {
+        "electron": ('electron_flop.lua', 1, None),
+        "electron64": ('electron_flop.lua', 1, None),
+        "electronsp": ('electron_flop.lua', 1, None),
+        "electront": ('electron_flop.lua', 1, None),
+    },
+
     "fm7_cass": {
         "fm7": ('fm7_cass.lua', 3, None),
         "fm11": ('fm7_cass.lua', 3, None),
