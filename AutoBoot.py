@@ -14,6 +14,16 @@ lib = {
         "a1200xl": ('a800_flop.lua', 0, None),
     },
 
+    "bbc_cass": {
+        "bbca": ('bbc_cass.lua', 1, None),
+        "bbcb": ('bbc_cass.lua', 1, None),
+        "bbcm": ('bbc_cass.lua', 1, None),
+        "electron": ('bbc_cass.lua', 1, None),
+        "electron64": ('bbc_cass.lua', 1, None),
+        "electronsp": ('bbc_cass.lua', 1, None),
+        "electront": ('bbc_cass.lua', 1, None),
+    },
+
     "c64_cass": {
         "c64": ('c64_cass.lua', 3, None),
         "c64_jp": ('c64_cass.lua', 3, None),
