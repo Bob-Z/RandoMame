@@ -77,6 +77,7 @@ class Item:
         return None
 
     def get_sort_criteria(self):
+        criteria = ""
         if self.get_soft_description() is not None and self.get_soft_description() != "":
             if Config.sort_by_year is True:
                 if self.get_soft_year() is not None:
@@ -95,7 +96,6 @@ class Item:
             if Config.sort_by_year is True:
                 criteria = self.get_machine_year() + " " + self.get_machine_description()
 
-        print(criteria)
         return criteria
 
     def get_command_line(self):
