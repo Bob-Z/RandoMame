@@ -17,6 +17,7 @@ lib = {
     "bbc_cass": {
         "bbca": ('bbc_cass.lua', 1, None),
         "bbcb": ('bbc_cass.lua', 1, None),
+        "bbcb_no": ('bbc_cass.lua', 1, None),
         "bbcm": ('bbc_cass.lua', 1, None),
         "electron": ('bbc_cass.lua', 1, None),
         "electron64": ('bbc_cass.lua', 1, None),
