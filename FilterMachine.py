@@ -10,6 +10,7 @@ ini_data = None
 
 def get(machine_xml, check_machine_description, soft_item):
     global ini_data
+
     if Config.ini_file is not None:
         if ini_data is None:
             ini_data = configparser.ConfigParser(allow_no_value=True)
@@ -237,7 +238,7 @@ def get(machine_xml, check_machine_description, soft_item):
             return None
 
     # compatibility filter
-    if soft_item is not None:
+    if soft_item is not None and Config.force_driver is None:
         is_compatible = True
         soft_xml = soft_item.get_soft_xml()
         shared_feat = soft_xml.findall('sharedfeat')
