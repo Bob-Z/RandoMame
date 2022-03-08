@@ -44,10 +44,16 @@ class Item:
             return None
 
     def get_machine_description(self):
-        return self.machine_xml.find("description").text
+        if self.machine_xml is not None:
+            return self.machine_xml.find("description").text
+
+        return ""
 
     def get_machine_year(self):
-        return self.machine_xml.find("year").text
+        if self.machine_xml is not None:
+            return self.machine_xml.find("year").text
+
+        return ""
 
     def get_machine_full_description(self):
         return self.get_machine_description() + " (" + self.get_machine_year() + ")"
