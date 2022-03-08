@@ -177,7 +177,8 @@ class Window:
             if Config.record is not None:
                 Display.record_marquee()
 
-            print("Next for window", self.index, ": ", self.item.get_soft_description(), self.item.get_soft_info())
+            print("Next for window", self.index, ": ", self.item.get_machine_full_description(),
+                  self.item.get_soft_description(), self.item.get_soft_info())
             return True
 
     def send_keyboard(self):
