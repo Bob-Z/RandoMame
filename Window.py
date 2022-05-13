@@ -171,8 +171,8 @@ class Window:
                     Display.print_machine_and_soft(self.item, self.position)
 
                     self.execute_start_command()
-
-            Display.print_machine_and_soft(self.item, self.position)
+            else:
+                Display.print_machine_and_soft(self.item, self.position)
 
             if Config.record is not None:
                 Display.record_marquee()
