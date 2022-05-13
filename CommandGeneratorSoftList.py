@@ -51,7 +51,9 @@ def generate_item_list(softlist_name, softlist_xml_list):
         print("No software list named", softlist_name)
         return None
 
+    total_soft_qty = 0
     for soft_xml in selected_softlist_xml:
+        total_soft_qty = total_soft_qty + 1
         item = FilterSoftware.get(soft_xml)
         if item is None:
             continue
@@ -60,8 +62,9 @@ def generate_item_list(softlist_name, softlist_xml_list):
 
         found_software.append(item)
 
+    print(total_soft_qty, "software in", softlist_name)
     if len(found_software) > 0:
-        print("Found", len(found_software), "software in", softlist_name, "software list")
+        print("Found", len(found_software), " of ", total_soft_qty, "software in", softlist_name, "software list")
 
     return found_software
 
