@@ -108,7 +108,9 @@ class Item:
         my_env = os.environ.copy()
 
         if self.soft_xml is None:
-            return self.get_machine_short_name(), my_env
+            command = self.get_machine_short_name() + AutoBoot.get_autoboot_command("",
+                                                                                    self.get_machine_short_name())
+            return command, my_env
         else:
             info_usage = self.get_soft_info_named("usage")
 
@@ -122,14 +124,8 @@ class Item:
                 command = self.get_machine_short_name() + " " + interface_command_line + " " + self.soft_xml.attrib[
                     'name']
 
-                autoboot_script, autoboot_delay, extra_command = AutoBoot.get_autoboot_command(self.softlist_name,
-                                                                                               self.get_machine_short_name())
-                if autoboot_delay is not None:
-                    command = command + " -autoboot_script autoboot_script/" + autoboot_script + " -autoboot_delay " + str(
-                        autoboot_delay)
-
-                if extra_command is not None:
-                    command = command + " " + extra_command
+                command = command + AutoBoot.get_autoboot_command(self.softlist_name,
+                                                                  self.get_machine_short_name())
 
                 return command, my_env
             else:
