@@ -75,16 +75,17 @@ class Window:
 
             Record.timed_log(self.item.get_title())
 
-            wait_loop = self.marquee_display_loop_qty
-            while wait_loop > 0:
-                time.sleep(self.marquee_display_loop_time_s)
-                wait_loop = wait_loop - 1
-                if self.is_running is False:
-                    return
+            if Config.dry_run is False:
+                wait_loop = self.marquee_display_loop_qty
+                while wait_loop > 0:
+                    time.sleep(self.marquee_display_loop_time_s)
+                    wait_loop = wait_loop - 1
+                    if self.is_running is False:
+                        return
+
+            self.out = Mame.run(self.item)
 
             if Config.dry_run is False:
-                self.out = Mame.run(self.item)
-
                 self.set_title()
 
                 self.set_position()
