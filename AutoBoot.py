@@ -541,6 +541,12 @@ lib = {
         "trs80": ('trs80_cass.lua', 1, None),
     },
 
+    "timex_cass": {
+        "tc2048": ('spectrum_cass.lua', 3, None),
+        "ts2068": ('spectrum_cass.lua', 3, None),
+        "uk2086": ('spectrum_cass.lua', 3, None),
+    },
+
     "vector06_flop": {
         "vector06": ('vector06_flop.lua', 3, None),
     },
