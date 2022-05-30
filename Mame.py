@@ -55,17 +55,18 @@ def run(item):
     if Config.record is not None:
         Record.create_command_file(full_command)
 
-    # Linux PulseAudio specific
-    my_env["XDG_RUNTIME_DIR"] = "/run/user/" + str(os.getuid())
+    if Config.dry_run is False:
+        # Linux PulseAudio specific
+        my_env["XDG_RUNTIME_DIR"] = "/run/user/" + str(os.getuid())
 
-    out = subprocess.Popen(args,
-                           stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE,
-                           env=my_env)
+        out = subprocess.Popen(args,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE,
+                               env=my_env)
 
-    Sound.reset()
+        Sound.reset()
 
-    return out
+        return out
 
 
 def get_version():
