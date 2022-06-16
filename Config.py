@@ -28,6 +28,7 @@ exclude = None
 extra = None
 force_driver = None
 loose_search = False
+multi_search = False
 start_command = None
 end_command = None
 final_command = None
@@ -54,14 +55,14 @@ prefer_parent = False
 
 def parse_command_line():
     opts, args = getopt.getopt(sys.argv[1:],
-                               "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:KlLmM:NnoO:pPqQ:rRsS:T:t:uUvw:X:x:y:Y:z:Z:",
+                               "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:KlLmM:NnoO:pPqQ:rRsS:T:t:uUvVw:X:x:y:Y:z:Z:",
                                ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                 "available_softlist", "timeout=", "desktop=",
                                 "allow_preliminary",
                                 "window=", "year_min=", "year_max=", "music", "selected_soft=",
                                 "allow_not_supported",
                                 "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
-                                "exclude=", "extra=", "force_driver=", "loose_search", "start_command=",
+                                "exclude=", "extra=", "force_driver=", "loose_search", "multi_search", "start_command=",
                                 "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file=",
                                 "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=",
                                 "end_duration=", "check=",
@@ -95,6 +96,7 @@ def parse_command_line():
     global extra
     global force_driver
     global loose_search
+    global multi_search
     global start_command
     global end_command
     global final_command
@@ -162,6 +164,8 @@ def parse_command_line():
             allow_not_supported = True
         elif opt in ("-o", "--loose_search"):
             loose_search = True
+        elif opt in ("-V", "--multi_search"):
+            multi_search = True
         elif opt in ("-O", "--smart_sound_timeout"):
             smart_sound_timeout_sec = int(arg)
         elif opt in ("-w", "--window"):
@@ -301,6 +305,9 @@ def parse_command_line():
         if loose_search is True:
             print("Loose description search enabled")
 
+        if multi_search is True:
+            print("Multiple search enabled")
+
         if smart_sound_timeout_sec > 0:
             print("Smart sound timeout =", smart_sound_timeout_sec, "seconds")
         else:
@@ -385,6 +392,7 @@ def usage():
     print("  -N, --no_clone : do not allow clone machines")
     print("  -n, --allow_not_supported : Allow not supported softwares")
     print("  -o, --loose_search : Enable loose description search for machine name. Default is strict search")
+    print("  -V, --multi_search : Enable multiple machines to be selected by their description. Default is only on e machine selected")
     print("  -p, --allow_preliminary : Allow preliminary drivers")
     print("  -P, --prefer_parent : When selecting a machine for a software, prefer parent rather than clones")
     print("  -Q, --display_min= : Minimum displays quantity allowed")

@@ -328,6 +328,19 @@ def loose_search_machine_list(machine_list):
     return new_machine_list
 
 
+def multi_search_machine_list(machine_list):
+    new_machine_list = []
+
+    for desc in Config.description:
+        for machine in machine_list:
+
+            description = machine.find("description").text
+            if re.search(desc, description, re.IGNORECASE) is not None:
+                new_machine_list.append(machine)
+
+    return new_machine_list
+
+
 def exact_search_machine(machine, search_string):
     description = machine.find("description").text
     s = "^" + search_string + "$"
@@ -339,6 +352,7 @@ def exact_search_machine(machine, search_string):
 
 def loose_search_machine(machine, search_string):
     description = machine.find("description").text
+
     s = ".*" + search_string
     if re.search(s, description, re.IGNORECASE) is not None:
         return True
