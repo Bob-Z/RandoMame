@@ -2,6 +2,7 @@ import datetime
 import os
 import threading
 import time
+import copy
 
 import Config
 import Display
@@ -9,6 +10,7 @@ import Mame
 import Mode
 import Record
 import Sound
+import Item
 
 
 class Window:
@@ -135,6 +137,17 @@ class Window:
 
                 Sound.reset()
 
+    def display_forced_driver(self):
+        if Config.force_driver is not None:
+            Display.display_cabinet(Config.force_driver, self.position)
+            temp_item = copy.deepcopy(self.item)
+            temp_item.set_soft_xml(None)  # Keep only machine info
+            Display.print_machine_and_soft(temp_item, self.position)
+            if Config.record is not None:
+                Display.record_marquee()
+
+            time.sleep(2.0)
+
     def get_command(self):
         self.item = Mode.get()
 
@@ -167,8 +180,12 @@ class Window:
 
                     time.sleep(4.0)
 
+                    self.display_forced_driver()
+
                     Display.print_machine_and_soft(self.item, self.position)
                 else:
+                    self.display_forced_driver()
+
                     Display.print_machine_and_soft(self.item, self.position)
 
                     self.execute_start_command()

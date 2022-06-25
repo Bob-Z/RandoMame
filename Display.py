@@ -280,6 +280,10 @@ def print_cabinet(item, rect):
     if item.get_cloneof_short_name() is not None:
         driver_name_list.append(item.get_cloneof_short_name())
 
+    return display_cabinet(driver_name_list, rect)
+
+
+def display_cabinet(driver_name_list, rect):
     if display_cabinet_picture_from_dir(driver_name_list, rect) is True:
         return True
 
