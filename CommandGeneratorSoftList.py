@@ -135,10 +135,8 @@ def generate_machine_xml_list_for_soft_list(machine_xml_list, item):
 def generate_machine_xml_list_from_forced_driver(machine_xml_list):
     found_machine_xml_list = []
 
-    drivers = Config.force_driver.split(',')
-
     for machine_xml in machine_xml_list:
-        for d in drivers:
+        for d in Config.force_driver:
             if machine_xml.attrib['name'] == d:
                 found_machine_xml_list.append(machine_xml)
                 break

@@ -34,8 +34,7 @@ def get(machine_xml, check_machine_description, soft_item):
 
     if Config.force_driver is not None:
         found = False
-        drivers = Config.force_driver.split(',')
-        for d in drivers:
+        for d in Config.force_driver:
             if machine_xml.attrib['name'] == d:
                 found = True
 

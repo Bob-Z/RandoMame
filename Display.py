@@ -286,7 +286,6 @@ def print_cabinet(item, rect):
 def display_cabinet(driver_name_list, rect):
     if display_cabinet_picture_from_dir(driver_name_list, rect) is True:
         return True
-
     return display_cabinet_picture_from_zip(driver_name_list, rect)
 
 
@@ -299,10 +298,8 @@ def display_cabinet_picture_from_zip(driver_name_list, rect):
             for driver_name in driver_name_list:
                 try:
                     with zip_file.open(driver_name + '.png') as file:
-                        display_picture_file(file, rect)
-
                         print("Open cabinet picture from ZIP file")
-
+                        display_picture_file(file, rect)
                         return True
                 except zipfile.error:
                     print("ZIP file corrupted")
@@ -318,9 +315,6 @@ def display_cabinet_picture_from_zip(driver_name_list, rect):
 
 
 def display_cabinet_picture_from_dir(driver_name_list, rect):
-    global lock
-    global draw_surface
-
     try:
         for driver_name in driver_name_list:
             try:
@@ -347,8 +341,13 @@ def display_picture_file_name(file_name, rect):
 
 
 def display_picture_file(file, rect):
+    global lock
+    global draw_surface
+
     if rect is None:
         rect = pygame.Rect(0, 0, width, height)
+
+    print("Display picture", file.name, "in", rect)
 
     picture = pygame.image.load(file)
 

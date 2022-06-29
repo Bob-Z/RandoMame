@@ -193,7 +193,7 @@ def parse_command_line():
         elif opt in ("-x", "--extra"):
             extra = arg
         elif opt in ("-f", "--force_driver"):
-            force_driver = arg
+            force_driver = arg.split(',')
         elif opt in ("-c", "--start_command"):
             start_command = arg
         elif opt in ("-C", "--end_command"):
