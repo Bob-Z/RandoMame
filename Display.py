@@ -299,7 +299,7 @@ def display_cabinet_picture_from_zip(driver_name_list, rect):
                 try:
                     with zip_file.open(driver_name + '.png') as file:
                         print("Open cabinet picture from ZIP file")
-                        display_picture_file(file, rect)
+                        display_picture_file(file, rect, 128)
                         return True
                 except zipfile.error:
                     print("ZIP file corrupted")
@@ -319,10 +319,8 @@ def display_cabinet_picture_from_dir(driver_name_list, rect):
         for driver_name in driver_name_list:
             try:
                 with open("/media/4To/Mame/cabinets/" + driver_name + '.png') as file:
-                    display_picture_file(file, rect)
-
                     print("Open cabinet picture from directory")
-
+                    display_picture_file(file, rect, 128)
                     return True
             except FileNotFoundError:
                 pass
@@ -337,10 +335,10 @@ def display_cabinet_picture_from_dir(driver_name_list, rect):
 
 def display_picture_file_name(file_name, rect):
     with open(file_name) as file:
-        display_picture_file(file, rect)
+        display_picture_file(file, rect, 255)
 
 
-def display_picture_file(file, rect):
+def display_picture_file(file, rect, alpha):
     global lock
     global draw_surface
 
@@ -367,6 +365,10 @@ def display_picture_file(file, rect):
     pict_rect.center = rect.center
 
     lock.acquire()
+    # black screen
+    pygame.draw.rect(draw_surface, (0,0,0), pict_rect)
+    picture.set_alpha(alpha)
+
     draw_surface.blit(picture, pict_rect)
     lock.release()
 
