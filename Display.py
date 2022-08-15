@@ -366,7 +366,7 @@ def display_picture_file(file, rect, alpha):
 
     lock.acquire()
     # black screen
-    pygame.draw.rect(draw_surface, (0,0,0), pict_rect)
+    pygame.draw.rect(draw_surface, (0,0,0), rect)
     picture.set_alpha(alpha)
 
     draw_surface.blit(picture, pict_rect)

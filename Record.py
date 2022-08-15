@@ -85,10 +85,9 @@ def create_srt_file(item):
     else:
         with open(Config.record + "/" + '{:03d}'.format(index) + ".srt", "w") as f:
             f.write("1\n00:00:00,000 --> 00:00:03,000\n")
-            f.write(item.get_machine_full_description())
             if item.get_soft_full_description() != "":
-                f.write("\n")
-                f.write(item.get_soft_full_description())
+                f.write(item.get_soft_full_description() + " [" + item.get_soft_short_name() + "]\n")
+            f.write(item.get_machine_full_description() + " [" + item.get_machine_short_name() + "]")
 
 
 def create_command_file(command):
