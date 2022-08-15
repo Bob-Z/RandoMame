@@ -1,4 +1,5 @@
 import random
+import datetime
 
 import CommandGeneratorMachine
 import CommandGeneratorSoftList
@@ -53,6 +54,8 @@ def generate_full_command_list(machine_list, soft_list_list):
     total_soft_with_compatible_machine_qty = 0
     total_soft_without_compatible_machine_qty = 0
 
+    display_time = datetime.datetime.now()
+
     for soft_list in soft_list_list.findall("softwarelist"):
         new_item_list, soft_with_compatible_machine_qty, soft_without_compatible_machine_qty = CommandGeneratorSoftList.generate_command_list(
             machine_list, soft_list_list,
@@ -68,11 +71,13 @@ def generate_full_command_list(machine_list, soft_list_list):
 
         softlist_qty = softlist_qty + 1
 
-        Display.print_text_array(None, ["Found " + str(
-            found_qty) + " software " + Config.get_allowed_string(), "       " + str(softlist_qty) + "/" + str(
-            len(soft_list_list)) + " software lists analyzed         ",
-                                        str(total_soft_with_compatible_machine_qty) + " have compatible machine"],
-                                 True)
+        if datetime.datetime.now() >= display_time:
+            Display.print_text_array(None, ["Found " + str(
+                found_qty) + " software " + Config.get_allowed_string(), "       " + str(softlist_qty) + "/" + str(
+                len(soft_list_list)) + " software lists analyzed         ",
+                                            str(total_soft_with_compatible_machine_qty) + " have compatible machine"],
+                                     True)
+            display_time = datetime.datetime.now() + datetime.timedelta(seconds=0.5)
 
     time.sleep(1.5)
 
