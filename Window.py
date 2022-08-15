@@ -218,7 +218,7 @@ class Window:
                 self.is_muted = True
 
     def manage_smart_sound(self):
-        if Config.smart_sound_timeout_sec > 0:
+        if Config.smart_sound_timeout_sec > 0 and self.is_running is True:
             if self.sound_index == self.index:
                 if self.is_muted is True:
                     Sound.set_mute(self.out.pid, False)
@@ -229,9 +229,12 @@ class Window:
                     Sound.set_mute(self.out.pid, True)
                     self.desktop.set_title(self.out.pid, self.title)
                     self.is_muted = True
+        else:
+            Sound.set_mute(self.out.pid, False)
 
     def manage_stop(self):
         if self.is_running is False:
+            Sound.set_mute(self.out.pid, False)
             self.out.kill()
 
             self.thread_running = False
