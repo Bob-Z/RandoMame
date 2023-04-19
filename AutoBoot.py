@@ -590,6 +590,14 @@ lib = {
         "orao103": ('orao_cass.lua', 0, None),
     },
 
+    "oric1_cass": {
+        "oric1": ('oric1_cass.lua', 0, None),
+        "orica": ('oric1_cass.lua', 0, None),
+        "prav8d": ('oric1_cass.lua', 0, None),
+        "prav8dd": ('oric1_cass.lua', 0, None),
+        "telstrat": ('oric1_cass.lua', 0, None),
+    },
+
     "pcecd": {
         "pce": ('pcecd.lua', 1, '-cart scdsys'),
         "tg16": ('pcecd.lua', 1, '-cart scdsys'),
