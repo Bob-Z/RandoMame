@@ -17,6 +17,12 @@ def run(item):
     args += ['-nohttp',
              '-ui_active', '-skip_gameinfo', ]
 
+    if Config.mode == 'music':  # Disable joystick and lightgun detection. This speeds-up start-up and helps for noise detection.
+        args.append('-joystickprovider')
+        args.append('none')
+        args.append('-lightgunprovider')
+        args.append('none')
+
     if Config.windows_quantity != 1:
         args.append('-nomouse')
         args.append('-window')
