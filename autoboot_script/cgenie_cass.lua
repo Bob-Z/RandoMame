@@ -84,4 +84,4 @@ end
 
 emu.keypost('\n')
 
-emu.register_frame_done(process_frame)
+emu.add_machine_frame_notifier

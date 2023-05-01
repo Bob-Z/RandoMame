@@ -18,7 +18,7 @@ end
 
 command, is_run_required = msx1_cass_base.get_command()
 
-emu.register_frame_done(process_frame)
+emu.add_machine_frame_notifier
 
 print("1/1/1")
 emu.keypost("1/1/1\n")

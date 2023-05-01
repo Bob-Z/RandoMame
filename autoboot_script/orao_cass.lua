@@ -21,4 +21,4 @@ local function process_frame()
 		end
 end
 
-emu.register_frame_done(process_frame)
+emu.add_machine_frame_notifier

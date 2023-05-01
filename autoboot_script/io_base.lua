@@ -2,7 +2,7 @@ local io_base = {}
 
 function io_base.get()
     button = {}
-    for i, j in  ipairs(manager.machine.ioport.ports) do
+    for i, j in pairs(manager.machine.ioport.ports) do
      for field_name, field in pairs(j.fields) do
       --print(field_name)
       --print("  tag", field.port.tag)
