@@ -640,6 +640,7 @@ lib = {
         "compani1": ('spectrum_cass.lua', 3, None),
         "dgama87": ('spectrum_cass.lua', 3, None),
         "dgama88": ('spectrum_cass.lua', 3, None),
+        "dgama89": ('spectrum_cass.lua', 3, None),
         "didaktk": ('spectrum_cass.lua', 3, None),
         "didakt90": ('spectrum_cass.lua', 3, None),
         "didakm91": ('spectrum_cass.lua', 3, None),
