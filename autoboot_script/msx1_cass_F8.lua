@@ -33,4 +33,4 @@ end
 command, is_run_required = msx1_cass_base.get_command()
 io = io_base.get()
 
-emu.add_machine_frame_notifier
+emu.add_machine_frame_notifier(process_frame)

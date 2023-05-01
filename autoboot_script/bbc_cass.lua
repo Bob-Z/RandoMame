@@ -39,4 +39,4 @@ if info_usage ~= nil and info_usage ~= "" then
     end
 end
 
-emu.add_machine_frame_notifier
+emu.add_machine_frame_notifier(process_frame)

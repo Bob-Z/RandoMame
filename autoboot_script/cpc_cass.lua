@@ -11,6 +11,6 @@ end
 emu.keypost('|TAPE\nRUN"\n\n')
 manager.machine.cassettes[":cassette"]:play()
 
-emu.add_machine_frame_notifier
+emu.add_machine_frame_notifier(process_frame)
 
 
