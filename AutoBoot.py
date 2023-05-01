@@ -342,6 +342,11 @@ lib = {
         "fmnew7": ('fm7_cass.lua', 3, None),
     },
 
+    "galaxy_cass": {
+        "galaxy": ('galaxy_cass.lua', 1, None),
+        "galaxyp": ('galaxy_cass.lua', 1, None),
+    },
+
     "juicebox": {
         "juicebox": ('juicebox.lua', 15, None),
     },
@@ -672,6 +677,7 @@ lib = {
         "pent1024": ('spectrum_cass_pent1024.lua', 0, None),
         "tc2048": ('spectrum_cass.lua', 3, None),
         "ts2068": ('spectrum_cass.lua', 3, None),
+        "tsconf": ('spectrum_cass.lua', 3, None),
         "tk90x": ('spectrum_cass.lua', 3, None),
         "tk95": ('spectrum_cass.lua', 3, None),
         "uk2086": ('spectrum_cass.lua', 3, None),
