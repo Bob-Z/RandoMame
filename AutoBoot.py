@@ -319,6 +319,13 @@ lib = {
         "tanodr64h": ('dragon_cass.lua', 4, None),
     },
 
+    "electron_cass": {
+        "electron": ('electron_cass.lua', 1, None),
+        "electron64": ('electron_cass.lua', 1, None),
+        "electronsp": ('electron_cass.lua', 1, None),
+        "electront": ('electron_cass.lua', 1, None),
+    },
+
     "electron_flop": {
         "electron": ('electron_flop.lua', 1, None),
         "electron64": ('electron_flop.lua', 1, None),
@@ -626,6 +633,7 @@ lib = {
     },
 
     "spectrum_cass": {
+        "bk08": ('spectrum_cass.lua', 3, None),
         "blitzs": ('spectrum_cass.lua', 3, None),
         "byte": ('spectrum_cass.lua', 3, None),
         "cip03": ('spectrum_cass.lua', 3, None),
@@ -642,6 +650,7 @@ lib = {
         "hc90": ('spectrum_cass.lua', 3, None),
         "hc91": ('spectrum_cass.lua', 3, None),
         "hc128": ('spectrum_cass.lua', 3, None),
+        "inves": ('spectrum_cass.lua', 3, None),
         "jet": ('spectrum_cass.lua', 3, None),
         "mistrum": ('spectrum_cass.lua', 3, None),
         "orizon": ('spectrum_cass.lua', 3, None),
