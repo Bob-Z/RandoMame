@@ -18,7 +18,7 @@ end
 
 command, is_run_required = msx1_cass_base.get_command()
 
-emu.add_machine_frame_notifier(process_frame)
+subscription=emu.add_machine_frame_notifier(process_frame)
 
 print("1/1/1")
 emu.keypost("1/1/1\n")

@@ -29,10 +29,10 @@ local function process_frame()
 	end
 
         if frame_num == boot_end_frame + 20 then
-	            button["MOUSEBTN,1,64"]:set_value(0)
+	            button[":MOUSEBTN,1,64"]:set_value(0)
         end
 end
 
-emu.add_machine_frame_notifier(process_frame)(process_frame)
+subscription=emu.add_machine_frame_notifier(process_frame)(process_frame)
 
 

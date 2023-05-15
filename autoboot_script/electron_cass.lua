@@ -21,7 +21,7 @@ local function process_frame()
 end
 
 manager.machine.cassettes[":cassette"]:play()
-emu.add_machine_frame_notifier(process_frame)
+subscription=emu.add_machine_frame_notifier(process_frame)
 
 
 

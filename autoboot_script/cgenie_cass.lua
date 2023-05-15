@@ -84,4 +84,4 @@ end
 
 emu.keypost('\n')
 
-emu.add_machine_frame_notifier(process_frame)
+subscription=emu.add_machine_frame_notifier(process_frame)

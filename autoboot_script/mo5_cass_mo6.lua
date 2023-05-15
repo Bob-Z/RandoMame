@@ -3,10 +3,12 @@ local function process_frame()
         frame_num = frame_num + 1
 
         if frame_num == 100 then
-		emu.keypost('1')
+            print("post 1")
+		    emu.keypost('1')
         elseif frame_num == 300 then
-		emu.keypost('RUN"CASS:\n')
-		manager.machine.cassettes[":cassette"]:play()
+		    emu.keypost('RUN"CASS:\n')
+		    print("run cass")
+		    manager.machine.cassettes[":cassette"]:play()
         end
 
    		if manager.machine.cassettes[":cassette"].is_stopped == false and manager.machine.cassettes[":cassette"].motor_state == true then
@@ -18,5 +20,5 @@ local function process_frame()
 		end
 end
 
-emu.add_machine_frame_notifier(process_frame)
+subscription=emu.add_machine_frame_notifier(process_frame)
 

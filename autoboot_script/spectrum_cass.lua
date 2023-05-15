@@ -8,7 +8,7 @@ local function process_frame()
 		end
 end
 
-emu.add_machine_frame_notifier(process_frame)
+subscription=emu.add_machine_frame_notifier(process_frame)
 
 emu.keypost('\nj""\n')
 manager.machine.cassettes[":cassette"]:play()

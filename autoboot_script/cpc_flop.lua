@@ -119,4 +119,4 @@ end
 
 emu.keypost("|disc\n")
 emu.keypost("run\"disc\n")
-emu.add_machine_frame_notifier(process_frame)
+subscription=emu.add_machine_frame_notifier(process_frame)
