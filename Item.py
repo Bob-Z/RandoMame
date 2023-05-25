@@ -4,7 +4,8 @@ import os
 
 
 class Item:
-    def __init__(self):
+    def __init__(self, all_machine_xml):
+        self.all_machine_xml = all_machine_xml
         self.machine_xml = None
         self.soft_xml = None
         self.softlist_name = None
@@ -131,24 +132,55 @@ class Item:
             else:
                 return "vgmplay -quik " + self.get_soft_short_name() + ":" + self.part_xml.attrib['name'], my_env
 
-    def get_interface_command_line(self):
-        device = self.machine_xml.findall("device")
-        command_line = ""
-
-        part = self.soft_xml.findall("part")
-        soft_interface = part[0].attrib["interface"]
-
+    # Return a command line to add a device supporting the given soft_interface on the given machine_xml
+    def find_interface_name(self, soft_interface, machine_xml):
+        device = machine_xml.findall("device")
         for d in device:
             if 'interface' in d.attrib:
-                if d.attrib['interface'] == soft_interface:
-                    instance = d.find("instance")
-                    if instance is not None:
-                        if 'briefname' in instance.attrib:
-                            interface_name = instance.attrib["briefname"]
-                            command_line = "-" + interface_name
-                            break
+                all_interface = d.attrib['interface'].split(',')
+                for i in all_interface:
+                    if i == soft_interface:
+                        instance = d.find("instance")
+                        if instance is not None:
+                            if 'briefname' in instance.attrib:
+                                interface_name = instance.attrib["briefname"]
+                                command_line = "-" + interface_name
+                                return command_line
 
-        return command_line
+        return None
+
+    def get_interface_command_line(self):
+        part = self.soft_xml.findall("part")
+        soft_interface = part[0].attrib["interface"]
+        print("Searching suitable software interface", soft_interface, "for", self.machine_xml.attrib['name'])
+
+        # Search if a built-in device has a suitable software interface
+        command_line = self.find_interface_name(soft_interface, self.machine_xml)
+
+        if command_line is not None:
+            return command_line
+
+        if Config.skip_slot is True:
+            return ""
+
+        # Search if a slotted device has a suitable software interface
+        slot = self.machine_xml.findall("slot")
+
+        # FIXME horrible hack: I don't understand why there is no 'interface' property in floppy drives, hard disk and cd-rom devices...
+        if soft_interface == 'floppy_5_25' or soft_interface == 'floppy_3_5' or soft_interface == 'ide_hdd' or soft_interface == 'scsi_hdd' or soft_interface == 'cdrom':
+            return ""
+
+        for s in slot:
+            slotoption = s.findall("slotoption")
+            for so in slotoption:
+                for machine_xml in self.all_machine_xml:
+                    if machine_xml.attrib['name'] == so.attrib['devname']:
+                        command_line = self.find_interface_name(soft_interface, machine_xml)
+                        if command_line is not None:
+                            # Add slotted device command line
+                            command_line = "-" + s.attrib['name'] + " " + so.attrib['name'] + " " + command_line
+                            return command_line
+        return ""
 
     def get_part_name(self):
         if self.part_xml is not None:

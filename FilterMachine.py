@@ -8,7 +8,7 @@ from Item import Item
 ini_data = None
 
 
-def get(machine_xml, check_machine_description, soft_item):
+def get(all_machine_xml, machine_xml, check_machine_description, soft_item):
     global ini_data
 
     if Config.ini_file is not None:
@@ -248,17 +248,18 @@ def get(machine_xml, check_machine_description, soft_item):
                 for machine_softlist in all_machine_softlist:
                     if machine_softlist.attrib['name'] == soft_item.get_softlist_name():
                         if 'filter' in machine_softlist.attrib:
-                            filter_machine_softlist = machine_softlist.attrib['filter']
+                            all_filter_machine_softlist = machine_softlist.attrib['filter'].split(',')
                             all_filter_soft = s.attrib['value'].split(',')
                             for filter_soft in all_filter_soft:
-                                if filter_machine_softlist[0] == '!':
-                                    if filter_soft != filter_machine_softlist[1:]:
-                                        is_compatible = True
-                                        break
-                                else:
-                                    if filter_soft == filter_machine_softlist:
-                                        is_compatible = True
-                                        break
+                                for filter_machine_softlist in all_filter_machine_softlist:
+                                    if filter_machine_softlist[0] == '!':
+                                        if filter_soft != filter_machine_softlist[1:]:
+                                            is_compatible = True
+                                            break
+                                    else:
+                                        if filter_soft == filter_machine_softlist:
+                                            is_compatible = True
+                                            break
 
                     if is_compatible is True:
                         break
@@ -268,7 +269,7 @@ def get(machine_xml, check_machine_description, soft_item):
         if is_compatible is False:
             return None
 
-    item = Item()
+    item = Item(all_machine_xml)
 
     item.set_machine_xml(machine_xml)
 

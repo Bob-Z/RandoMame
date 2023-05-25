@@ -9,7 +9,7 @@ item_list = []
 first_pass = True
 
 
-def get(machine_xml_list, softlist_xml_list, softlist_name_list):
+def get(all_machine_xml, softlist_xml_list, softlist_name_list):
     global item_list
     global first_pass
     if len(item_list) == 0:
@@ -17,12 +17,12 @@ def get(machine_xml_list, softlist_xml_list, softlist_name_list):
             return None
         first_pass = False
 
-        generate_full_command_list(machine_xml_list, softlist_xml_list, softlist_name_list)
+        generate_full_command_list(all_machine_xml, softlist_xml_list, softlist_name_list)
 
         if len(item_list) == 0:
             Config.allow_all()
 
-            generate_full_command_list(machine_xml_list, softlist_xml_list, softlist_name_list)
+            generate_full_command_list(all_machine_xml, softlist_xml_list, softlist_name_list)
 
         if len(item_list) == 0:
             return None
@@ -40,12 +40,12 @@ def get(machine_xml_list, softlist_xml_list, softlist_name_list):
     return selected_item
 
 
-def generate_full_command_list(machine_xml_list, softlist_xml_list, softlist_name_list):
+def generate_full_command_list(all_machine_xml, softlist_xml_list, softlist_name_list):
     global item_list
 
     for softlist_name in softlist_name_list:
         new_item_list, soft_with_compatible_machine_qty, soft_without_compatible_machine_qty = CommandGeneratorSoftList.generate_command_list(
-            machine_xml_list, softlist_xml_list,
+            all_machine_xml, softlist_xml_list,
             softlist_name)
         if new_item_list is not None:
             item_list = item_list + new_item_list

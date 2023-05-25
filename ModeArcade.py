@@ -8,7 +8,7 @@ item_list = []
 first_pass = True
 
 
-def get(machine_list):
+def get(all_machine_xml):
     global item_list
     global first_pass
     if len(item_list) == 0:
@@ -17,7 +17,7 @@ def get(machine_list):
             return None
         first_pass = False
 
-        item_list = CommandGeneratorMachine.generate_command_list(machine_list)
+        item_list = CommandGeneratorMachine.generate_command_list(all_machine_xml)
         if Config.mode == "arcade":
             print(len(item_list), "arcade machines found")
         elif Config.mode == "standalone":

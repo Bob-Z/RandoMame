@@ -8,15 +8,15 @@ from Item import Item
 machine_xml_by_soft_list = {}
 
 
-def generate_command_list(machine_xml_list, softlist_xml_list, softlist_name):
-    item_list = generate_item_list(softlist_name, softlist_xml_list)
+def generate_command_list(all_machine_xml, softlist_xml_list, softlist_name):
+    item_list = generate_item_list(all_machine_xml, softlist_name, softlist_xml_list)
 
     soft_with_compatible_machine_qty = 0
     soft_without_compatible_machine_qty = 0
 
     if item_list is not None:
         for item in item_list:
-            random_machine_item = pick_random_machine(machine_xml_list, item)
+            random_machine_item = pick_random_machine(all_machine_xml, item)
             if random_machine_item is not None:
                 item.set_machine_xml(random_machine_item.get_machine_xml())
                 soft_with_compatible_machine_qty = soft_with_compatible_machine_qty + 1
@@ -33,7 +33,7 @@ def generate_command_list(machine_xml_list, softlist_xml_list, softlist_name):
     return item_list, soft_with_compatible_machine_qty, soft_without_compatible_machine_qty
 
 
-def generate_item_list(softlist_name, softlist_xml_list):
+def generate_item_list(all_machine_xml, softlist_name, softlist_xml_list):
     found_software = []
 
     if softlist_name == "vgmplay":
@@ -54,7 +54,7 @@ def generate_item_list(softlist_name, softlist_xml_list):
     total_soft_qty = 0
     for soft_xml in selected_softlist_xml:
         total_soft_qty = total_soft_qty + 1
-        item = FilterSoftware.get(soft_xml)
+        item = FilterSoftware.get(all_machine_xml, soft_xml)
         if item is None:
             continue
 
@@ -69,16 +69,17 @@ def generate_item_list(softlist_name, softlist_xml_list):
     return found_software
 
 
-def pick_random_machine(machine_list, item):
+def pick_random_machine(all_machine_xml, item):
     global machine_xml_by_soft_list
 
     if item.get_softlist_name() not in machine_xml_by_soft_list:
         if Config.force_driver is None:
-            machine_xml_by_soft_list[item.get_softlist_name()] = generate_machine_xml_list_for_soft_list(machine_list,
-                                                                                                         item)
+            machine_xml_by_soft_list[item.get_softlist_name()] = generate_machine_xml_list_for_soft_list(
+                all_machine_xml,
+                item)
         else:
             machine_xml_by_soft_list[item.get_softlist_name()] = generate_machine_xml_list_from_forced_driver(
-                machine_list)
+                all_machine_xml)
 
     found_machine_xml_list = list(machine_xml_by_soft_list[item.get_softlist_name()])
 
@@ -89,7 +90,7 @@ def pick_random_machine(machine_list, item):
 
         machine_xml = found_machine_xml_list[rand]
 
-        machine_item = FilterMachine.get(machine_xml, False, item)
+        machine_item = FilterMachine.get(all_machine_xml, machine_xml, False, item)
 
         if machine_item is None:
             found_machine_xml_list.pop(rand)
@@ -99,12 +100,12 @@ def pick_random_machine(machine_list, item):
     return machine_item
 
 
-def generate_machine_xml_list_for_soft_list(machine_xml_list, item):
+def generate_machine_xml_list_for_soft_list(all_machine_xml, item):
     found_machine_xml_list = []
     is_parent_first = Config.prefer_parent
 
     while True:
-        for machine_xml in machine_xml_list:
+        for machine_xml in all_machine_xml:
             if is_parent_first is True:
                 if 'cloneof' in machine_xml.attrib:
                     continue
@@ -113,18 +114,13 @@ def generate_machine_xml_list_for_soft_list(machine_xml_list, item):
             for machine_xml_softlist in machine_xml_softlist_list:
                 if machine_xml_softlist.attrib['name'] == item.get_softlist_name():
                     # This machine support selected soft_list
-
-                    temp_item = Item()
+                    temp_item = Item(all_machine_xml)
                     temp_item.set_machine_xml(machine_xml)
                     temp_item.set_soft_xml(item.get_soft_xml())
                     interface_command_line = temp_item.get_interface_command_line()
                     if interface_command_line != "":
                         # This machine has the correct interface for this software
                         found_machine_xml_list.append(machine_xml)
-                        break
-
-        if found_machine_xml_list:
-            return found_machine_xml_list
 
         if is_parent_first is False:
             return found_machine_xml_list

@@ -9,7 +9,7 @@ item_list = []
 first_pass = True
 
 
-def get(soft_list_list):
+def get(all_machine_xml, soft_list_list):
     global item_list
     global first_pass
     if len(item_list) == 0:
@@ -17,7 +17,7 @@ def get(soft_list_list):
             return None
         first_pass = False
 
-        item_list = CommandGeneratorMusic.generate_music_list(soft_list_list)
+        item_list = CommandGeneratorMusic.generate_music_list(all_machine_xml, soft_list_list)
         Display.print_text("Found " + str(len(item_list)) + " musics")
         time.sleep(1.5)
 

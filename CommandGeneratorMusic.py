@@ -3,7 +3,7 @@ import FilterSoftware
 from Item import Item
 
 
-def generate_music_list(softlist_xml_list):
+def generate_music_list(all_machine_xml, softlist_xml_list):
     found_music = []
 
     selected_softlist_xml = None
@@ -20,7 +20,7 @@ def generate_music_list(softlist_xml_list):
             continue
 
         for part_xml in item.get_soft_xml().findall('part'):
-            part_item = Item()
+            part_item = Item(all_machine_xml)
             part_item.set_soft_xml(item.get_soft_xml())
             part_item.set_part_xml(part_xml)
             found_music.append(part_item)

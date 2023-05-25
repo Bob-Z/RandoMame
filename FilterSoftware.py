@@ -4,8 +4,8 @@ import Config
 from Item import Item
 
 
-def get(soft_xml):
-    item = Item()
+def get(all_machine_xml, soft_xml):
+    item = Item(all_machine_xml)
     item.set_soft_xml(soft_xml)
 
     if len(Config.selected_soft) > 0:
