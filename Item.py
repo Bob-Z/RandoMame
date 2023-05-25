@@ -113,12 +113,7 @@ class Item:
                                                                                     self.get_machine_short_name())
             return command, my_env
         else:
-            info_usage = self.get_soft_info_named("usage")
-
-            if info_usage is not None:
-                my_env["RANDOMAME_INFO_USAGE"] = info_usage
-            else:
-                my_env["RANDOMAME_INFO_USAGE"] = ""
+            my_env["RANDOMAME_INFO_USAGE"] = self.get_soft_info_named("usage")
 
             if self.part_xml is None:
                 interface_command_line = self.get_interface_command_line()
@@ -217,7 +212,6 @@ class Item:
         if self.soft_xml is None:
             return ""
 
-        info_string = ""
         all_info = self.soft_xml.findall('info')
         if all_info is not None:
 
@@ -226,4 +220,4 @@ class Item:
                     value = info.attrib['value']
                     return value
 
-        return None
+        return ""
