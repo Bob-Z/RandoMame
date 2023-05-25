@@ -33,6 +33,6 @@ local function process_frame()
         end
 end
 
-subscription=emu.add_machine_frame_notifier(process_frame)(process_frame)
+subscription=emu.add_machine_frame_notifier(process_frame)
 
 
