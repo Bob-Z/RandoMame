@@ -262,7 +262,10 @@ lib = {
     },
 
     "cdi": {
+        "cdi490a": ('cdi.lua', 0, None),
+        "cdi910": ('cdi.lua', 0, None),
         "cdimono1": ('cdi.lua', 0, None),
+        "cdimono2": ('cdi.lua', 0, None),
     },
 
     "cgenie_cass": {
@@ -335,6 +338,17 @@ lib = {
         "electron64": ('electron_flop.lua', 1, None),
         "electronsp": ('electron_flop.lua', 1, None),
         "electront": ('electron_flop.lua', 1, None),
+    },
+
+    "famicom_cass": {
+        "dendy": ('famicom_cass.lua', 0, '-cart famibs30'),
+        "dendy2": ('famicom_cass.lua', 0, '-cart famibs30'),
+        "famicom": ('famicom_cass.lua', 0, '-cart famibs30'),
+        "famicomo": ('famicom_cass.lua', 0, '-cart famibs30'),
+        "famitvc1": ('famicom_cass.lua', 0, '-cart famibs30'),
+        "famitwin": ('famicom_cass.lua', 0, '-cart famibs30'),
+        "iq501": ('famicom_cass.lua', 0, '-cart famibs30'),
+        "iq502": ('famicom_cass.lua', 0, '-cart famibs30'),
     },
 
     "fm7_cass": {
@@ -751,12 +765,12 @@ def get_autoboot_command(soft_list_name, machine_name):
     try:
         autoboot_script, autoboot_delay, extra_command = lib[soft_list_name][machine_name]
 
+        if extra_command is not None:
+            command = command + " " + extra_command
+
         if autoboot_delay is not None:
             command = command + " -autoboot_script autoboot_script/" + autoboot_script + " -autoboot_delay " + str(
                 autoboot_delay)
-
-        if extra_command is not None:
-            command = command + " " + extra_command
 
     except KeyError:
         pass
