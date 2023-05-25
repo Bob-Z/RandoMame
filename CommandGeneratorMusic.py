@@ -15,7 +15,7 @@ def generate_music_list(all_machine_xml, softlist_xml_list):
     found_qty = 0
 
     for soft_xml in selected_softlist_xml:
-        item = FilterSoftware.get(soft_xml)
+        item = FilterSoftware.get(all_machine_xml, soft_xml)
         if item is None:
             continue
 
