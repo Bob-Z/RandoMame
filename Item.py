@@ -112,20 +112,32 @@ class Item:
             command = self.get_machine_short_name() + AutoBoot.get_autoboot_command("",
                                                                                     self.get_machine_short_name())
             return command, my_env
-        else:
+
+        if self.part_xml is None:
+            # Set environnement varibale
             my_env["RANDOMAME_INFO_USAGE"] = self.get_soft_info_named("usage")
 
-            if self.part_xml is None:
-                interface_command_line = self.get_interface_command_line()
-                command = self.get_machine_short_name() + " " + interface_command_line + " " + self.soft_xml.attrib[
-                    'name']
+            all_part = self.soft_xml.findall('part')
+            index = 1
+            for part in all_part:
+                my_env["RANDOMAME_PART_" + str(index)] = self.soft_xml.attrib['name'] + ":" + part.attrib['name']
+                feature = part.find('feature')
+                if feature is not None:
+                    my_env["RANDOMAME_PART_FEATURE_" + str(index)] = feature.attrib['name'] + ":" + feature.attrib[
+                        'value']
+                index = index + 1
 
-                command = command + AutoBoot.get_autoboot_command(self.softlist_name,
-                                                                  self.get_machine_short_name())
+            # Prepare command line
+            interface_command_line = self.get_interface_command_line()
+            command = self.get_machine_short_name() + " " + interface_command_line + " " + self.soft_xml.attrib[
+                'name']
 
-                return command, my_env
-            else:
-                return "vgmplay -quik " + self.get_soft_short_name() + ":" + self.part_xml.attrib['name'], my_env
+            command = command + AutoBoot.get_autoboot_command(self.softlist_name,
+                                                              self.get_machine_short_name())
+
+            return command, my_env
+        else:
+            return "vgmplay -quik " + self.get_soft_short_name() + ":" + self.part_xml.attrib['name'], my_env
 
     # Return a command line to add a device supporting the given soft_interface on the given machine_xml
     def find_interface_name(self, soft_interface, machine_xml):
