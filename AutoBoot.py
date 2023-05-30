@@ -347,6 +347,7 @@ lib = {
         "famicomo": ('famicom_cass.lua', 0, '-cart famibs30'),
         "famitvc1": ('famicom_cass.lua', 0, '-cart famibs30'),
         "famitwin": ('famicom_cass.lua', 0, '-cart famibs30'),
+        "gchinatv": ('famicom_cass.lua', 0, '-cart famibs30'),
         "iq501": ('famicom_cass.lua', 0, '-cart famibs30'),
         "iq502": ('famicom_cass.lua', 0, '-cart famibs30'),
     },
