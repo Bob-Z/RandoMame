@@ -1,7 +1,32 @@
-local button = {}
-local ports = manager.machine.ioport.ports[":PAD1_3B"]
-for field_name, field in pairs(ports.fields) do
-    button[field_name] = field
+button = {}
+
+for i, j in pairs(manager.machine.ioport.ports) do
+ for field_name, field in pairs(j.fields) do
+  id = field.port.tag .. ',' .. field.mask .. ',' .. field.type
+  print(field_name,": ", id)
+  button[id] = field
+ end
 end
-button["P1 Start"]:set_value(1)
-button["P1 Start"]:set_value(0)
+
+frame_num=0
+function process_frame()
+        frame_num = frame_num + 1
+
+        if frame_num == 1 then
+		-- P1 start
+		button[":ctrl1:mdpad:PAD,128,46"]:set_value(1)
+        end
+        if frame_num == 40 then
+		button[":ctrl1:mdpad:PAD,128,46"]:set_value(0)
+        end
+        if frame_num == 80 then
+		-- P1 start
+		button[":ctrl1:mdpad:PAD,128,46"]:set_value(1)
+        end
+        if frame_num == 120 then
+		button[":ctrl1:mdpad:PAD,128,46"]:set_value(0)
+        end
+end
+
+subscription = emu.add_machine_frame_notifier(process_frame)
+
