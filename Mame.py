@@ -52,6 +52,10 @@ def run(item):
         display = item.get_machine_xml().find("display")
         if display is not None and display.attrib["type"] == "raster":
             args.append('-artwork_crop')
+        if display is not None and display.attrib["type"] == "lcd":
+            args.append('-artwork_crop')
+            args.append('-bgfx_screen_chains')
+            args.append('lcd-grid')
 
     full_command = ""
     for a in args:
