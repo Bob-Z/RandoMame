@@ -2,7 +2,6 @@ import datetime
 import os
 import threading
 import time
-import copy
 
 import Config
 import Display
@@ -10,18 +9,17 @@ import Mame
 import Mode
 import Record
 import Sound
-import Item
+from Desktop import DesktopClass
 
 
 class Window:
-    def __init__(self, desktop, index, desktop_offset_x, desktop_offset_y, position):
+    def __init__(self, single_window, index):
         self.first_launch = True
 
-        self.desktop = desktop
+        self.desktop = DesktopClass()
+
+        self.single_window = single_window
         self.index = index
-        self.desktop_offset_x = desktop_offset_x
-        self.desktop_offset_y = desktop_offset_y
-        self.position = position
         self.sound_index = 0
 
         self.marquee_display_time_s = 1.5
@@ -43,19 +41,19 @@ class Window:
         self.send_keyboard_skip = True
 
         self.thread_running = True
-        self.thread = threading.Thread(target=Window.manage_window, args=(self,))
+        self.thread = threading.Thread(target=Window.manage_window, args=(self, single_window,))
         self.thread.start()
 
         self.start_command_launched = False
 
-    def manage_window(self):
+    def manage_window(self, single_window):
         if self.get_command() is False:
             return
 
-        self.launch_mame()
+        self.launch_mame(single_window)
 
         while self.thread_running is True:
-            self.launch_mame()
+            self.launch_mame(single_window)
 
             self.manage_silence()
 
@@ -69,7 +67,7 @@ class Window:
 
             time.sleep(0.1)
 
-    def launch_mame(self):
+    def launch_mame(self, single_window):
         while self.out is None or self.out.poll() is not None:
 
             if self.item is None:
@@ -85,12 +83,10 @@ class Window:
                     if self.is_running is False:
                         return
 
-            self.out = Mame.run(self.item)
+            self.out = Mame.run(single_window, self.item)
 
             if Config.dry_run is False:
                 self.set_title()
-
-                self.set_position()
 
             self.init_smart_sound()
 
@@ -104,20 +100,15 @@ class Window:
 
             self.send_keyboard_skip = True
 
+            self.single_window.show_mame()
+
     def set_title(self):
-        self.title = self.item.get_title()
+        pass
+        # self.title = self.item.get_title()
 
-        while self.desktop.set_title(self.out.pid, self.title) is False:
-            if self.out.poll() is not None:
-                break
-
-    def set_position(self):
-        if Config.windows_quantity != 1:
-            while self.desktop.set_position(self.out.pid, self.desktop_offset_x + self.position['pos_x'],
-                                            self.desktop_offset_y + self.position['pos_y'],
-                                            self.position['width'], self.position['height']) is False:
-                if self.out.poll() is not None:
-                    break
+        # while self.desktop.set_title(self.out.pid, self.title) is False:
+        #    if self.out.poll() is not None:
+        #        break
 
     def init_date(self):
         if self.first_launch is True:
@@ -153,15 +144,16 @@ class Window:
                         Record.create_time_file()
 
             print("No more software for window", self.index)
-            Display.print_machine_and_soft(None, self.position)
+            self.single_window.clear()
+
             return False
         else:
             if self.first_launch is True:
                 Record.reset_log_time()
 
-                if self.item.get_machine_xml() is None: # VGM play
+                if self.item.get_machine_xml() is None:  # VGM play
                     self.execute_start_command()
-                    Display.print_machine_and_soft(self.item, self.position)
+                    Display.print_machine_and_soft(self.single_window, self.item)
                 else:
                     if Config.title_text is not None or Config.title_background is not None:
                         display_title()
@@ -173,13 +165,13 @@ class Window:
 
                         time.sleep(4.0)
 
-                        Display.print_machine_and_soft(self.item, self.position)
+                        Display.print_machine_and_soft(self.single_window, self.item)
                     else:
-                        Display.print_machine_and_soft(self.item, self.position)
+                        Display.print_machine_and_soft(self.single_window, self.item)
 
                         self.execute_start_command()
             else:
-                Display.print_machine_and_soft(self.item, self.position)
+                Display.print_machine_and_soft(self.single_window, self.item)
 
             if Config.record is not None:
                 Display.record_marquee()
@@ -222,12 +214,12 @@ class Window:
             if self.sound_index == self.index:
                 if self.is_muted is True:
                     Sound.set_mute(self.out.pid, False)
-                    self.desktop.set_title(self.out.pid, "* " + self.title)
+                    # self.desktop.set_title(self.out.pid, "* " + self.title)
                     self.is_muted = False
             else:
                 if self.is_muted is False:
                     Sound.set_mute(self.out.pid, True)
-                    self.desktop.set_title(self.out.pid, self.title)
+                    # self.desktop.set_title(self.out.pid, self.title)
                     self.is_muted = True
         else:
             Sound.set_mute(self.out.pid, False)
@@ -263,6 +255,9 @@ class Window:
             print("Execute start command:", Config.start_command)
             os.system(Config.start_command)
             self.start_command_launched = True
+
+    def kill_mame(self):
+        self.out.kill()
 
 
 def display_title():

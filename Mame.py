@@ -6,7 +6,7 @@ import Sound
 import Record
 
 
-def run(item):
+def run(single_window, item):
     if item is None:
         return
 
@@ -14,8 +14,12 @@ def run(item):
     command, my_env = item.get_command_line()
     for c in command.split(' '):
         args.append(c)
+
     args += ['-nohttp',
              '-ui_active', '-skip_gameinfo', ]
+
+    args.append('-attach_window')
+    args.append(str(single_window.get_window_id()))
 
     if Config.mode == 'music':  # Disable joystick and lightgun detection. This speeds-up start-up and helps for noise detection.
         args.append('-joystickprovider')
@@ -26,8 +30,8 @@ def run(item):
     if Config.windows_quantity != 1:
         args.append('-nomouse')
         args.append('-window')
-        args.append('-resolution')
-        args.append('1x1')
+        #args.append('-resolution')
+        #args.append('1x1')
 
     if Config.record is not None:
         filename = Record.get_name() + ".avi"

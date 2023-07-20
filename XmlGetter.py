@@ -1,6 +1,5 @@
 import datetime
 import subprocess
-import Display
 import xml.etree.ElementTree as ElementTree
 import os.path
 import Config
@@ -19,8 +18,8 @@ def get_softlist_file_name():
     return temp_dir + "softlist_" + mame_version + ".txt"
 
 
-def load_machine_list():
-    Display.print_text("Get machines XML")
+def load_machine_list(main_window):
+    main_window.setText("Get machines XML")
 
     file_name = get_listxml_file_name()
 
@@ -33,8 +32,8 @@ def load_machine_list():
         print(file_name, "already exists")
 
 
-def load_soft_list():
-    Display.print_text("Get software list XML")
+def load_soft_list(main_window):
+    main_window.setText("Get software list XML")
 
     file_name = get_softlist_file_name()
 
@@ -47,34 +46,34 @@ def load_soft_list():
         print(file_name, "already exists")
 
 
-def parse_machine_list():
-    Display.print_text("Parsing machines list")
+def parse_machine_list(main_window):
+    main_window.setText("Parsing machines list")
     tree = ElementTree.parse(get_listxml_file_name())
     return tree.getroot()
 
 
-def parse_soft_list():
-    Display.print_text("Parsing software list XML")
+def parse_soft_list(main_window):
+    main_window.setText("Parsing software list XML")
     tree = ElementTree.parse(get_softlist_file_name())
     return tree.getroot()
 
 
-def get():
+def get(main_window):
     machine_list = None
     soft_list = None
 
     total_start = datetime.datetime.now()
 
     if Config.need_softlist is True:
-        load_soft_list()
-        soft_list = parse_soft_list()
+        load_soft_list(main_window)
+        soft_list = parse_soft_list(main_window)
 
     soft_list_end = datetime.datetime.now()
     print("Soft list parsing:", soft_list_end - total_start)
 
     if Config.need_machine is True:
-        load_machine_list()
-        machine_list = parse_machine_list()
+        load_machine_list(main_window)
+        machine_list = parse_machine_list(main_window)
 
     print("Machine parsing:", datetime.datetime.now() - soft_list_end)
     total_end = datetime.datetime.now()

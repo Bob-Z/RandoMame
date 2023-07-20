@@ -6,7 +6,6 @@ mame_binary = ""
 mode = "arcade"
 windows_quantity = multiprocessing.cpu_count()
 timeout = 300
-desktop = None
 allow_preliminary = False
 allow_not_supported = False
 selected_softlist = []
@@ -44,7 +43,6 @@ slot_option = None
 display_min = None
 end_text = None
 end_background = None
-end_duration = None
 check = None
 sort_by_name = False
 sort_by_year = False
@@ -56,9 +54,9 @@ skip_slot = False
 
 def parse_command_line():
     opts, args = getopt.getopt(sys.argv[1:],
-                               "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:KlLmM:NnoO:pPqQ:rRsS:T:t:uUvVw:WX:x:y:Y:z:Z:",
+                               "aAb:B:c:C:eE:f:F:g:G:hH:i:I:jJk:KlLmM:NnoO:pPqQ:rRsS:T:t:uUvVw:WX:x:y:Y:z:Z:",
                                ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
-                                "available_softlist", "timeout=", "desktop=",
+                                "available_softlist", "timeout=",
                                 "allow_preliminary",
                                 "window=", "year_min=", "year_max=", "music", "selected_soft=",
                                 "allow_not_supported",
@@ -66,7 +64,7 @@ def parse_command_line():
                                 "exclude=", "extra=", "force_driver=", "loose_search", "multi_search", "start_command=",
                                 "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file=",
                                 "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=",
-                                "end_duration=", "check=",
+                                "check=",
                                 "sort_by_name", "sort_by_year", "sort_reverse",
                                 "emulation_time", "final_command=", "no_manufacturer=", "standalone", "slotmachine",
                                 "no_soft_clone", "prefer_parent", "skip_slot"])
@@ -85,7 +83,6 @@ def parse_command_line():
     global windows_quantity
     global year_min
     global year_max
-    global desktop
     global linear
     global auto_quit
     global smart_sound_timeout_sec
@@ -113,7 +110,6 @@ def parse_command_line():
     global display_min
     global end_text
     global end_background
-    global end_duration
     global check
     global sort_by_name
     global sort_by_year
@@ -152,12 +148,6 @@ def parse_command_line():
             smart_sound_timeout_sec = 0
         elif opt in ("-t", "--timeout"):
             timeout = int(arg)
-        elif opt in ("-D", "--desktop"):
-            desktop = arg.split('x')
-            desktop[0] = int(desktop[0])
-            desktop[1] = int(desktop[1])
-            desktop[2] = int(desktop[2])
-            desktop[3] = int(desktop[3])
         elif opt in ("-h", "--help"):
             usage()
         elif opt in ("-p", "--allow_preliminary"):
@@ -226,8 +216,6 @@ def parse_command_line():
             end_text = arg.split(':::')
         elif opt in ("-Z", "--end_bg"):
             end_background = arg
-        elif opt in ("-d", "--end_duration"):
-            end_duration = int(arg)
         elif opt in ("-k", "--check"):
             check = arg
             need_softlist = True
@@ -271,7 +259,7 @@ def parse_command_line():
         print(mode_str)
         print("Simultaneous windows :", windows_quantity)
         print("Individual machine's run timeout:", str(timeout), "seconds")
-        print("Desktop geometry", desktop)
+
         if allow_preliminary is True:
             print("Preliminary drivers allowed")
         else:
@@ -410,7 +398,6 @@ def usage():
     print("  -Y, --year_max= : Machines/softwares can't be older than this")
     print("")
     print(" - APPEARANCE")
-    print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
     print("  -e, --emulation_time : Use emulation time rather than real life time for timeout")
     print("  -L, --linear= : choose selected machines/softwares in MAME's list order (default is random)")
     print("  -j, --sort_by_name : Sort machines/software by name")
@@ -425,7 +412,6 @@ def usage():
     print("  -G, --title_bg= : Display given image file at start")
     print("  -z, --end_text= : Display text at end (may be ':::' separated texts")
     print("  -Z, --end_bg= : Display given image file at end")
-    print("  -d, --end_duration= : Display end duration in seconds")
     print("  -R, --dry_run= : Do not launch MAME (testing purpose only)")
     print("")
     print(" - OTHER")

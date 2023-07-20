@@ -50,12 +50,6 @@ def init(desktop):
     init_done = True
 
 
-def clear(rect):
-    global draw_surface
-
-    pygame.draw.rect(draw_surface, (0, 0, 0), rect)
-
-
 def print_compute_parameters(input_text, input_font_size, dest_rect, first=True):
     global line_spacing
     global border_margin
@@ -123,7 +117,7 @@ def print_compute_parameters(input_text, input_font_size, dest_rect, first=True)
     return next_offset_x, next_offset_y, next_max_width, next_font_size
 
 
-def print_text(input_text, dest_rect=None, update=True, do_clear=True):
+def print_text(single_window, input_text, update=True, do_clear=True):
     global lock
     global main_window
     global draw_surface
@@ -132,14 +126,15 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
     global height
     global init_done
 
+    single_window.setText(input_text)
+    print("Display:", input_text)
+    return
+
     if init_done is False:
         print(input_text)
         return
 
     input_font_size = 100
-
-    if dest_rect is None:
-        dest_rect = pygame.Rect(0, 0, width, height)
 
     offset_x, offset_y, max_width, font_size = print_compute_parameters(input_text, input_font_size, dest_rect)
 
@@ -212,19 +207,17 @@ def print_text(input_text, dest_rect=None, update=True, do_clear=True):
     print("Display:", input_text)
 
 
-def print_machine_and_soft(item, position):
+def print_machine_and_soft(single_window, item):
     do_clear = True
 
     if item is not None:
-        rect = pygame.Rect(position['pos_x'], position['pos_y'], position['width'], position['height'])
-
         if item.get_machine_short_name() is not None:
-            if print_cabinet(item, rect) is True:
+            if print_cabinet(single_window, item) is True:
                 do_clear = False
 
         if do_clear is True:
             if Config.title_background is not None:
-                display_picture_file_name(Config.title_background, rect)
+                display_picture_file_name(single_window, Config.title_background)
                 do_clear = False
 
         text_array = []
@@ -243,22 +236,14 @@ def print_machine_and_soft(item, position):
                 text_array.append(item.get_part_name())
                 Record.log(item.get_part_name())
 
-        print_text_array(position, text_array, do_clear)
+        print_text_array(single_window, text_array, do_clear)
 
 
-def print_text_array(position, text_array, do_clear):
-    if position is None:
-        screen_rect = pygame.Rect(0, 0, width, height)
-    else:
-        screen_rect = pygame.Rect(position['pos_x'], position['pos_y'], position['width'], position['height'])
-
+def print_text_array(single_window, text_array, do_clear):
     height_in_window = 0
 
     for text in text_array:
-        rect = pygame.Rect(screen_rect.left, screen_rect.top + height_in_window, screen_rect.width,
-                           screen_rect.height / len(text_array))
-        print_text(text, rect, True, do_clear)
-        height_in_window = height_in_window + (screen_rect.height / len(text_array))
+        print_text(single_window, text, True, do_clear)
 
 
 def wait_for_keyboard():
@@ -273,39 +258,33 @@ def wait_for_keyboard():
     return False
 
 
-def print_cabinet(item, rect):
-    clear(rect)
-
+def print_cabinet(single_window, item):
     driver_name_list = [item.get_machine_short_name()]
     if item.get_cloneof_short_name() is not None:
         driver_name_list.append(item.get_cloneof_short_name())
 
-    return display_cabinet(driver_name_list, rect)
+    return display_cabinet(single_window, driver_name_list)
 
 
-def display_cabinet(driver_name_list, rect):
-    if display_cabinet_picture_from_dir(driver_name_list, rect) is True:
+def display_cabinet(single_window, driver_name_list):
+    if display_cabinet_picture_from_dir(single_window, driver_name_list) is True:
         return True
-    return display_cabinet_picture_from_zip(driver_name_list, rect)
+    return display_cabinet_picture_from_zip(single_window, driver_name_list)
 
 
-def display_cabinet_picture_from_zip(driver_name_list, rect):
+def display_cabinet_picture_from_zip(single_window, driver_name_list):
     global lock
     global draw_surface
 
     try:
         with zipfile.ZipFile('/media/4To/Mame/cabinets.zip') as zip_file:
             for driver_name in driver_name_list:
-                try:
-                    with zip_file.open(driver_name + '.png') as file:
-                        print("Open cabinet picture from ZIP file")
-                        display_picture_file(file, rect, 128)
+                with zip_file.open(driver_name + '.png') as open_zip_file:
+                    with open('/tmp/' + driver_name + '.png', 'wb') as dest_file:
+                        print("Open cabinet picture", driver_name + '.png', "from ZIP file")
+                        dest_file.write(open_zip_file.read())
+                        single_window.set_pixmap('/tmp/' + driver_name + '.png')
                         return True
-                except zipfile.error:
-                    print("ZIP file corrupted")
-                except KeyError:
-                    pass
-
     except zipfile.error:
         print("ZIP file corrupted")
     except KeyError:
@@ -314,13 +293,13 @@ def display_cabinet_picture_from_zip(driver_name_list, rect):
     return False
 
 
-def display_cabinet_picture_from_dir(driver_name_list, rect):
+def display_cabinet_picture_from_dir(single_window, driver_name_list):
     try:
         for driver_name in driver_name_list:
             try:
                 with open("/media/4To/Mame/cabinets/" + driver_name + '.png') as file:
                     print("Open cabinet picture from directory")
-                    display_picture_file(file, rect, 128)
+                    single_window.set_pixmap("/media/4To/Mame/cabinets/" + driver_name + '.png')
                     return True
             except FileNotFoundError:
                 pass
@@ -333,44 +312,8 @@ def display_cabinet_picture_from_dir(driver_name_list, rect):
     return False
 
 
-def display_picture_file_name(file_name, rect):
-    with open(file_name) as file:
-        display_picture_file(file, rect, 255)
-
-
-def display_picture_file(file, rect, alpha):
-    global lock
-    global draw_surface
-
-    if rect is None:
-        rect = pygame.Rect(0, 0, width, height)
-
-    print("Display picture", file.name, "in", rect)
-
-    picture = pygame.image.load(file)
-
-    pict_rect = picture.get_rect()
-
-    factor = rect.width / pict_rect.width
-    new_width = rect.width
-    new_height = int(pict_rect.height * factor)
-    if new_height > rect.height:
-        factor = rect.height / pict_rect.height
-        new_width = int(pict_rect.width * factor)
-        new_height = rect.height
-
-    picture = pygame.transform.scale(picture, (new_width, new_height))
-
-    pict_rect = picture.get_rect()
-    pict_rect.center = rect.center
-
-    lock.acquire()
-    # black screen
-    pygame.draw.rect(draw_surface, (0,0,0), rect)
-    picture.set_alpha(alpha)
-
-    draw_surface.blit(picture, pict_rect)
-    lock.release()
+def display_picture_file_name(single_window, file_name):
+    single_window.set_pixmap(file_name)
 
 
 def record_marquee():

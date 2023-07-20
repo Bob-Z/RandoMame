@@ -3,42 +3,24 @@ import time
 
 import Mode
 import Config
-import Desktop
-import Display
 import Window
 import Sound
-import Record
 import XmlGetter
 import os
-
-from Desktop import DesktopClass
-from WindowPosition import WindowPosition
-
 
 running = True
 sound_index = 0
 window = []
-start_command_launched = False
 
 
-def start():
-    global window
-
-    window_position = WindowPosition()
-
-    if Config.desktop is not None:
-        desktop_info = [Config.desktop[0], Config.desktop[1], Config.desktop[2], Config.desktop[3]]
-    else:
-        desktop_info = Desktop.get_desktop_size()
-
-    position = window_position.get(Config.windows_quantity, 0, 0, desktop_info[2], desktop_info[3])
-
-    Display.init(desktop_info)
+def start(main_window):
+    global running
+    running = True
 
     if Config.mode == "music" or Config.smart_sound_timeout_sec > 0:
         Sound.init()
 
-    machine_list, soft_list = XmlGetter.get()
+    machine_list, soft_list = XmlGetter.get(main_window)
 
     if machine_list is not None:
         print("MAME version: ", machine_list.attrib["build"])
@@ -49,14 +31,14 @@ def start():
 
     Mode.init(machine_list, soft_list)
 
-    desktop = DesktopClass()
-
+    global window
     for index in range(Config.windows_quantity):
-        window.append(Window.Window(desktop, index, desktop_info[0], desktop_info[1], position[index]))
-        time.sleep(1.0)
+        window.append(Window.Window(main_window.get_single_window(index), index))
+
+    main_window.show_single_windows()
 
     global sound_index
-    while Display.wait_for_keyboard() is False:
+    while running is True:
         if Config.smart_sound_timeout_sec > 0:
             if Sound.get_silence_duration_sec() > Config.smart_sound_timeout_sec:
                 sound_index = sound_index - 1
@@ -77,16 +59,14 @@ def start():
         if is_alive is False:
             break
 
-    if Config.end_duration is not None:
-        if Config.record is None:
-            time.sleep(float(Config.end_duration))
+        time.sleep(0.1)
 
     if Config.end_command is not None and window[0].get_start_command_launched() is True:
         print("Execute end command:", Config.end_command)
         os.system(Config.end_command)
 
     print("Shutdown remaining windows")
-    shutdown()
+    shutdown_windows()
 
     print("Stop sound recording thread")
     Sound.kill()
@@ -103,6 +83,13 @@ def start():
 
 
 def shutdown():
+    global running
+    running = False
+    for w in window:
+        w.kill_mame()
+
+
+def shutdown_windows():
     global window
     for w in window:
         w.stop()
