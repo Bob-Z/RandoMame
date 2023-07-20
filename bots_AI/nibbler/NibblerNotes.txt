@@ -1,0 +1,229 @@
+8 Mazes
+6 speeds (2-7)
+11 fruit patterns (not per maze though!)
+
+
+Fruit patterns
+ROM:5DB0                 .WORD $9380    = 5
+ROM:5DBC                 .WORD $93C0    = 9
+ROM:5DB4                 .WORD $9780    = 7
+ROM:5D9A                 .WORD $9B80    = 8
+ROM:5DD6                 .WORD $B380    = 11
+ROM:5D9C                 .WORD $B780    = 1
+ROM:5DA8                 .WORD $B7C0    = 3
+ROM:5DAA                 .WORD $BB80    = 4
+ROM:5DB2                 .WORD $BBC0    = 6
+ROM:5DA2                 .WORD $BF80    = 2
+ROM:5DC2                 .WORD $BFC0    = 10
+
+Level   Fruit Pattern   Maze Pattern	  Speed
+											EasyHard
+0      .WORD $9B80      .WORD $9800     	7	7	<--- Says 0, but is used as level 32.
+1      .WORD $B780      .WORD $B400			2	2
+2      .WORD $B780      .WORD $B800			2	2
+3      .WORD $B780      .WORD $B000			3	3
+4      .WORD $BF80      .WORD $BC00			3	4
+5      .WORD $B780      .WORD $B800			3	4
+6      .WORD $B780      .WORD $B000			3	5
+7      .WORD $B7C0      .WORD $B400			4	5
+8      .WORD $BB80      .WORD $B800			4	5
+9      .WORD $B780      .WORD $B000			4	6
+10     .WORD $BF80      .WORD $BC00			4	6
+11     .WORD $9380      .WORD $9000			5	6
+12     .WORD $BBC0      .WORD $B800			5	6
+13     .WORD $9780      .WORD $9400			5	6
+14     .WORD $B7C0      .WORD $B400			5	6
+15     .WORD $B780      .WORD $9C00			6	7
+16     .WORD $9B80      .WORD $9800			6	7
+17     .WORD $93C0      .WORD $9000			6	7
+18     .WORD $BF80      .WORD $B000			6	7
+19     .WORD $9780      .WORD $9400			6	7
+20     .WORD $BFC0      .WORD $BC00			6	7
+21     .WORD $9380      .WORD $9000			7	7
+22     .WORD $9B80      .WORD $9800			7	7
+23     .WORD $B780      .WORD $9C00			7	7
+24     .WORD $B7C0      .WORD $B400			7	7
+25     .WORD $9780      .WORD $9400			7	7
+26     .WORD $93C0      .WORD $9000			7	7
+27     .WORD $9B80      .WORD $9800			7	7
+28     .WORD $BFC0      .WORD $BC00			7	7
+29     .WORD $B780      .WORD $9C00			7	7
+30     .WORD $B380      .WORD $B000			7	7
+31     .WORD $93C0      .WORD $9000			7	7
+
+Mazes
+ROM:33D8                 .WORD $9000    = 5
+ROM:33DC                 .WORD $9400    = 6
+ROM:33C2                 .WORD $9800    = 8
+ROM:33E0                 .WORD $9C00    = 7
+ROM:33C8                 .WORD $B000    = 3
+ROM:33C4                 .WORD $B400    = 1
+ROM:33C6                 .WORD $B800    = 2
+ROM:33CA                 .WORD $BC00    = 4
+
+
+ROM:33C2 MazeOrder:      .WORD $9800
+ROM:33C4                 .WORD $B400
+ROM:33C6                 .WORD $B800
+ROM:33C8                 .WORD $B000
+ROM:33CA                 .WORD $BC00
+ROM:33CC                 .WORD $B800
+ROM:33CE                 .WORD $B000
+ROM:33D0                 .WORD $B400
+ROM:33D2                 .WORD $B800
+ROM:33D4                 .WORD $B000
+ROM:33D6                 .WORD $BC00
+ROM:33D8                 .WORD $9000
+ROM:33DA                 .WORD $B800
+ROM:33DC                 .WORD $9400
+ROM:33DE                 .WORD $B400
+ROM:33E0                 .WORD $9C00
+ROM:33E2                 .WORD $9800
+ROM:33E4                 .WORD $9000
+ROM:33E6                 .WORD $B000
+ROM:33E8                 .WORD $9400
+ROM:33EA                 .WORD $BC00
+ROM:33EC                 .WORD $9000
+ROM:33EE                 .WORD $9800
+ROM:33F0                 .WORD $9C00
+ROM:33F2                 .WORD $B400
+ROM:33F4                 .WORD $9400
+ROM:33F6                 .WORD $9000
+ROM:33F8                 .WORD $9800
+ROM:33FA                 .WORD $BC00
+ROM:33FC                 .WORD $9C00
+ROM:33FE                 .WORD $B000
+ROM:3400                 .WORD $9000
+
+
+{maze=MAZE_1, pattern=FRUIT_PATTERN_01},    -- Level 01
+{maze=MAZE_1, pattern=FRUIT_PATTERN_03},    -- Level 07
+
+{maze=MAZE_2, pattern=FRUIT_PATTERN_01},    -- Level 02
+{maze=MAZE_2, pattern=FRUIT_PATTERN_04},    -- Level 08
+{maze=MAZE_2, pattern=FRUIT_PATTERN_06},    -- Level 12
+
+{maze=MAZE_3, pattern=FRUIT_PATTERN_01},    -- Level 03
+{maze=MAZE_3, pattern=FRUIT_PATTERN_02},    -- Level 18
+{maze=MAZE_3, pattern=FRUIT_PATTERN_11},    -- Level 30
+
+{maze=MAZE_4, pattern=FRUIT_PATTERN_02},    -- Level 04
+{maze=MAZE_4, pattern=FRUIT_PATTERN_10},    -- Level 20
+
+{maze=MAZE_5, pattern=FRUIT_PATTERN_05},    -- Level 11
+{maze=MAZE_5, pattern=FRUIT_PATTERN_09},    -- Level 17
+
+{maze=MAZE_6, pattern=FRUIT_PATTERN_07},    -- Level 13
+
+{maze=MAZE_7, pattern=FRUIT_PATTERN_01},    -- Level 15
+
+{maze=MAZE_8, pattern=FRUIT_PATTERN_08},    -- Level 16
+
+
+; Speed determination routine
+ROM:32F3                 LDY     Level
+ROM:32F5                 LDA     #4
+ROM:32F7                 AND     $2106           ; Check difficulty level dipswitch
+ROM:32FA                 BNE     HardSetting
+ROM:32FC                 CPY     #31
+ROM:32FE                 BCC     levelLessThan31
+ROM:3300                 LDY     #31             ; You always get speed 7 on level 32 and above.
+ROM:3302
+ROM:3302 levelLessThan31:                        ; CODE XREF: NextLevel+65↑j
+ROM:3302                 LDA     $3391,Y		 ; Get value from easySpeedRamp
+ROM:3305                 JMP     saveSpeed
+ROM:3308 ; ---------------------------------------------------------------------------
+ROM:3308
+ROM:3308 HardSetting:                            ; CODE XREF: NextLevel+61↑j
+ROM:3308                 CPY     #14
+ROM:330A                 BCC     getSpeedHard
+ROM:330C                 LDY     #14
+ROM:330E
+ROM:330E getSpeedHard:                           ; CODE XREF: NextLevel+71↑j
+ROM:330E                 LDA     $33B2,Y		 ; Get value from hardSpeedRamp
+ROM:3311
+ROM:3311 saveSpeed:                              ; CODE XREF: NextLevel+6C↑j
+ROM:3311                 STA     Speed
+
+ROM:3391 easySpeedRamp:  .BYTE   2
+ROM:3392                 .BYTE   2
+ROM:3393                 .BYTE   3
+ROM:3394                 .BYTE   3
+ROM:3395                 .BYTE   3
+ROM:3396                 .BYTE   3
+ROM:3397                 .BYTE   4
+ROM:3398                 .BYTE   4
+ROM:3399                 .BYTE   4
+ROM:339A                 .BYTE   4
+ROM:339B                 .BYTE   5
+ROM:339C                 .BYTE   5
+ROM:339D                 .BYTE   5
+ROM:339E                 .BYTE   5
+ROM:339F                 .BYTE   6
+ROM:33A0                 .BYTE   6
+ROM:33A1                 .BYTE   6
+ROM:33A2                 .BYTE   6
+ROM:33A3                 .BYTE   6
+ROM:33A4                 .BYTE   6
+ROM:33A5                 .BYTE   7
+ROM:33A6                 .BYTE   7
+ROM:33A7                 .BYTE   7
+ROM:33A8                 .BYTE   7
+ROM:33A9                 .BYTE   7
+ROM:33AA                 .BYTE   7
+ROM:33AB                 .BYTE   7
+ROM:33AC                 .BYTE   7
+ROM:33AD                 .BYTE   7
+ROM:33AE                 .BYTE   7
+ROM:33AF                 .BYTE   7
+ROM:33B0                 .BYTE   7
+ROM:33B1                 .BYTE   7
+ROM:33B2 hardSpeedRamp:  .BYTE   2
+ROM:33B3                 .BYTE   2
+ROM:33B4                 .BYTE   3
+ROM:33B5                 .BYTE   4
+ROM:33B6                 .BYTE   4
+ROM:33B7                 .BYTE   5
+ROM:33B8                 .BYTE   5
+ROM:33B9                 .BYTE   5
+ROM:33BA                 .BYTE   6
+ROM:33BB                 .BYTE   6
+ROM:33BC                 .BYTE   6
+ROM:33BD                 .BYTE   6
+ROM:33BE                 .BYTE   6
+ROM:33BF                 .BYTE   6
+ROM:33C0                 .BYTE   7
+ROM:33C1                 .BYTE   7
+
+ROM:5D9A FruitPatternList:.WORD $9B80
+ROM:5D9C                 .WORD $B780
+ROM:5D9E                 .WORD $B780
+ROM:5DA0                 .WORD $B780
+ROM:5DA2                 .WORD $BF80
+ROM:5DA4                 .WORD $B780
+ROM:5DA6                 .WORD $B780
+ROM:5DA8                 .WORD $B7C0
+ROM:5DAA                 .WORD $BB80
+ROM:5DAC                 .WORD $B780
+ROM:5DAE                 .WORD $BF80
+ROM:5DB0                 .WORD $9380
+ROM:5DB2                 .WORD $BBC0
+ROM:5DB4                 .WORD $9780
+ROM:5DB6                 .WORD $B7C0
+ROM:5DB8                 .WORD $B780
+ROM:5DBA                 .WORD $9B80
+ROM:5DBC                 .WORD $93C0
+ROM:5DBE                 .WORD $BF80
+ROM:5DC0                 .WORD $9780
+ROM:5DC2                 .WORD $BFC0
+ROM:5DC4                 .WORD $9380
+ROM:5DC6                 .WORD $9B80
+ROM:5DC8                 .WORD $B780
+ROM:5DCA                 .WORD $B7C0
+ROM:5DCC                 .WORD $9780
+ROM:5DCE                 .WORD $93C0
+ROM:5DD0                 .WORD $9B80
+ROM:5DD2                 .WORD $BFC0
+ROM:5DD4                 .WORD $B780
+ROM:5DD6                 .WORD $B380
+ROM:5DD8                 .WORD $93C0
