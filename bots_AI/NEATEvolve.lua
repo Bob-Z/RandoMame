@@ -22,10 +22,10 @@ local controller
 if emu.softname() == "smwu" then
 	Filename = "1"
 	ButtonNames = {
-		"A",
-		"B",
-		"X",
-		"Y",
+		"P1 A",
+		"P1 B",
+		"P1 X",
+		"P1 Y",
 		"P1 Up",
 		"P1 Down",
 		"P1 Left",
