@@ -51,7 +51,7 @@ sort_by_year = False
 sort_reverse = False
 emulation_time = False
 prefer_parent = False
-skip_slot = False
+skip_slot = True
 
 
 def parse_command_line():
@@ -69,7 +69,7 @@ def parse_command_line():
                                 "end_duration=", "check=",
                                 "sort_by_name", "sort_by_year", "sort_reverse",
                                 "emulation_time", "final_command=", "no_manufacturer=", "standalone", "slotmachine",
-                                "no_soft_clone", "prefer_parent", "skip_slot"])
+                                "no_soft_clone", "prefer_parent", "no_skip_slot"])
 
     global mode
     global selected_softlist
@@ -241,8 +241,8 @@ def parse_command_line():
             emulation_time = True
         elif opt in ("-P", "--prefer_parent"):
             prefer_parent = True
-        elif opt in ("-W", "--skip_slot"):
-            skip_slot = True
+        elif opt in ("-W", "--no_skip_slot"):
+            skip_slot = False
         else:
             print("Unknown option ", opt)
             usage()
@@ -359,8 +359,8 @@ def parse_command_line():
         if final_command is not None:
             print("Final command: ", final_command)
 
-        if skip_slot is True:
-            print("Skip slot")
+        if skip_slot is False:
+            print("Do not skip slot (this might be long)")
 
     print("")
 
@@ -405,7 +405,7 @@ def usage():
     print("  -Q, --display_min= : Minimum displays quantity allowed")
     print(
         "  -T, --selected_soft= : Coma separated list of allowed software (short) names (use with selected_softlist mode)")
-    print("  -W, --skip_slot : Skip slots when trying to find a device for a particular software. This will result in a shorter application start time, but some software will be missing")
+    print("  -W, --no_skip_slot : Do not skip slots when trying to find a device for a particular software. This will result in a longer application start time, but there may be more software found")
     print("  -y, --year_min= : Machines/softwares can't be earlier than this")
     print("  -Y, --year_max= : Machines/softwares can't be older than this")
     print("")
