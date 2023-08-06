@@ -20,6 +20,9 @@ previous_crate_value = {{0,0,0},{0,0,0}}
 -- SVG names are up to down so index 1 is up and index 3 is down
 crate_svg_name = {{"0.4.2","0.4.1","1.6.0"},{"1.9.3","1.7.1","1.11.1"}}
 button_name = {{":IN.0,4,59",":IN.0,8,60"},{":IN.0,2,55",":IN.0,1,56"}}
+button_value = {0, 0}
+button_duration = {0, 0}
+button_duration_max = 7
 ready_crate_index_list = {{},{}}
 target_crate_index = {0,0}
 mario_svg = {{"1.3.2","0.3.0","0.3.3"},{"1.10.3","0.10.2","0.11.2"}}
@@ -54,7 +57,7 @@ function process_frame()
 
 		-- set target crate
 		if target_crate_index[screen] == 0 then
-			if #ready_crate_index_list[screen] > 0 then
+			while #ready_crate_index_list[screen] > 0 do
 				-- get latest index and remove it
 				target_crate_index[screen] = ready_crate_index_list[screen][#ready_crate_index_list[screen]]
 				table.remove(ready_crate_index_list[screen],#ready_crate_index_list[screen])
@@ -79,12 +82,24 @@ function process_frame()
 		if target_crate_index[screen] == 0 then
 			mario_target = 2
 		end
-	
-		if mario_target > mario_pos then
-				button[button_name[screen][2]]:set_value(1)
-		elseif mario_target < mario_pos then
-				button[button_name[screen][1]]:set_value(1)
+
+		if mario_target ~= mario_pos then
+			-- Try to spam button
+			if button_duration[screen] == 0 then
+				button_value[screen] = (button_value[screen] + 1) % 2
+			end
+			button_duration[screen] = (button_duration[screen] + 1) % button_duration_max
+
+			if mario_target > mario_pos then
+				button[button_name[screen][2]]:set_value(button_value[screen])
+				button[button_name[screen][1]]:set_value(0)
+			else
+				button[button_name[screen][1]]:set_value(button_value[screen])
+				button[button_name[screen][2]]:set_value(0)
+			end
 		else
+			button_duration[screen] = 0
+			button_value[screen] = 0
 			button[button_name[screen][1]]:set_value(0)
 			button[button_name[screen][2]]:set_value(0)
 		end
