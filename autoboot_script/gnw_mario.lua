@@ -29,10 +29,10 @@ function process_frame()
 
 	-- auto start Game B
 	if frame_num == 60 then
-		button[":IN.1,2,8"]:set_value(1)
+		button[":IN.1,4,7"]:set_value(1)
 	end
 	if frame_num == 65 then
-		button[":IN.1,2,8"]:set_value(0)
+		button[":IN.1,4,7"]:set_value(0)
 	end
 
 	for screen = 1, 2 do
