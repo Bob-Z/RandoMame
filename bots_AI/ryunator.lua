@@ -2,7 +2,7 @@ local mem = manager.machine.devices[":maincpu"].spaces["program"]
 local gui = manager.machine.screens[":screen"]
 
 local Json = require("json")
-local path = "RYUNATOR/pools/"
+local path = "./"
 local players_amount = 2
 -- Memory address offset to differentiate p1 and p2
 local player_offset = 0x0300
