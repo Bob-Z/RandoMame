@@ -244,6 +244,14 @@ def get(all_machine_xml, machine_xml, check_machine_description, soft_item):
         for s in shared_feat:
             if s.attrib['name'] == 'compatibility':
                 is_compatible = False
+                # Test for machine name against "compatibility" in software's sharedfeat
+                comaptibility_string = s.attrib['value']
+                machine_name_list = comaptibility_string.split(',')
+                print("machine_name_list",machine_name_list)
+                if machine_xml.attrib["name"] in machine_name_list:
+                    is_compatible = True
+                    break
+                # Test for "filter" attribute in machine.softwarelist against "compatibility" in software's sharedfeat
                 all_machine_softlist = machine_xml.findall('softwarelist')
                 for machine_softlist in all_machine_softlist:
                     if machine_softlist.attrib['name'] == soft_item.get_softlist_name():
