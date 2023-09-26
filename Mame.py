@@ -24,7 +24,13 @@ def run(item):
         args.append('none')
 
     if Config.windows_quantity != 1:
+        #These mouse settings avoid MAME to "grab" the mouse (which need ctrl+tab to "ungrab"). Emulated mouse can be mouved via keyboard arrows
         args.append('-nomouse')
+        args.append('-mouseprovider')
+        args.append('none')
+        args.append('-mouse_device')
+        args.append('keyboard')
+
         args.append('-window')
         args.append('-resolution')
         args.append('1x1')
