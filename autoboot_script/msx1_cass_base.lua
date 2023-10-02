@@ -5,6 +5,7 @@ local throttle_asked = 0
 local keypost_run_frame_num = 0
 local command_index = 1
 local command_frame_num = -1
+local default_command_list = {'\nRUN"CAS:"\n', '\nRUN@CAS\'@\n', '\nRUN@CAS>@\n', '\nRUN3cqs.3\n', '\nRUN"CAS~"\n' }
 
 function msx1_cass_base.get_command()
     is_run_required = false
@@ -16,7 +17,7 @@ function msx1_cass_base.get_command()
         command = string.gsub(command,". The game requires 64k in slot 2","")
         command = command .. '\n'
     else
-        command = {'\nRUN"CAS:"\n', '\nRUN@CAS\'@\n', '\nRUN@CAS>@\n', '\nRUN3cqs.3\n' }
+        command = default_command_list
     end
 
     if command == "CLOAD + RUN\n" then
@@ -25,7 +26,7 @@ function msx1_cass_base.get_command()
     end
 
     if command == 'RUN"CAS:"\n' then
-        command = {'\nRUN"CAS:"\n', '\nRUN@CAS\'@\n', '\nRUN@CAS>@\n', '\nRUN3cqs.3\n', '\nRUN"CAS~"\n' }
+        command = default_command_list
     end
 
     if command == 'BLOAD"CAS:",R\n' then
@@ -71,7 +72,7 @@ function msx1_cass_base.post_command(frame_num, command)
         print(command[command_index])
         emu.keypost(command[command_index])
         command_index = command_index + 1
-        command_frame_num = command_frame_num + 60
+        command_frame_num = command_frame_num + 180
     end
 end
 

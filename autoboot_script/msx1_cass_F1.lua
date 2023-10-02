@@ -17,6 +17,13 @@ local function process_frame()
     elseif frame_num == 10 then
         -- F1
         io[':KEY3,32,49']:set_value(0)
+    elseif frame_num == 20 then
+        -- F1
+        io[':KEY6,32,49']:set_value(1)
+    elseif frame_num == 30 then
+        -- F1
+        io[':KEY6,32,49']:set_value(0)
+
     elseif frame_num > 100 then
         msx1_cass_base.post_command(frame_num, command)
     end
