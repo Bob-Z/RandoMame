@@ -206,6 +206,7 @@ def parse_command_line():
             record = arg
         elif opt in ("-R", "--dry_run"):
             dry_run = True
+            windows_quantity = 1
         elif opt in ("-g", "--title_text"):
             title_text = arg.split(':::')
         elif opt in ("-G", "--title_bg"):
