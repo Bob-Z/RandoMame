@@ -220,15 +220,15 @@ class Window:
     def manage_smart_sound(self):
         if Config.smart_sound_timeout_sec > 0 and self.is_running is True:
             if self.sound_index == self.index:
-                if self.is_muted is True:
-                    Sound.set_mute(self.out.pid, False)
-                    self.desktop.set_title(self.out.pid, "* " + self.title)
-                    self.is_muted = False
+                #if self.is_muted is True:
+                Sound.set_mute(self.out.pid, False)
+                self.desktop.set_title(self.out.pid, "* " + self.title)
+                self.is_muted = False
             else:
-                if self.is_muted is False:
-                    Sound.set_mute(self.out.pid, True)
-                    self.desktop.set_title(self.out.pid, self.title)
-                    self.is_muted = True
+                #if self.is_muted is False:
+                Sound.set_mute(self.out.pid, True)
+                self.desktop.set_title(self.out.pid, self.title)
+                self.is_muted = True
         else:
             Sound.set_mute(self.out.pid, False)
 
