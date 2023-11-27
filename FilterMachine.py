@@ -247,7 +247,7 @@ def get(all_machine_xml, machine_xml, check_machine_description, soft_item):
                 # Test for machine name against "compatibility" in software's sharedfeat
                 comaptibility_string = s.attrib['value']
                 machine_name_list = comaptibility_string.split(',')
-                print("machine_name_list",machine_name_list)
+                print("machine_name_list", machine_name_list)
                 if machine_xml.attrib["name"] in machine_name_list:
                     is_compatible = True
                     break
@@ -288,44 +288,40 @@ def loose_search_machine_list(machine_list):
     new_machine_list = []
 
     for desc in Config.description:
-        found_qty = 2
-
-        for machine in machine_list:
-            if exact_search_machine(machine, desc) is True:
-                found_machine = machine
-                found_qty = 1
-                break
+        found_qty = 0
 
         # Trying to find a single machine matching the most word in Config.description
-        desc_list = desc.split(' ')
-        word_qty = 0
+        removed_word_qty = 0
 
-        while found_qty > 1:
-            # Build a search string from words in Config.description starting from last word and adding the previous one by one.
-            word_qty += 1
-
-            if word_qty > len(desc_list):
-                # Unable to find a single machine corresponding to all words in Config.description
+        # Continue until there is only 1 machine
+        while found_qty != 1:
+            # Build a search string from words in Config.description by removing first words one by one (since it often contains manufacturer name)
+            if removed_word_qty >= len(desc.split(' ')):
                 found_qty = 0
                 break
 
-            # s = ".*"
-            s = ""
-            for j in range(-word_qty, 0):
-                s += desc_list[j]
-                s += ' '
+            search_string = desc.split(' ', removed_word_qty)[removed_word_qty]
+            print(search_string)
 
-            # remove last ' '
-            search_string = s[:-1]
-
-            found_qty = 0
-
+            # First try exact match
             for machine in machine_list:
-                if loose_search_machine(machine, search_string) is True:
-                    found_qty += 1
+                if exact_search_machine(machine, search_string) is True:
                     found_machine = machine
-                    if found_qty > 1:
-                        break
+                    found_qty = 1
+                    break
+
+            # if not found try loose search
+            if found_qty != 1:
+                found_qty = 0
+
+                for machine in machine_list:
+                    if loose_search_machine(machine, search_string) is True:
+                        found_qty += 1
+                        found_machine = machine
+                        if found_qty > 1:
+                            break
+
+            removed_word_qty += 1
 
         if found_qty == 1:
             new_machine_list.append(found_machine)
