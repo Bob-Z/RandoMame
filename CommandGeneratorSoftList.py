@@ -27,9 +27,6 @@ def generate_command_list(all_machine_xml, softlist_xml_list, softlist_name):
         # Remove item with empty machine_xml
         item_list = [item for item in item_list if item.get_machine_xml()]
 
-    print(soft_with_compatible_machine_qty, "soft with machine")
-    print(soft_without_compatible_machine_qty, "soft without machine")
-
     return item_list, soft_with_compatible_machine_qty, soft_without_compatible_machine_qty
 
 
@@ -62,7 +59,6 @@ def generate_item_list(all_machine_xml, softlist_name, softlist_xml_list):
 
         found_software.append(item)
 
-    print(total_soft_qty, "software in", softlist_name)
     if len(found_software) > 0:
         print("Found", len(found_software), " of ", total_soft_qty, "software in", softlist_name, "software list")
 
