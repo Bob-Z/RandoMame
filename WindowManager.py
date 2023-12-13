@@ -24,6 +24,21 @@ start_command_launched = False
 def start():
     global window
 
+    if Config.windows_quantity == 0:
+        machine_list, soft_list = XmlGetter.get()
+
+        if machine_list is not None:
+            print("MAME version: ", machine_list.attrib["build"])
+            print(len(machine_list), " unique machines")
+
+        if soft_list is not None:
+            print(len(soft_list), "software lists")
+
+        Mode.init(machine_list, soft_list)
+        Mode.get()
+
+        exit(0)
+
     window_position = WindowPosition()
 
     if Config.desktop is not None:
