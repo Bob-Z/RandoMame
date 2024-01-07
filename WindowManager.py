@@ -34,8 +34,14 @@ def start():
         if soft_list is not None:
             print(len(soft_list), "software lists")
 
+        Config.auto_quit = True
+        Config.linear = True
         Mode.init(machine_list, soft_list)
-        Mode.get()
+        item = Mode.get()
+        print(item.get_title(), item.get_machine_short_name())
+        while item is not None:
+            print(item.get_title(), item.get_machine_short_name())
+            item = Mode.get()
 
         exit(0)
 
