@@ -14,9 +14,9 @@ local function process_frame()
 	frame_num = frame_num + 1
 
 	if frame_num == 25 then
-	    button[":ctrl:joypad2:BUTTONS,8,46"]:set_value(1)
+        button[":ctrl:joypad2_turbo:BUTTONS,8,46"]:set_value(1)
 	elseif frame_num == 30 then
-	    button[":ctrl:joypad2:BUTTONS,8,46"]:set_value(0)
+	    button[":ctrl:joypad2_turbo:BUTTONS,8,46"]:set_value(0)
 	end
 end
 

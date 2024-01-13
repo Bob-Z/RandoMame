@@ -694,8 +694,8 @@ lib = {
 
     "pcecd": {
         "pce": ('pcecd.lua', 1, '-cart scdsys'),
-        "tg16": ('pcecd.lua', 1, '-cart scdsys'),
-        "sgx": ('pcecd.lua', 1, '-cart scdsys')
+        "tg16": ('tg16cd.lua', 1, '-cart scdsys'),
+        "sgx": ('tg16cd.lua', 1, '-cart scdsys')
     },
 
     "pro128_cass": {
