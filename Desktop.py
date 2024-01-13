@@ -1,5 +1,7 @@
+import threading
 import DesktopXfce
 from DesktopXfce import Xfce
+
 
 
 def get_desktop_size():
@@ -11,6 +13,7 @@ class DesktopClass:
 
     def __init__(self):
         self.desktop = Xfce()
+        self.lock = threading.Lock()
 
     def set_position(self, pid, pos_x, pos_y, width, height):
         return self.desktop.set_position(pid, pos_x, pos_y, width, height)
@@ -20,3 +23,10 @@ class DesktopClass:
 
     def set_title(self, pid, title):
         return self.desktop.set_title(pid, title)
+
+    def acquire_keyboard_lock(self):
+        self.lock.acquire()
+
+    def release_keyboard_lock(self):
+        if self.lock.locked():
+            self.lock.release()

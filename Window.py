@@ -2,15 +2,12 @@ import datetime
 import os
 import threading
 import time
-import copy
-
 import Config
 import Display
 import Mame
 import Mode
 import Record
 import Sound
-import Item
 
 
 class Window:
@@ -85,6 +82,7 @@ class Window:
                     if self.is_running is False:
                         return
 
+            self.desktop.acquire_keyboard_lock()
             self.out = Mame.run(self.item)
 
             if Config.dry_run is False:
@@ -194,6 +192,7 @@ class Window:
             if datetime.datetime.now() > self.auto_keyboard_date + datetime.timedelta(
                     seconds=10):
                 self.send_keyboard_skip = False
+                self.desktop.release_keyboard_lock()
 
     def init_silence(self):
         self.is_sound_started = False
@@ -245,6 +244,7 @@ class Window:
 
     def stop(self):
         self.is_running = False
+        self.desktop.release_keyboard_lock()
 
     def is_alive(self):
         return self.thread.is_alive()
