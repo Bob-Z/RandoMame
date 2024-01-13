@@ -68,6 +68,7 @@ class Window:
 
     def launch_mame(self):
         while self.out is None or self.out.poll() is not None:
+            self.desktop.release_keyboard_lock()
 
             if self.item is None:
                 return
