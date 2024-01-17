@@ -247,7 +247,7 @@ def get(all_machine_xml, machine_xml, check_machine_description, soft_item):
                 # Test for machine name against "compatibility" in software's sharedfeat
                 comaptibility_string = s.attrib['value']
                 machine_name_list = comaptibility_string.split(',')
-                print("machine_name_list", machine_name_list)
+                #print("machine_name_list", machine_name_list)
                 if machine_xml.attrib["name"] in machine_name_list:
                     is_compatible = True
                     break
@@ -268,6 +268,9 @@ def get(all_machine_xml, machine_xml, check_machine_description, soft_item):
                                         if filter_soft == filter_machine_softlist:
                                             is_compatible = True
                                             break
+                        else:
+                            is_compatible = True
+                            break
 
                     if is_compatible is True:
                         break
