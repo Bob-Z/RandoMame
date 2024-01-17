@@ -50,6 +50,10 @@ def generate_full_command_list(all_machine_xml, softlist_xml_list, softlist_name
         if new_item_list is not None:
             item_list = item_list + new_item_list
 
-        Display.print_text_array(None, ["Found " + str(len(item_list)) + " software" + Config.get_allowed_string(),
-                                        str(soft_with_compatible_machine_qty) + " have compatible machine"], True)
-        time.sleep(1.5)
+        if Config.windows_quantity > 0:
+            Display.print_text_array(None, ["Found " + str(len(item_list)) + " software" + Config.get_allowed_string(),
+                                            str(soft_with_compatible_machine_qty) + " have compatible machine"], True)
+            time.sleep(1.5)
+        else:
+            print("Found " + str(len(item_list)) + " software" + Config.get_allowed_string(),
+                  str(soft_with_compatible_machine_qty) + " have compatible machine")
