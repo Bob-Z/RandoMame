@@ -45,6 +45,8 @@ class Window:
 
         self.start_command_launched = False
 
+        self.own_keyboard_lock = False
+
     def manage_window(self):
         if self.get_command() is False:
             return
@@ -68,7 +70,7 @@ class Window:
 
     def launch_mame(self):
         while self.out is None or self.out.poll() is not None:
-            self.desktop.release_keyboard_lock()
+            self.release_keyboard_lock()
 
             if self.item is None:
                 return
@@ -84,6 +86,8 @@ class Window:
                         return
 
             self.desktop.acquire_keyboard_lock()
+            self.own_keyboard_lock = True
+
             self.out = Mame.run(self.item)
 
             if Config.dry_run is False:
@@ -193,7 +197,7 @@ class Window:
             if datetime.datetime.now() > self.auto_keyboard_date + datetime.timedelta(
                     seconds=10):
                 self.send_keyboard_skip = False
-                self.desktop.release_keyboard_lock()
+                self.release_keyboard_lock()
 
     def init_silence(self):
         self.is_sound_started = False
@@ -245,7 +249,7 @@ class Window:
 
     def stop(self):
         self.is_running = False
-        self.desktop.release_keyboard_lock()
+        self.release_keyboard_lock()
 
     def is_alive(self):
         return self.thread.is_alive()
@@ -264,6 +268,11 @@ class Window:
             print("Execute start command:", Config.start_command)
             os.system(Config.start_command)
             self.start_command_launched = True
+
+    def release_keyboard_lock(self):
+        if self.own_keyboard_lock is True:
+            self.desktop.release_keyboard_lock()
+            self.own_keyboard_lock = False
 
 
 def display_title():
@@ -284,3 +293,5 @@ def display_end():
 
     if Config.record is not None:
         Display.record_marquee()
+
+
