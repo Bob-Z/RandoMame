@@ -87,23 +87,27 @@ def get(all_machine_xml, machine_xml, check_machine_description, soft_item):
             return None
 
     if Config.manufacturer is not None:
-        current_manuf = machine_xml.find("manufacturer").text
-        manuf_list = Config.manufacturer.split(',')
+        xml_manufacturer = machine_xml.find("manufacturer").text
+        all_xml_manufacturer = xml_manufacturer.split(" / ")
+        all_config_manufacturer = Config.manufacturer.split(',')
         is_found = False
-        for manuf in manuf_list:
-            if re.search(manuf, current_manuf, re.IGNORECASE) is not None:
-                is_found = True
-                break
+        for config_manufacturer in all_config_manufacturer:
+            for machine_manufacturer in all_xml_manufacturer:
+                if machine_manufacturer.startswith(config_manufacturer):
+                    is_found = True
+                    break
+            if is_found is True:
+                break;
 
         if is_found is False:
             return None
 
     if Config.no_manufacturer is not None:
-        current_manuf = machine_xml.find("manufacturer").text
+        xml_manufacturer = machine_xml.find("manufacturer").text
         manuf_list = Config.no_manufacturer.split(',')
         is_found = True
         for manuf in manuf_list:
-            if re.search(manuf, current_manuf, re.IGNORECASE) is not None:
+            if re.search(manuf, xml_manufacturer, re.IGNORECASE) is not None:
                 is_found = False
                 break
 
