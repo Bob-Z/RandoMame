@@ -706,6 +706,15 @@ lib = {
         "samcoupe": ('samcoupe_flop.lua', 3, None),
     },
 
+    "saturn": {
+        "saturn": ('saturn.lua', 0, None),
+        "saturneu": ('saturn.lua', 0, None),
+        "saturnjp": ('saturn.lua', 0, None),
+        "saturnkr": ('saturn.lua', 0, None),
+        "vsaturn": ('saturn.lua', 0, None),
+        "hisaturn": ('saturn.lua', 0, None),
+    },
+
     "segacd": {
         "32x_scd": ('megacd.lua', 3, None),
         "cdx": ('megacd.lua', 3, None),
