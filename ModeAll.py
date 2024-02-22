@@ -72,11 +72,12 @@ def generate_full_command_list(all_machine_xml, soft_list_list):
         softlist_qty = softlist_qty + 1
 
         if datetime.datetime.now() >= display_time:
-            Display.print_text_array(None, ["Found " + str(
-                found_qty) + " software " + Config.get_allowed_string(), "       " + str(softlist_qty) + "/" + str(
-                len(soft_list_list)) + " software lists analyzed         ",
-                                            str(total_soft_with_compatible_machine_qty) + " have compatible machine"],
-                                     True)
+            if Config.windows_quantity > 0:
+                Display.print_text_array(None, ["Found " + str(
+                    found_qty) + " software " + Config.get_allowed_string(), "       " + str(softlist_qty) + "/" + str(
+                    len(soft_list_list)) + " software lists analyzed         ",
+                                                str(total_soft_with_compatible_machine_qty) + " have compatible machine"],
+                                         True)
             display_time = datetime.datetime.now() + datetime.timedelta(seconds=0.5)
 
     time.sleep(1.5)
