@@ -64,7 +64,7 @@ def parse_command_line():
                                 "allow_not_supported",
                                 "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
                                 "exclude=", "extra=", "force_driver=", "loose_search", "multi_search", "start_command=",
-                                "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "source_file=",
+                                "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "filter=",
                                 "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=",
                                 "end_duration=", "check=",
                                 "sort_by_name", "sort_by_year", "sort_reverse",
@@ -121,6 +121,8 @@ def parse_command_line():
     global emulation_time
     global prefer_parent
     global skip_slot
+
+    filter_str = ""
 
     for opt, arg in opts:
         if opt in ("-a", "--arcade"):
@@ -211,8 +213,8 @@ def parse_command_line():
             title_text = arg.split(':::')
         elif opt in ("-G", "--title_bg"):
             title_background = arg
-        elif opt in ("-F", "--source_file"):
-            source_file = arg
+        elif opt in ("-F", "--filter"):
+            filter_str = arg
         elif opt in ("-N", "--no_clone"):
             no_clone = True
         elif opt in ("-K", "--no_soft_clone"):
@@ -247,6 +249,16 @@ def parse_command_line():
         else:
             print("Unknown option ", opt)
             usage()
+
+    if filter_str != "":
+        all_filter_item = filter_str.split(':::')
+        for filter_item in all_filter_item:
+            filter_key, filter_value = filter_item.split('=')
+            if filter_key == "source_file":
+                source_file = filter_value
+            else:
+                print("Unknown filter ", filter_key)
+                usage()
 
     if windows_quantity == 1:
         smart_sound_timeout_sec = 0
@@ -391,7 +403,7 @@ def usage():
         "  -d, --description= : coma separated list of regex expression filtering machines and softwares description. Use ^desc$ for exact match")
     print("  -E, --exclude= : coma separated list of sections from ini file excluded")
     print("  -f, --force_driver= : coma separated list of drivers used")
-    print("  -F, --source_file= : coma separated list of source file allowed")
+    print("  -F, --filter= : ':::' separated list of filters. See \"Advanced filter\" below")
     print("  -H, --no_manufacturer : coma separated list of forbidden manufacturers")
     print("  -i, --ini_file= : ini file from where sections will be included or excluded")
     print("  -I, --include= : coma separated sections from ini file included ")
@@ -410,6 +422,9 @@ def usage():
     print("  -y, --year_min= : Machines/softwares can't be earlier than this")
     print("  -Y, --year_max= : Machines/softwares can't be older than this")
     print("")
+    print(" - ADVANCED FILTER")
+    print("  source_file= : coma separated list of source file allowed")
+    print("")
     print(" - APPEARANCE")
     print("  -D, --desktop= : desktop geometry in the form POSXxPOSYxWIDTHxHEIGHT, e.g. 0x0x1920x1080")
     print("  -e, --emulation_time : Use emulation time rather than real life time for timeout")
@@ -422,9 +437,9 @@ def usage():
     print("  -w, --window= : simultaneous windows quantity")
     print(
         "  -O, --smart_sound_timeout : Only one window is unmuted. After smart_sound_timeout seconds of silence, another window is un-muted. Set this to 0 to deactivate smart-sound")
-    print("  -g, --title_text= : Display text at start (may be ':::' separated texts")
+    print("  -g, --title_text= : Display text at start (multiple lines separated by ':::')")
     print("  -G, --title_bg= : Display given image file at start")
-    print("  -z, --end_text= : Display text at end (may be ':::' separated texts")
+    print("  -z, --end_text= : Display text at end (multiple lines separated by ':::')")
     print("  -Z, --end_bg= : Display given image file at end")
     print("  -d, --end_duration= : Display end duration in seconds")
     print("  -R, --dry_run= : Do not launch MAME (testing purpose only)")
