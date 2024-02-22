@@ -124,6 +124,21 @@ def get(all_machine_xml, machine_xml, check_machine_description, soft_item):
         if is_found is False:
             return None
 
+    if Config.display_type is not None:
+        display_list = Config.display_type.split(',')
+        is_found = False
+        for display in display_list:
+            all_machine_display = machine_xml.findall("display")
+            if all_machine_display is not None:
+                for machine_display in all_machine_display:
+                    if machine_display.attrib['type'] == display:
+                        is_found = True
+                        break
+            if is_found is True:
+                break
+        if is_found is False:
+            return None
+
     if Config.no_clone is True and "cloneof" in machine_xml.attrib:
         return None
 
@@ -251,7 +266,6 @@ def get(all_machine_xml, machine_xml, check_machine_description, soft_item):
                 # Test for machine name against "compatibility" in software's sharedfeat
                 comaptibility_string = s.attrib['value']
                 machine_name_list = comaptibility_string.split(',')
-                #print("machine_name_list", machine_name_list)
                 if machine_xml.attrib["name"] in machine_name_list:
                     is_compatible = True
                     break

@@ -7,51 +7,52 @@ mode = "arcade"
 windows_quantity = multiprocessing.cpu_count()
 timeout = 300
 desktop = None
-allow_preliminary = False
 allow_not_supported = False
-selected_softlist = []
-selected_soft = []
-need_machine = True
-need_softlist = False
-available_softlist = False
-description = None
-year_min = None
-year_max = None
-linear = False
+allow_preliminary = False
 auto_quit = False
-smart_sound_timeout_sec = 1
-manufacturer = None
-no_manufacturer = None
-ini_file = None
-include = None
+available_softlist = False
+check = None
+description = None
+device = None
+display_min = None
+display_type = None
+dry_run = False
+emulation_time = False
+end_background = None
+end_command = None
+end_duration = None
+end_text = None
 exclude = None
 extra = None
-force_driver = None
-loose_search = False
-multi_search = False
-start_command = None
-end_command = None
 final_command = None
-record = None
-title_text = None
-title_background = None
-dry_run = False
-source_file = None
+force_driver = None
+include = None
+ini_file = None
+linear = False
+loose_search = False
+manufacturer = None
+multi_search = False
+need_machine = True
+need_softlist = False
 no_clone = False
+no_manufacturer = None
 no_soft_clone = False
-device = None
+prefer_parent = False
+record = None
+selected_soft = []
+selected_softlist = []
+skip_slot = True
 slot_option = None
-display_min = None
-end_text = None
-end_background = None
-end_duration = None
-check = None
+smart_sound_timeout_sec = 1
 sort_by_name = False
 sort_by_year = False
 sort_reverse = False
-emulation_time = False
-prefer_parent = False
-skip_slot = True
+source_file = None
+start_command = None
+title_background = None
+title_text = None
+year_max = None
+year_min = None
 
 
 def parse_command_line():
@@ -71,56 +72,57 @@ def parse_command_line():
                                 "emulation_time", "final_command=", "no_manufacturer=", "standalone", "slotmachine",
                                 "no_soft_clone", "prefer_parent", "no_skip_slot"])
 
-    global mode
-    global selected_softlist
-    global selected_soft
-    global need_softlist
-    global need_machine
-    global available_softlist
-    global available_softlist
-    global description
-    global timeout
-    global allow_preliminary
     global allow_not_supported
-    global windows_quantity
-    global year_min
-    global year_max
-    global desktop
-    global linear
+    global allow_preliminary
     global auto_quit
-    global smart_sound_timeout_sec
-    global manufacturer
-    global no_manufacturer
-    global ini_file
-    global include
+    global available_softlist
+    global available_softlist
+    global check
+    global description
+    global desktop
+    global device
+    global display_min
+    global display_type
+    global dry_run
+    global emulation_time
+    global end_background
+    global end_command
+    global end_duration
+    global end_text
     global exclude
     global extra
-    global force_driver
-    global loose_search
-    global multi_search
-    global start_command
-    global end_command
     global final_command
-    global record
-    global title_text
-    global title_background
-    global dry_run
-    global source_file
+    global force_driver
+    global include
+    global ini_file
+    global linear
+    global loose_search
+    global manufacturer
+    global mode
+    global multi_search
+    global need_machine
+    global need_softlist
     global no_clone
+    global no_manufacturer
     global no_soft_clone
-    global device
+    global prefer_parent
+    global record
+    global selected_soft
+    global selected_softlist
+    global skip_slot
     global slot_option
-    global display_min
-    global end_text
-    global end_background
-    global end_duration
-    global check
+    global smart_sound_timeout_sec
     global sort_by_name
     global sort_by_year
     global sort_reverse
-    global emulation_time
-    global prefer_parent
-    global skip_slot
+    global source_file
+    global start_command
+    global timeout
+    global title_background
+    global title_text
+    global windows_quantity
+    global year_max
+    global year_min
 
     filter_str = ""
 
@@ -256,9 +258,12 @@ def parse_command_line():
             filter_key, filter_value = filter_item.split('=')
             if filter_key == "source_file":
                 source_file = filter_value
+            elif filter_key == "display_type":
+                display_type = filter_value
             else:
-                print("Unknown filter ", filter_key)
-                usage()
+                print("")
+                print("Unknown filter", filter_key)
+                print("")
 
     if windows_quantity == 1:
         smart_sound_timeout_sec = 0
@@ -330,8 +335,11 @@ def parse_command_line():
         else:
             print("Smart sound disabled")
 
+        if display_type is not None:
+            print("display type allowed:", display_type)
+
         if source_file is not None:
-            print("source files allowed: ", source_file)
+            print("source files allowed:", source_file)
 
         if no_clone is True:
             print("No clones allowed")
@@ -423,6 +431,7 @@ def usage():
     print("  -Y, --year_max= : Machines/softwares can't be older than this")
     print("")
     print(" - ADVANCED FILTER")
+    print("  display_type= : coma separated list of display type allowed")
     print("  source_file= : coma separated list of source file allowed")
     print("")
     print(" - APPEARANCE")
