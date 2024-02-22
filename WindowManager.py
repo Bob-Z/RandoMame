@@ -38,7 +38,8 @@ def start():
         Config.linear = True
         Mode.init(machine_list, soft_list)
         item = Mode.get()
-        print(item.get_title(), item.get_machine_short_name())
+        if item is not None:
+            print(item.get_title(), item.get_machine_short_name())
         while item is not None:
             print(item.get_title(), item.get_machine_short_name())
             item = Mode.get()
