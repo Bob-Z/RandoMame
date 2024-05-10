@@ -11,7 +11,7 @@ item_list = []
 first_pass = True
 
 
-def get(machine_list, soft_list_list):
+def get(machine_list, soft_list_list, home_only=False):
     global item_list
     global first_pass
 
@@ -21,12 +21,12 @@ def get(machine_list, soft_list_list):
             return None
         first_pass = False
 
-        generate_full_command_list(machine_list, soft_list_list)
+        generate_full_command_list(machine_list, soft_list_list, home_only)
         if len(item_list) == 0:
             Config.allow_preliminary = True
             Config.allow_not_supported = True
 
-            generate_full_command_list(machine_list, soft_list_list)
+            generate_full_command_list(machine_list, soft_list_list, home_only)
 
         if len(item_list) == 0:
             return None
@@ -43,12 +43,14 @@ def get(machine_list, soft_list_list):
     return selected_item
 
 
-def generate_full_command_list(all_machine_xml, soft_list_list):
+def generate_full_command_list(all_machine_xml, soft_list_list, home_only=False):
     global item_list
-    item_list = CommandGeneratorMachine.generate_command_list(all_machine_xml)
 
-    found_qty = len(item_list)
-    Display.print_text("Found " + str(found_qty) + " machines" + Config.get_allowed_string())
+    if home_only is False:
+        item_list = CommandGeneratorMachine.generate_command_list(all_machine_xml)
+
+        found_qty = len(item_list)
+        Display.print_text("Found " + str(found_qty) + " machines" + Config.get_allowed_string())
 
     softlist_qty = 0
     total_soft_with_compatible_machine_qty = 0

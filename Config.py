@@ -38,6 +38,7 @@ no_clone = False
 no_manufacturer = None
 no_soft_clone = False
 prefer_parent = False
+publisher = None
 record = None
 selected_soft = []
 selected_softlist = []
@@ -56,21 +57,25 @@ year_min = None
 
 
 def parse_command_line():
-    opts, args = getopt.getopt(sys.argv[1:],
-                               "aAb:B:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:KlLmM:NnoO:pPqQ:rRsS:T:t:uUvVw:WX:x:y:Y:z:Z:",
-                               ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
-                                "available_softlist", "timeout=", "desktop=",
-                                "allow_preliminary",
-                                "window=", "year_min=", "year_max=", "music", "selected_soft=",
-                                "allow_not_supported",
-                                "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
-                                "exclude=", "extra=", "force_driver=", "loose_search", "multi_search", "start_command=",
-                                "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "filter=",
-                                "no_clone", "device=", "slot_option=", "display_min=", "end_text=", "end_bg=",
-                                "end_duration=", "check=",
-                                "sort_by_name", "sort_by_year", "sort_reverse",
-                                "emulation_time", "final_command=", "no_manufacturer=", "standalone", "slotmachine",
-                                "no_soft_clone", "prefer_parent", "no_skip_slot"])
+    try:
+        opts, args = getopt.getopt(sys.argv[1:],
+                                   "aAbB:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:KlLmM:NnoO:pPqQ:rRsS:T:t:uUvVw:WX:x:y:Y:z:Z:",
+                                   ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
+                                    "available_softlist", "timeout=", "desktop=",
+                                    "allow_preliminary",
+                                    "window=", "year_min=", "year_max=", "music", "selected_soft=",
+                                    "allow_not_supported",
+                                    "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
+                                    "exclude=", "extra=", "force_driver=", "loose_search", "multi_search", "start_command=",
+                                    "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "filter=",
+                                    "no_clone", "home", "slot_option=", "display_min=", "end_text=", "end_bg=",
+                                    "end_duration=", "check=",
+                                    "sort_by_name", "sort_by_year", "sort_reverse",
+                                    "emulation_time", "final_command=", "no_manufacturer=", "standalone", "slotmachine",
+                                    "no_soft_clone", "prefer_parent", "no_skip_slot"])
+    except getopt.GetoptError as error:
+        print(error.args)
+        sys.exit(-1)
 
     global allow_not_supported
     global allow_preliminary
@@ -106,6 +111,7 @@ def parse_command_line():
     global no_manufacturer
     global no_soft_clone
     global prefer_parent
+    global publisher
     global record
     global selected_soft
     global selected_softlist
@@ -135,6 +141,9 @@ def parse_command_line():
             mode = "slotmachine"
         elif opt in ("-A", "--all"):
             mode = "all"
+            need_softlist = True
+        elif opt in ("-b", "--home"):
+            mode = "home"
             need_softlist = True
         elif opt in ("-d", "--description"):
             description = arg.split(':::')
@@ -221,8 +230,6 @@ def parse_command_line():
             no_clone = True
         elif opt in ("-K", "--no_soft_clone"):
             no_soft_clone = True
-        elif opt in ("-b", "--device"):
-            device = arg.split(',')
         elif opt in ("-B", "--slot_option"):
             slot_option = arg.split(',')
         elif opt in ("-Q", "--display_min"):
@@ -260,6 +267,10 @@ def parse_command_line():
                 source_file = filter_value
             elif filter_key == "display_type":
                 display_type = filter_value
+            elif filter_key == "publisher":
+                publisher = filter_value
+            elif filter_key == "device":
+                device = filter_value
             else:
                 print("")
                 print("Unknown filter", filter_key)
@@ -397,6 +408,7 @@ def usage():
     print(" - MODE")
     print("  -a, --arcade : Run only coins operated machine without slot machines (default)")
     print("  -A, --all : all machines")
+    print("  -b, --home : Run home machines (consoles, computers)")
     print("  -u, --standalone : Run stand alone machines (no coins, no payout, no additional software)")
     print("  -U, --slotmachine : Run slot machines")
     print("  -s, --softlist : softlist mode: run only drivers using softwares")
@@ -405,7 +417,6 @@ def usage():
     print("  -c, --check= : check files in given path")
     print("")
     print(" - FILTER")
-    print("  -b, --device= : coma separated list of names of allowed devices")
     print("  -B, --slot_option= : coma separated list of names of allowed slot_option")
     print(
         "  -d, --description= : coma separated list of regex expression filtering machines and softwares description. Use ^desc$ for exact match")
@@ -430,8 +441,10 @@ def usage():
     print("  -y, --year_min= : Machines/softwares can't be earlier than this")
     print("  -Y, --year_max= : Machines/softwares can't be older than this")
     print("")
-    print(" - ADVANCED FILTER")
+    print(" - ADVANCED FILTER (\"-F, --filter\") - separated by \":::\"")
+    print("  device= : coma separated list of names of allowed devices")
     print("  display_type= : coma separated list of display type allowed")
+    print("  publisher= : coma separated list of software publisher names allowed")
     print("  source_file= : coma separated list of source file allowed")
     print("")
     print(" - APPEARANCE")

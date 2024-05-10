@@ -36,6 +36,8 @@ def get():
             return ModeSoftList.get(all_machine_xml, my_soft_list)
         elif Config.mode == "all":
             return ModeAll.get(all_machine_xml, my_soft_list)
+        elif Config.mode == "home":
+            return ModeAll.get(all_machine_xml, my_soft_list, True)
         elif Config.mode == "selected softlist":
             return ModeSelectedSoftList.get(all_machine_xml, my_soft_list, Config.selected_softlist)
         elif Config.mode == "music":

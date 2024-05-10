@@ -14,7 +14,6 @@ import os
 from Desktop import DesktopClass
 from WindowPosition import WindowPosition
 
-
 running = True
 sound_index = 0
 window = []
@@ -34,16 +33,21 @@ def start():
         if soft_list is not None:
             print(len(soft_list), "software lists")
 
+        item_qty = 0
+
         Config.auto_quit = True
         Config.linear = True
         Mode.init(machine_list, soft_list)
         item = Mode.get()
         if item is not None:
             print(item.get_title(), item.get_machine_short_name())
+            item_qty += 1
         while item is not None:
             print(item.get_title(), item.get_machine_short_name())
             item = Mode.get()
+            item_qty += 1
 
+        print("Total = ", item_qty)
         exit(0)
 
     window_position = WindowPosition()

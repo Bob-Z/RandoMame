@@ -59,4 +59,14 @@ def get(all_machine_xml, soft_xml):
     if Config.no_soft_clone is True and "cloneof" in soft_xml.attrib:
         return None
 
+    if Config.publisher is not None:
+        publisher_found = False
+        complete_soft_publisher = item.get_soft_publisher()
+        for config_publisher in Config.publisher.split(","):
+            if complete_soft_publisher.lower().find(config_publisher.lower()) != -1:
+                publisher_found = True
+                break
+        if publisher_found is False:
+            return None
+
     return item

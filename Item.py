@@ -76,6 +76,11 @@ class Item:
             return self.soft_xml.find('year').text
         return None
 
+    def get_soft_publisher(self):
+        if self.soft_xml is not None:
+            return self.soft_xml.find('publisher').text
+        return None
+
     def get_soft_full_description(self):
         if self.get_soft_description() is not None and self.get_soft_year() is not None:
             return self.get_soft_description() + " (" + self.get_soft_year() + ")"
