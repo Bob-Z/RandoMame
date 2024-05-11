@@ -38,6 +38,7 @@ no_clone = False
 no_manufacturer = None
 no_soft_clone = False
 prefer_parent = False
+print_file = False
 publisher = None
 record = None
 selected_soft = []
@@ -59,19 +60,19 @@ year_min = None
 def parse_command_line():
     try:
         opts, args = getopt.getopt(sys.argv[1:],
-                                   "aAbB:c:C:d:D:eE:f:F:g:G:hH:i:I:jJk:KlLmM:NnoO:pPqQ:rRsS:T:t:uUvVw:WX:x:y:Y:z:Z:",
+                                   "aAbB:c:C:d:D:eE:f:F:g:G:hHi:I:jJk:KlLmNnoO:pPqQ:rRsS:T:t:uUvVw:WX:x:y:Y:z:Z:",
                                    ["arcade", "all", "description=", "softlist", "selected_softlist=", "help",
                                     "available_softlist", "timeout=", "desktop=",
                                     "allow_preliminary",
                                     "window=", "year_min=", "year_max=", "music", "selected_soft=",
                                     "allow_not_supported",
-                                    "linear", "quit", "smart_sound_timeout", "manufacturer=", "ini_file=", "include=",
+                                    "linear", "quit", "smart_sound_timeout", "print_file", "ini_file=", "include=",
                                     "exclude=", "extra=", "force_driver=", "loose_search", "multi_search", "start_command=",
                                     "end_command=", "record=", "title_text=", "title_bg=", "dry_run", "filter=",
                                     "no_clone", "home", "slot_option=", "display_min=", "end_text=", "end_bg=",
                                     "end_duration=", "check=",
                                     "sort_by_name", "sort_by_year", "sort_reverse",
-                                    "emulation_time", "final_command=", "no_manufacturer=", "standalone", "slotmachine",
+                                    "emulation_time", "final_command=", "standalone", "slotmachine",
                                     "no_soft_clone", "prefer_parent", "no_skip_slot"])
     except getopt.GetoptError as error:
         print(error.args)
@@ -111,6 +112,7 @@ def parse_command_line():
     global no_manufacturer
     global no_soft_clone
     global prefer_parent
+    global print_file
     global publisher
     global record
     global selected_soft
@@ -163,6 +165,12 @@ def parse_command_line():
             need_machine = False
             need_softlist = True
             smart_sound_timeout_sec = 0
+        elif opt in ("-k", "--check"):
+            check = arg
+            need_softlist = True
+        elif opt in ("-H", "--print_file"):
+            print_file = True
+            need_softlist = True
         elif opt in ("-t", "--timeout"):
             timeout = int(arg)
         elif opt in ("-D", "--desktop"):
@@ -189,10 +197,6 @@ def parse_command_line():
             available_softlist = True
         elif opt in ("-y", "--year_min"):
             year_min = int(arg)
-        elif opt in ("-M", "--manufacturer"):
-            manufacturer = arg
-        elif opt in ("-H", "--no_manufacturer"):
-            no_manufacturer = arg
         elif opt in ("-Y", "--year_max"):
             year_max = int(arg)
         elif opt in ("-L", "--linear"):
@@ -240,9 +244,6 @@ def parse_command_line():
             end_background = arg
         elif opt in ("-d", "--end_duration"):
             end_duration = int(arg)
-        elif opt in ("-k", "--check"):
-            check = arg
-            need_softlist = True
         elif opt in ("-j", "--sort_by_name"):
             sort_by_name = True
         elif opt in ("-J", "--sort_by_year"):
@@ -267,6 +268,10 @@ def parse_command_line():
                 source_file = filter_value
             elif filter_key == "display_type":
                 display_type = filter_value
+            elif filter_key == "manufacturer":
+                manufacturer = filter_value
+            elif filter_key == "no_manufacturer":
+                no_manufacturer = filter_value
             elif filter_key == "publisher":
                 publisher = filter_value
             elif filter_key == "device":
@@ -283,7 +288,12 @@ def parse_command_line():
         linear = True
 
     global mame_binary
-    mame_binary = args[0]
+    try:
+        mame_binary = args[0]
+    except IndexError:
+        print("")
+        print("Please add MAME binary name")
+        sys.exit(-1)
 
     print("")
     print("")
@@ -414,7 +424,8 @@ def usage():
     print("  -s, --softlist : softlist mode: run only drivers using softwares")
     print("  -S, --selected_softlist= : comma separated list of selected softlists which will be run")
     print("  -m, --music : video game music mode")
-    print("  -c, --check= : check files in given path")
+    print("  -c, --check= : check files in given path (experimental")
+    print("  -H, --print_file : print file name needed by MAME (experimental")
     print("")
     print(" - FILTER")
     print("  -B, --slot_option= : coma separated list of names of allowed slot_option")
@@ -423,11 +434,9 @@ def usage():
     print("  -E, --exclude= : coma separated list of sections from ini file excluded")
     print("  -f, --force_driver= : coma separated list of drivers used")
     print("  -F, --filter= : ':::' separated list of filters. See \"Advanced filter\" below")
-    print("  -H, --no_manufacturer : coma separated list of forbidden manufacturers")
     print("  -i, --ini_file= : ini file from where sections will be included or excluded")
     print("  -I, --include= : coma separated sections from ini file included ")
     print("  -K, --no_soft_clone : do not allow clone software")
-    print("  -M, --manufacturer : coma separated list of allowed manufacturers")
     print("  -N, --no_clone : do not allow clone machines")
     print("  -n, --allow_not_supported : Allow not supported softwares")
     print("  -o, --loose_search : Enable loose description search for machine name. Default is strict search")
@@ -444,6 +453,8 @@ def usage():
     print(" - ADVANCED FILTER (\"-F, --filter\") - separated by \":::\"")
     print("  device= : coma separated list of names of allowed devices")
     print("  display_type= : coma separated list of display type allowed")
+    print("  manufacturer= : coma separated list of allowed manufacturers")
+    print("  no_manufacturer= : coma separated list of forbidden manufacturers")
     print("  publisher= : coma separated list of software publisher names allowed")
     print("  source_file= : coma separated list of source file allowed")
     print("")

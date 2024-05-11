@@ -13,5 +13,7 @@ if Config.available_softlist is True:
 
 if Config.check is not None:
     Check.start()
+elif Config.print_file is True:
+    Check.print_file_tree()
 else:
     WindowManager.start()
