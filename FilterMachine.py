@@ -11,6 +11,15 @@ ini_data = None
 def get(all_machine_xml, machine_xml, check_machine_description, soft_item):
     global ini_data
 
+    if Config.force_driver is not None:
+        for d in Config.force_driver:
+            if machine_xml.attrib['name'] == d:
+                item = Item(all_machine_xml)
+                item.set_machine_xml(machine_xml)
+                return item
+
+        return None
+
     if Config.ini_file is not None:
         if ini_data is None:
             ini_data = configparser.ConfigParser(allow_no_value=True)
@@ -31,15 +40,6 @@ def get(all_machine_xml, machine_xml, check_machine_description, soft_item):
                         return None
             except KeyError:
                 pass
-
-    if Config.force_driver is not None:
-        found = False
-        for d in Config.force_driver:
-            if machine_xml.attrib['name'] == d:
-                found = True
-
-        if found is False:
-            return None
 
     if "isdevice" in machine_xml.attrib:
         if machine_xml.attrib["isdevice"] == "yes":
