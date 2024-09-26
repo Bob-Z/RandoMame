@@ -854,6 +854,14 @@ lib = {
         "laser350": ('vtech2_cass.lua', 1, None),
         "laser500": ('vtech2_cass.lua', 1, None),
         "laser700": ('vtech2_cass.lua', 1, None),
+    },
+
+    "zx81_cass": {
+        "ringo470": ('zx81_cass_ringo470.lua', 0, None),
+        "tk85": ('zx81_cass.lua', 0, None),
+        "ts1000": ('zx81_cass.lua', 0, None),
+        "ts1500": ('zx81_cass.lua', 0, None),
+        "zx81": ('zx81_cass.lua', 0, None),
     }
 }
 
