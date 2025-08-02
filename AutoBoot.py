@@ -694,6 +694,10 @@ lib = {
         "yis60464": ('msx1_cass.lua', 5, None),
     },
 
+    "mz2000_cass": {
+        "mz2000": ('mz2000_cass.lua', 0, None),
+    },
+
     "ngp": {
         "ngp": ('ngp.lua', 0, None),
         "ngpc": ('ngp.lua', 0, None),
