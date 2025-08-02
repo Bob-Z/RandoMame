@@ -8,7 +8,16 @@ local function process_frame()
 		end
 end
 
-emu.keypost('RUN"\n')
+info_usage = os.getenv("RANDOMAME_INFO_USAGE")
+
+command = ""
+if info_usage == "Load with LOADM" then
+    command = 'LOADM\n'
+else
+    command = 'RUN"\n'
+end
+
+emu.keypost(command)
 manager.machine.cassettes[":cassette"]:play()
 
 subscription=emu.add_machine_frame_notifier(process_frame)
