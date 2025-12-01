@@ -698,6 +698,12 @@ lib = {
         "mz2000": ('mz2000_cass.lua', 0, None),
     },
 
+    "mz80k_cass": {
+        "mz80a": ('mz80k_cass.lua', 2, None),
+        "mz80k": ('mz80k_cass.lua', 2, None),
+        "mz80kj": ('mz80k_cass.lua', 2, None),
+    },
+
     "ngp": {
         "ngp": ('ngp.lua', 0, None),
         "ngpc": ('ngp.lua', 0, None),
