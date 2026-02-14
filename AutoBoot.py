@@ -454,6 +454,11 @@ lib = {
         "juicebox": ('juicebox.lua', 15, None),
     },
 
+    "m5_cass": {
+        "m5": ('m5_cass.lua', 1, '-cart1 basici'),
+        "m5p": ('m5_cass.lua', 1, '-cart1 basici'),
+    },
+
     "megacd": {
         "megacd": ('megacd.lua', 3, None),
         "32x_mcd": ('megacd.lua', 3, None),
