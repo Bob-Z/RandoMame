@@ -736,6 +736,20 @@ lib = {
         "telstrat": ('oric1_cass.lua', 0, None),
     },
 
+    "pc6001_cass": {
+        "pc6001": ('pc6001_cass.lua', 0, None),
+        "pc6001a": ('pc6001_cass.lua', 0, None),
+        "pc6001mk2": ('pc6001mk2_cass.lua', 0, None),
+        "pc6001mk2sr": ('pc6001mk2_cass.lua', 0, None),
+        "pc6601": ('pc6001mk2_cass.lua', 0, None),
+    },
+
+    "pc6001mk2_cass": {
+        "pc6001mk2": ('pc6001mk2_cass.lua', 0, None),
+        "pc6001mk2sr": ('pc6001mk2_cass.lua', 0, None),
+        "pc6601": ('pc6001mk2_cass.lua', 0, None),
+    },
+
     "pcecd": {
         "pce": ('pcecd.lua', 1, '-cart scdsys'),
         "tg16": ('tg16cd.lua', 1, '-cart scdsys'),
@@ -851,14 +865,21 @@ lib = {
         "svi328n": ('svi318_cass.lua', 3, None),
     },
 
-    "trs80_cass": {
-        "trs80": ('trs80_cass.lua', 1, None),
-    },
-
     "timex_cass": {
         "tc2048": ('spectrum_cass.lua', 3, None),
         "ts2068": ('spectrum_cass.lua', 3, None),
         "uk2086": ('spectrum_cass.lua', 3, None),
+    },
+
+    "to_flop": {
+        "to8": ('to_flop.lua', 3, None),
+        "to8d": ('to_flop.lua', 3, None),
+        "to9": ('to_flop_to9.lua', 3, None),
+        "to9p": ('to_flop.lua', 3, None),
+    },
+
+    "trs80_cass": {
+        "trs80": ('trs80_cass.lua', 1, None),
     },
 
     "vector06_flop": {
