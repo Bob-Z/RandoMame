@@ -90,4 +90,4 @@ def get_version():
     args += ['-version']
 
     out = subprocess.run(args, capture_output=True)
-    return out.stdout.decode('utf-8')
+    return out.stdout.decode('utf-8').strip('\n')
